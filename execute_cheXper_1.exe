@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo Ejecutando densenet121
+
+
+python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model densenet121 --output_dir densenet121-E5 >> output_densenet121-E5.txt
+
+
+echo Ejecutando resnet152
+python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model resnet152 --output_dir resnet152-E5 >> resnet152-E5.txt

@@ -1,0 +1,124 @@
+
+
+python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model NetWork --arch 11212122 --output_dir Net_11212122_XX   
+
+Loaded Network (number of parameters: 2,599,109; weights trained to step 0)
+model size: 83171488 / bit | 10.40 / MB
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+Step at start 0; Training epoch 1/5:   1%| | 50/9309 [00:15<39:21,  3.92it/s, losAccuracy  tensor(0., device='cuda:0')
+
+
+python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model NetWork --arch 21212121 --output_dir Net_21212121_XX   
+
+Loaded Network (number of parameters: 2,184,869; weights trained to step 0)
+model size: 69915808 / bit | 8.74 / MB
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+Step at start 0; Training epoch 1/5:   1%| | 100/9309 [00:32<45:33,  3.37it/s, loAccuracy  tensor(0., device='cuda:0')
+
+
+
+python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model NetWork --arch 22121211 --output_dir Net_22121211_XX 
+Loaded Network (number of parameters: 1,909,541; weights trained to step 0)
+model size: 61105312 / bit | 7.64 / MB
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+Step at start 0; Training epoch 1/5:   3%| | 250/9309 [01:25<50:26,  2.99it/s, loAccuracy  tensor(0., device='cuda:0')
+
+python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model NetWork --arch 21121211 --output_dir Net_21121211_XX 
+Loaded Network (number of parameters: 1,876,325; weights trained to step 0)
+model size: 60042400 / bit | 7.51 / MB
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+Step at start 0; Training epoch 1/5:   2%|▋                                            | 150/9309 [00:43<41:53,  3.64it/s, loss=2.7068]
+
+
+python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model NetWork --arch 12112122 --output_dir Net_12112122_XX 
+Loaded Network (number of parameters: 2,586,821; weights trained to step 0)
+model size: 82778272 / bit | 10.35 / MB
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+01:20-44:15
+Step at start 0; Training epoch 1/5:   8%|███▌                                         | 728/9309 [03:47<44:35,  3.21it/s, loss=3.1591]
+Traceback (most recent call last):
+
+
+
+
+
+python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model NetWork --arch 11212112 --output_dir Net_11212112_XX 
+Loaded Network (number of parameters: 2,171,333; weights trained to step 0)
+model size: 69482656 / bit | 8.69 / MB
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+Loaded Network (number of parameters: 2,171,333; weights trained to step 0)
+model size: 69482656 / bit | 8.69 / MB
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+Step at start 0; Training epoch 1/5:   3%|█▏                                           | 236/9309 [01:03<37:52,  3.99it/s, loss=2.4174]Step at start 0; Training epoch 1/5:   3%|█▏                                           | 236/9309 [01:03<40:42,  3.71it/s, loss=2.4174]
+Traceback (most recent call last):
+
+
+
+
+
+
+python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model NetWork --arch 22121122 --output_dir Net_22121122_XX 
+Loaded Network (number of parameters: 2,600,357; weights trained to step 0)
+model size: 83211424 / bit | 10.40 / MB
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+Step at start 0; Training epoch 1/5:  25%|███████████                                 | 2339/9309 [14:45<42:54,  2.71it/s, loss=2.6138]Step at start 0; Training epoch 1/5:  25%|███████████                                 | 2339/9309 [14:46<44:00,  2.64it/s, loss=2.6138]
+Traceback (most recent call last):
+
+
+
+
+
+python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model densenet121 --output_dir densenet121-E5__XX 
+Loaded DenseNet (number of parameters: 6,958,981; weights trained to step 0)
+model size: 222687392 / bit | 27.84 / MB
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+Step at start 0; Training epoch 1/5:  14%|██████▏                                     | 1317/9309 [03:02<18:05,  7.37it/s, loss=2.3049]Step at start 0; Training epoch 1/5:  14%|██████▏                                     | 1317/9309 [03:02<18:26,  7.22it/s, loss=2.3049]
+Traceback (most recent call last):
+
+
+
+
+
+python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model efficientnet-b0 --output_dir efficientnet-b0__XX 
+Loaded efficientnet-b0 (number of parameters: 4,013,953; weights trained to step 0)
+model size: 128446496 / bit | 16.06 / MB
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+Step at start 0; Training epoch 1/5:  27%|███████████▊                                | 2492/9309 [03:58<10:23, 10.93it/s, loss=2.7659]
+
+
+
+
+python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model resnet152 --output_dir resnet152-E5__XX 
+Loaded ResNet (number of parameters: 58,154,053; weights trained to step 0)
+model size: 1860929696 / bit | 232.62 / MB
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+Step at start 0; Training epoch 1/5:  14%|██████▎                                     | 1336/9309 [05:48<34:19, 
+
+
+
+
+
+
+

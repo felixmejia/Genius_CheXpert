@@ -1,0 +1,47 @@
+#!/bin/bash
+
+echo Ejecutando 21121211
+python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model NetWork --arch 21121211 --output_dir Net_21121211_3 >> output_21121211_3.txt
+
+echo Ejecutando 12112122
+python3 chexpert.py --train --n_epochs 5 --cuda 0 --plot_roc --batch_size 24 --model NetWork --arch 12112122 --output_dir Net_12112122_3 >> output_12112122_3.txt
+
+echo Ejecutando 11212112
+python3 chexpert.py --train --n_epochs 5 --cuda 0 --plot_roc --batch_size 24 --model NetWork --arch 11212112 --output_dir Net_11212112_3 >> output_11212112_3.txt
+
+echo Ejecutando 22121122
+python3 chexpert.py --train --n_epochs 5 --cuda 0 --plot_roc --batch_size 24 --model NetWork --arch 22121122 --output_dir Net_22121122_3 >> output_22121122_3.txt
+
+
+
+python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model efficientnet-b0 --output_dir efficientnet-b0-E5 >> output_efficientnet-b0-E5.txt
+
+
+densenet121
+
+
+
+python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model densenet121 --output_dir densenet121-E5 >> output_densenet121-E5.txt
+
+
+
+python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model resnet152 --output_dir resnet152-E5 >> resnet152-E5.txt
+
+
+python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 48 --model densenet121 --output_dir densenet121-E5-MultiGPU >> output_densenet121-E5.txt
+
+
+        # Check if the model is a DataParallel instance before accessing its classifier
+        if isinstance(model, nn.DataParallel):
+            model.module.classifier = nn.Linear(model.module.classifier.in_features, out_features=n_classes)
+            nn.init.constant_(model.module.classifier.bias, 0)
+            grad_cam_hooks = {'forward': model.module.features.norm5, 'backward': model.module.classifier}
+        else:
+            model.classifier = nn.Linear(model.classifier.in_features, out_features=n_classes)
+            nn.init.constant_(model.classifier.bias, 0)
+            grad_cam_hooks = {'forward': model.features.norm5, 'backward': model.classifier}
+
+        optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
+        scheduler = None
+        
+        
