@@ -156,10 +156,11 @@ def compute_metrics(outputs, targets, losses):
 # --------------------
 
 def train_epoch(model, train_dataloader, valid_dataloader, loss_fn, optimizer, scheduler, writer, epoch, args):
-    model.train()
 
+    model.train()
     with tqdm(total=len(train_dataloader), desc='Step at start {}; Training epoch {}/{}'.format(args.step, epoch+1, args.n_epochs)) as pbar:
         for x, target, idxs in train_dataloader:
+            # for i, (inputs,labels) in enumerate (train_loader):
             args.step += 1
 
             out = model(x.to(args.device))
@@ -168,6 +169,15 @@ def train_epoch(model, train_dataloader, valid_dataloader, loss_fn, optimizer, s
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
+
+            # inputs = Variable(inputs.float())
+            # labels = Variable(labels.float())
+            # output = net(inputs)
+            # optimizer.zero_grad()
+            # loss = criterion(output, labels)
+            # loss.backward()
+            # optimizer.step()
+
             if scheduler and args.step >= args.lr_warmup_steps: scheduler.step()
 
             pbar.set_postfix(loss = '{:.4f}'.format(loss.item()))
@@ -471,9 +481,16 @@ if __name__ == '__main__':
         print ("Usando NetWork ", args.arch, "/n")
         arch = utils.decode_arch(args.arch)
         model = Network(arch, n_classes)
+
+        # if torch.cuda.device_count() > 1:
+        #      print(f"Let's use {torch.cuda.device_count()} GPUs!")
+        #      model = nn.DataParallel(model)
+      
+
         model = model.cuda()
 
-
+        model.classifier = nn.Linear(model.classifier.in_features, out_features=n_classes)
+        
         # 2. init output layer with default torchvision init
         nn.init.constant_(model.classifier.bias, 0)
         # 3. store locations of forward and backward hooks for grad-cam
@@ -492,34 +509,61 @@ if __name__ == '__main__':
 #        optimizer = torch.optim.SGD(model.parameters(), lr=args.lr, momentum=0.9, nesterov=True)
 #        scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, [40000, 60000])
     elif args.model=='densenet121':
-        model = densenet121(pretrained=args.pretrained).to(args.device)
-        # 1. replace output layer with chexpert number of classes (pretrained loads ImageNet n_classes)
-        model.classifier = nn.Linear(model.classifier.in_features, out_features=n_classes).to(args.device)
-        # 2. init output layer with default torchvision init
+        model = densenet121(pretrained=args.pretrained)
+
+
+        # if torch.cuda.device_count() > 1:
+        #     print(f"Let's use {torch.cuda.device_count()} GPUs!")
+        #     model = nn.DataParallel(model)
+
+        model = model.to(args.device)
+
+        # Check if the model is a DataParallel instance before accessing its classifier
+        # if isinstance(model, nn.DataParallel):
+        #     model.module.classifier = nn.Linear(model.module.classifier.in_features, out_features=n_classes)
+        #     nn.init.constant_(model.module.classifier.bias, 0)
+        #     grad_cam_hooks = {'forward': model.module.features.norm5, 'backward': model.module.classifier}
+        # else:
+        model.classifier = nn.Linear(model.classifier.in_features, out_features=n_classes)
         nn.init.constant_(model.classifier.bias, 0)
-        # 3. store locations of forward and backward hooks for grad-cam
         grad_cam_hooks = {'forward': model.features.norm5, 'backward': model.classifier}
-        # 4. init optimizer and scheduler
+
         optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
         scheduler = None
 #        optimizer = torch.optim.SGD(model.parameters(), lr=args.lr, momentum=0.9, nesterov=True)
 #        scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, [40000, 60000])
     elif args.model=='aadensenet121':
         model = DenseNet(32, (6, 12, 24, 16), 64, num_classes=n_classes,
-                         attn_params={'k': 0.2, 'v': 0.1, 'nh': 8, 'relative': True, 'input_dims': (320,320)}).to(args.device)
+                         attn_params={'k': 0.2, 'v': 0.1, 'nh': 8, 'relative': True, 'input_dims': (320,320)})
+        
+        # if torch.cuda.device_count() > 1:
+        #     print(f"Let's use {torch.cuda.device_count()} GPUs!")
+        #     model = nn.DataParallel(model)
+
+        model = model.to(args.device)
         grad_cam_hooks = {'forward': model.features, 'backward': model.classifier}
         attn_hooks = [model.features.transition1.conv, model.features.transition2.conv, model.features.transition3.conv]
         optimizer = torch.optim.SGD(model.parameters(), lr=args.lr, momentum=0.9, nesterov=True)
         scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, [40000, 60000])
     elif args.model=='resnet152':
-        model = resnet152(pretrained=args.pretrained).to(args.device)
+        model = resnet152(pretrained=args.pretrained)
+        # if torch.cuda.device_count() > 1:
+        #     print(f"Let's use {torch.cuda.device_count()} GPUs!")
+        #     model = nn.DataParallel(model)
+
+        model = model.to(args.device)
         model.fc = nn.Linear(model.fc.in_features, out_features=n_classes).to(args.device)
         grad_cam_hooks = {'forward': model.layer4, 'backward': model.fc}
         optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
         scheduler = None
     elif args.model=='aaresnet152':  # resnet50 layers [3,4,6,3]; resnet101 layers [3,4,23,3]; resnet 152 layers [3,8,36,3]
         model = ResNet(Bottleneck, [3, 8, 36, 3], num_classes=n_classes,
-                         attn_params={'k': 0.2, 'v': 0.1, 'nh': 8, 'relative': True, 'input_dims': (320,320)}).to(args.device)
+                         attn_params={'k': 0.2, 'v': 0.1, 'nh': 8, 'relative': True, 'input_dims': (320,320)})
+        # if torch.cuda.device_count() > 1:
+        #     print(f"Let's use {torch.cuda.device_count()} GPUs!")
+        #     model = nn.DataParallel(model)
+
+        model = model.to(args.device)
         grad_cam_hooks = {'forward': model.layer4, 'backward': model.fc}
         attn_hooks = [model.layer2[i].conv2 for i in range(len(model.layer2))] + \
                      [model.layer3[i].conv2 for i in range(len(model.layer3))] + \
@@ -527,7 +571,12 @@ if __name__ == '__main__':
         optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
         scheduler = None
     elif 'efficientnet' in args.model:
-        model = construct_model(args.model, n_classes=n_classes).to(args.device)
+        model = construct_model(args.model, n_classes=n_classes)
+        # if torch.cuda.device_count() > 1:
+        #     print(f"Let's use {torch.cuda.device_count()} GPUs!")
+        #     model = nn.DataParallel(model)
+
+        model = model.to(args.device)
         grad_cam_hooks = {'forward': model.head[1], 'backward': model.head[-1]}
         optimizer = torch.optim.RMSprop(model.parameters(), lr=args.lr, momentum=0.9, eps=0.001)
         scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, args.lr_decay_factor)
@@ -538,6 +587,11 @@ if __name__ == '__main__':
         print('Restoring model weights from {}'.format(args.restore))
         model_checkpoint = torch.load(args.restore, map_location=args.device)
         model.load_state_dict(model_checkpoint['state_dict'])
+        # if torch.cuda.device_count() > 1:
+        #     print(f"Let's use {torch.cuda.device_count()} GPUs!")
+        #     model = nn.DataParallel(model)
+
+        model = model.to(args.device)
         args.step = model_checkpoint['global_step']
         del model_checkpoint
         # if training, load optimizer and scheduler too
@@ -564,6 +618,13 @@ if __name__ == '__main__':
 
     print('Loaded {} (number of parameters: {:,}; weights trained to step {})'.format(
         model._get_name(), sum(p.numel() for p in model.parameters()), args.step))
+    size_model = 0
+    for param in model.parameters():
+        if param.data.is_floating_point():
+            size_model += param.numel() * torch.finfo(param.data.dtype).bits
+        else:
+            size_model += param.numel() * torch.iinfo(param.data.dtype).bits
+    print(f"model size: {size_model} / bit | {size_model / 8e6:.2f} / MB")
     print('Train data length: ', len(train_dataloader.dataset))
     print('Valid data length: ', len(valid_dataloader.dataset))
     print('Vis data subset: ', len(vis_dataloader.dataset))
