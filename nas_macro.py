@@ -233,6 +233,8 @@ for iteration in range(5):
 
     print("\n");
     print("\n");
+
+    ## Todo: Update the name of variable list_of_list -> model_candidate_list
     # Convert each string list to a list of integers
     list_of_lists = [list(map(int, s.strip('[]').split(', '))) for s in str_lists]
 
