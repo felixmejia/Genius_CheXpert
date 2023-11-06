@@ -471,7 +471,7 @@ if __name__ == '__main__':
         print ("Usando NetWork ", args.arch, "/n")
         arch = utils.decode_arch(args.arch)
         model = Network(arch, n_classes)
-        model = model.cuda()
+        model = model.to(args.device)
 
 
         # 2. init output layer with default torchvision init
