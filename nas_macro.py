@@ -18,6 +18,8 @@ print(args)
 openai.api_key = args.openai_key
 openai.organization = args.openai_organization
 
+###########################
+## Benchmark i/o
 
 benchmark_file = open('benchmark/nas-bench-macro_cifar10.json')
 data = json.load(benchmark_file)
@@ -97,6 +99,9 @@ system_content = "You are an expert in the field of neural architecture search."
 # [1, 2, ..., 0] means we use operation 1 for layer2, operation 2 for layer3, ..., operation 0 for layer9.
 # '''
 
+##########################
+## Prompt arg composer
+
 number_gpu=2;
 string_number_gpu = "two";
 
@@ -169,8 +174,8 @@ Your response for each model should be an operation ID list for the eight undefi
 [1, 2, 0, 0, 0, 0, 0, 0], [1, 2, 1, 0, 0, 0, 0, 0] means we use operation 1 for layer2, operation 0 for layer3, operation 0 for layer4, operation 0 for layer5,operation 0 for layer6, operation 0 for layer7, operation 0 for layer7 and operation 0 for layer9 of the first model.
 '''
 
-
-
+######################################################
+## Verify that the candidates can’t be repeated
 experiments_prompt = lambda arch_list, acc_list : '''Here are some experimental results that you can use as a reference:
 {}
 Please suggest a better operation ID list that can improve the model's performance on Chexpert dataset beyond the experimental results provided above.
