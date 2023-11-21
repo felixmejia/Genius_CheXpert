@@ -27,66 +27,77 @@ from models.attn_aug_conv import DenseNet, ResNet, Bottleneck
 
 from models.network import Network
 
+from torch.utils.data import Subset
+
 import utils
+import gc
 
 
-parser = argparse.ArgumentParser()
-# action
-parser.add_argument('--load_config', type=str, help='Path to config.json file to load args from.')
-parser.add_argument('--train', action='store_true', help='Train model.')
-parser.add_argument('--evaluate_single_model', action='store_true', help='Evaluate a single model.')
-parser.add_argument('--evaluate_ensemble', action='store_true', help='Evaluate an ensemble (given a checkpoints tracker of saved model checkpoints).')
-parser.add_argument('--visualize', action='store_true', help='Visualize Grad-CAM.')
-parser.add_argument('--plot_roc', action='store_true', help='Filename for metrics json file to plot ROC.')
-parser.add_argument('--seed', type=int, default=0, help='Random seed to use.')
-parser.add_argument('--cuda', type=int, help='Which cuda device to use.')
-# pathsbatch_
-parser.add_argument('--data_path', 
-default='', help='Location of train/valid datasets directory or path to test csv file.')
-parser.add_argument('--output_dir', help='Path to experiment output, config, checkpoints, etc.')
-parser.add_argument('--restore', type=str, help='Path to a single model checkpoint to restore or folder of checkpoints to ensemble.')
-# model architecture
-parser.add_argument('--model', default='densenet121', help='What model architecture to use. (densenet121, resnet152, efficientnet-b[0-7])')
-# data params
-parser.add_argument('--mini_data', type=int, help='Truncate dataset to this number of examples.')
-parser.add_argument('--resize', type=int, help='Size of minimum edge to which to resize images.')
-# training params
-parser.add_argument('--pretrained', action='store_true', help='Use ImageNet pretrained model and normalize data mean and std.')
-parser.add_argument('--batch_size', type=int, default=16, help='Dataloaders batch size.')
-parser.add_argument('--n_epochs', type=int, default=1, help='Number of epochs to train.')
-parser.add_argument('--lr', type=float, default=1e-4, help='Learning rate.')
-parser.add_argument('--lr_warmup_steps', type=float, default=0, help='Linear warmup of the learning rate for lr_warmup_steps number of steps.')
-parser.add_argument('--lr_decay_factor', type=float, default=0.97, help='Decay factor if exponential learning rate decay scheduler.')
-parser.add_argument('--step', type=int, default=0, help='Current step of training (number of minibatches processed).')
-parser.add_argument('--log_interval', type=int, default=50, help='Interval of num batches to show loss statistics.')
-parser.add_argument('--eval_interval', type=int, default=300, help='Interval of num epochs to evaluate, checkpoint, and save samples.')
-parser.add_argument('--arch', type=str, default='11111111', help='which architecture to use')
 
-
-# --------------------
-# Data IO
-# --------------------
-
-def fetch_dataloader(args, mode):
-    assert mode in ['train', 'valid', 'vis']
-
-    transforms = T.Compose([
-        T.Resize(args.resize) if args.resize else T.Lambda(lambda x: x),
-        T.CenterCrop(320 if not args.resize else args.resize),
-        lambda x: torch.from_numpy(np.array(x, copy=True)).float().div(255).unsqueeze(0),   # tensor in [0,1]
-        T.Normalize(mean=[0.5330], std=[0.0349]),                                           # whiten with dataset mean and std
-        lambda x: x.expand(3,-1,-1)])                                                       # expand to 3 channels
-
-    dataset = ChexpertSmall(args.data_path, mode, transforms, mini_data=args.mini_data)
-
-    return DataLoader(dataset, args.batch_size, shuffle=(mode=='train'), pin_memory=(args.device.type=='cuda'),
-                      num_workers=0 if mode=='valid' else 16)  # since evaluating the valid_dataloader is called inside the
-                                                              # train_dataloader loop, 0 workers for valid_dataloader avoids
-                                                              # forking (cf torch dataloader docs); else memory sharing gets clunky
+class CustomEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, torch.device):
+            return str(obj)  # Convierte el objeto device a una cadena de texto
+        # Deja que el método default maneje los demás tipos
+        return json.JSONEncoder.default(self, obj)
+    
+# def save_json(data, filename, args):
+#     with open(os.path.join(args.output_dir, filename + '.json'), 'w') as f:
+#         json.dump(data, f, indent=4)
 
 def save_json(data, filename, args):
     with open(os.path.join(args.output_dir, filename + '.json'), 'w') as f:
-        json.dump(data, f, indent=4)
+        json.dump(data, f, cls=CustomEncoder, indent=4)
+
+def release_gpu_memory(model):
+    model.cpu()
+    del model
+    torch.cuda.empty_cache()
+    gc.collect()
+
+
+def average(A):
+    res = 0
+    for val in A.values(): 
+        res += val 
+    # using len() to get total keys for mean computation 
+    res = res / len(A) 
+    return res
+
+def fetch_dataloader(args, mode):
+        assert mode in ['train', 'valid', 'vis']
+
+        transforms = T.Compose([
+            T.Resize(args.resize) if args.resize else T.Lambda(lambda x: x),
+            T.CenterCrop(320 if not args.resize else args.resize),
+            lambda x: torch.from_numpy(np.array(x, copy=True)).float().div(255).unsqueeze(0),   # tensor in [0,1]
+            T.Normalize(mean=[0.5330], std=[0.0349]),                                           # whiten with dataset mean and std
+            lambda x: x.expand(3,-1,-1)])                                                       # expand to 3 channels
+
+        full_dataset = ChexpertSmall(args.data_path, mode, transforms, mini_data=args.mini_data)
+
+
+        args.reduce_dataset_size = False  # Cambia a False para usar el tamaño completo del dataset
+        args.reduced_size = 500        # Número de imágenes que quieres en tu dataset
+
+        # Si quieres reducir aún más el tamaño del dataset
+        if args.reduce_dataset_size:
+            # Define aquí el tamaño deseado del dataset
+            reduced_size = args.reduced_size
+            # Genera índices aleatorios para el submuestreo
+            indices = torch.randperm(len(full_dataset)).tolist()[:reduced_size]
+            # Crea un subset del dataset original
+            dataset = Subset(full_dataset, indices)
+        else:
+            dataset = full_dataset
+
+
+        return DataLoader(dataset, args.batch_size, shuffle=(mode=='train'), pin_memory=(args.device.type=='cuda'),
+                        num_workers=0 if mode=='valid' else 16)  # since evaluating the valid_dataloader is called inside the
+                                                                # train_dataloader loop, 0 workers for valid_dataloader avoids
+                                                                # forking (cf torch dataloader docs); else memory sharing gets clunky
+
+
 
 def load_json(file_path):
     with open(file_path, 'r') as f:
@@ -143,11 +154,11 @@ def compute_metrics(outputs, targets, losses):
         fpr[i], tpr[i], precision[i], recall[i] = fpr[i].tolist(), tpr[i].tolist(), precision[i].tolist(), recall[i].tolist()
 
     metrics = {'fpr': fpr,
-               'tpr': tpr,
-               'aucs': aucs,
-               'precision': precision,
-               'recall': recall,
-               'loss': dict(enumerate(losses.mean(0).tolist()))}
+            'tpr': tpr,
+            'aucs': aucs,
+            'precision': precision,
+            'recall': recall,
+            'loss': dict(enumerate(losses.mean(0).tolist()))}
 
     return metrics
 
@@ -158,7 +169,7 @@ def compute_metrics(outputs, targets, losses):
 def train_epoch(model, train_dataloader, valid_dataloader, loss_fn, optimizer, scheduler, writer, epoch, args):
     model.train()
 
-    with tqdm(total=len(train_dataloader), desc='Step at start {}; Training epoch {}/{}'.format(args.step, epoch+1, args.n_epochs)) as pbar:
+    with tqdm(total=len(train_dataloader), desc='GPU-{} Step at start {}; Training epoch {}/{}'.format(args.device, args.step, epoch+1, args.n_epochs)) as pbar:
         for x, target, idxs in train_dataloader:
             args.step += 1
 
@@ -247,13 +258,16 @@ def train_and_evaluate(model, train_dataloader, valid_dataloader, loss_fn, optim
         train_epoch(model, train_dataloader, valid_dataloader, loss_fn, optimizer, scheduler, writer, epoch, args)
 
         # evaluate
-        print('Evaluating...', end='\r')
         eval_metrics = evaluate_single_model(model, valid_dataloader, loss_fn, args)
-        print('Evaluate metrics @ step {}:'.format(args.step))
-        print('AUC:\n', pprint.pformat(eval_metrics['aucs']))
-        print('Precision:\n', pprint.pformat(eval_metrics['precision']))
-        print('Recall:\n', pprint.pformat(eval_metrics['recall']))
-        print('Loss:\n', pprint.pformat(eval_metrics['loss']))
+        # print('Evaluate metrics @ step {}:'.format(args.step))
+        print('\n')
+        print('AUC:', epoch, '\n', pprint.pformat(eval_metrics['aucs']))
+        # Average de AUC
+        res = average(eval_metrics['aucs']) 
+        print('Average:', res, '\n')
+        # print('Precision:\n', pprint.pformat(eval_metrics['precision']))
+        # print('Recall:\n', pprint.pformat(eval_metrics['recall']))
+        # print('Loss:\n', pprint.pformat(eval_metrics['loss']))
 
         writer.add_scalar('eval_loss', np.sum(list(eval_metrics['loss'].values())), args.step)
         for k, v in eval_metrics['aucs'].items():
@@ -261,7 +275,7 @@ def train_and_evaluate(model, train_dataloader, valid_dataloader, loss_fn, optim
 
         # save eval metrics
         save_json(eval_metrics, 'eval_results_step_{}'.format(args.step), args)
-
+    return eval_metrics
 # --------------------
 # Visualization
 # --------------------
@@ -356,8 +370,8 @@ def visualize_one(model, img, mask, label, patient_id, prob, attr_names, axs):
     axs[0].set_title(patient_id)
     data = np.stack([label, prob.round(3)]).T
     axs[0].table(cellText=data, rowLabels=names, colLabels=['Ground truth', 'Pred. prob'],
-                 rowColours=plt.cm.Greens(0.5*label),
-                 cellColours=plt.cm.Greens(0.5*data), cellLoc='center', loc='center')
+                rowColours=plt.cm.Greens(0.5*label),
+                cellColours=plt.cm.Greens(0.5*data), cellLoc='center', loc='center')
     axs[0].axis('tight')
     # 2. middle -- show original image
     axs[1].set_title('Original image', fontsize=10)
@@ -409,8 +423,8 @@ def plot_roc(metrics, args, filename, labels=ChexpertSmall.attr_names):
     fig, axs = plt.subplots(2, len(labels), figsize=(24,12))
 
     for i, (fpr, tpr, aucs, precision, recall, label) in enumerate(zip(metrics['fpr'].values(), metrics['tpr'].values(),
-                                                                       metrics['aucs'].values(), metrics['precision'].values(),
-                                                                       metrics['recall'].values(), labels)):
+                                                                    metrics['aucs'].values(), metrics['precision'].values(),
+                                                                    metrics['recall'].values(), labels)):
         # top row -- ROC
         axs[0,i].plot(fpr, tpr, label='AUC = %0.2f' % aucs)
         axs[0,i].plot([0, 1], [0, 1], 'k--')  # diagonal margin
@@ -434,173 +448,190 @@ def plot_roc(metrics, args, filename, labels=ChexpertSmall.attr_names):
     plt.tight_layout()
     plt.savefig(os.path.join(args.output_dir, 'plots', filename + '.png'), pad_inches=0.)
     plt.close()
+    
+class CModel():
 
-# --------------------
-# Main
-# --------------------
+     # --------------------
+    # Data IO
+    # --------------------
 
-if __name__ == '__main__':
-    args = parser.parse_args()
+    
 
-    # overwrite args from config
-    if args.load_config: args.__dict__.update(load_json(args.load_config))
+    # --------------------
+    # Main
+    # --------------------
 
-    # set up output folder
-    if not args.output_dir:
-        if args.restore: raise RuntimeError('Must specify `output_dir` argument')
-        args.output_dir: args.output_dir = os.path.join('results', time.strftime('%Y-%m-%d_%H-%M-%S', time.gmtime()))
-    # make new folders if they don't exist
-    writer = SummaryWriter(logdir=args.output_dir + "_"+ args.cuda.toString())  # creates output_dir
-    if not os.path.exists(os.path.join(args.output_dir, 'vis')): os.makedirs(os.path.join(args.output_dir, 'vis'))
-    if not os.path.exists(os.path.join(args.output_dir, 'plots')): os.makedirs(os.path.join(args.output_dir, 'plots'))
-    if not os.path.exists(os.path.join(args.output_dir, 'best_checkpoints')): os.makedirs(os.path.join(args.output_dir, 'best_checkpoints'))
+    def chexpert(args, architecture, num_gpu):
 
-    # save config
-    if not os.path.exists(os.path.join(args.output_dir, 'config.json')): save_json(args.__dict__, 'config', args)
-    writer.add_text('config', str(args.__dict__))
+        
+        # overwrite args from config
+        if args.load_config: args.__dict__.update(load_json(args.load_config))
 
-    args.device = torch.device('cuda:{}'.format(args.cuda) if args.cuda is not None and torch.cuda.is_available() else 'cpu')
+        # set up output folder
+        if not args.output_dir:
+            if args.restore: raise RuntimeError('Must specify `output_dir` argument')
+            args.output_dir: args.output_dir = os.path.join('results', time.strftime('%Y-%m-%d_%H-%M-%S', time.gmtime()))
+        # make new folders if they don't exist
+        args.output_dir = args.output_dir  + str(num_gpu-1)
+        writer = SummaryWriter(logdir=args.output_dir)  # creates output_dir
+        if not os.path.exists(os.path.join(args.output_dir, 'vis')): os.makedirs(os.path.join(args.output_dir, 'vis'))
+        if not os.path.exists(os.path.join(args.output_dir, 'plots')): os.makedirs(os.path.join(args.output_dir, 'plots'))
+        if not os.path.exists(os.path.join(args.output_dir, 'best_checkpoints')): os.makedirs(os.path.join(args.output_dir, 'best_checkpoints'))
 
-    if args.seed:
-        torch.manual_seed(args.seed)
-        np.random.seed(args.seed)
+        # save config
+        print(" Save JSON ", args.output_dir)
+        if not os.path.exists(os.path.join(args.output_dir, 'config.json')): save_json(args.__dict__, 'config', args)
+        writer.add_text('config', str(args.__dict__))
 
-    # load model
-    n_classes = len(ChexpertSmall.attr_names)
-    if args.model=='NetWork':
-        print ("Usando NetWork ", args.arch, "/n")
-        arch = utils.decode_arch(args.arch)
-        model = Network(arch, n_classes)
-        model = model.to(args.device)
+        args.device = torch.device('cuda:{}'.format(num_gpu-1)) #if args.cuda is not None and torch.cuda.is_available() else 'cpu')
+        if args.seed:
+            torch.manual_seed(args.seed)
+            np.random.seed(args.seed)
+
+        # load model
+        n_classes = len(ChexpertSmall.attr_names)
+        if args.model=='NetWork':
+            arch = utils.decode_arch(architecture)
+            model = Network(arch, n_classes)
+            model = model.to(args.device)
 
 
-        # 2. init output layer with default torchvision init
-        nn.init.constant_(model.classifier.bias, 0)
-        # 3. store locations of forward and backward hooks for grad-cam
-        grad_cam_hooks = {'forward': model.features, 'backward': model.classifier}
-        # 4. init optimizer and scheduler
-        optimizer = torch.optim.SGD(
-            model.parameters(),
-            0.1,
-            momentum=0.9,
-            weight_decay=5e-4,
-            nesterov=True
-            )
-        optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
-#        scheduler = None
-        scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, float(args.n_epochs))
-#        optimizer = torch.optim.SGD(model.parameters(), lr=args.lr, momentum=0.9, nesterov=True)
-#        scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, [40000, 60000])
-    elif args.model=='densenet121':
-        model = densenet121(pretrained=args.pretrained).to(args.device)
-        # 1. replace output layer with chexpert number of classes (pretrained loads ImageNet n_classes)
-        model.classifier = nn.Linear(model.classifier.in_features, out_features=n_classes).to(args.device)
-        # 2. init output layer with default torchvision init
-        nn.init.constant_(model.classifier.bias, 0)
-        # 3. store locations of forward and backward hooks for grad-cam
-        grad_cam_hooks = {'forward': model.features.norm5, 'backward': model.classifier}
-        # 4. init optimizer and scheduler
-        optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
-        scheduler = None
-#        optimizer = torch.optim.SGD(model.parameters(), lr=args.lr, momentum=0.9, nesterov=True)
-#        scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, [40000, 60000])
-    elif args.model=='aadensenet121':
-        model = DenseNet(32, (6, 12, 24, 16), 64, num_classes=n_classes,
-                         attn_params={'k': 0.2, 'v': 0.1, 'nh': 8, 'relative': True, 'input_dims': (320,320)}).to(args.device)
-        grad_cam_hooks = {'forward': model.features, 'backward': model.classifier}
-        attn_hooks = [model.features.transition1.conv, model.features.transition2.conv, model.features.transition3.conv]
-        optimizer = torch.optim.SGD(model.parameters(), lr=args.lr, momentum=0.9, nesterov=True)
-        scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, [40000, 60000])
-    elif args.model=='resnet152':
-        model = resnet152(pretrained=args.pretrained).to(args.device)
-        model.fc = nn.Linear(model.fc.in_features, out_features=n_classes).to(args.device)
-        grad_cam_hooks = {'forward': model.layer4, 'backward': model.fc}
-        optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
-        scheduler = None
-    elif args.model=='aaresnet152':  # resnet50 layers [3,4,6,3]; resnet101 layers [3,4,23,3]; resnet 152 layers [3,8,36,3]
-        model = ResNet(Bottleneck, [3, 8, 36, 3], num_classes=n_classes,
-                         attn_params={'k': 0.2, 'v': 0.1, 'nh': 8, 'relative': True, 'input_dims': (320,320)}).to(args.device)
-        grad_cam_hooks = {'forward': model.layer4, 'backward': model.fc}
-        attn_hooks = [model.layer2[i].conv2 for i in range(len(model.layer2))] + \
-                     [model.layer3[i].conv2 for i in range(len(model.layer3))] + \
-                     [model.layer4[i].conv2 for i in range(len(model.layer4))]
-        optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
-        scheduler = None
-    elif 'efficientnet' in args.model:
-        model = construct_model(args.model, n_classes=n_classes).to(args.device)
-        grad_cam_hooks = {'forward': model.head[1], 'backward': model.head[-1]}
-        optimizer = torch.optim.RMSprop(model.parameters(), lr=args.lr, momentum=0.9, eps=0.001)
-        scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, args.lr_decay_factor)
-    else:
-        raise RuntimeError('Model architecture not supported.')
+            # 2. init output layer with default torchvision init
+            nn.init.constant_(model.classifier.bias, 0)
+            # 3. store locations of forward and backward hooks for grad-cam
+            grad_cam_hooks = {'forward': model.features, 'backward': model.classifier}
+            # 4. init optimizer and scheduler
+            optimizer = torch.optim.SGD(
+                model.parameters(),
+                0.1,
+                momentum=0.9,
+                weight_decay=5e-4,
+                nesterov=True
+                )
+            optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
+    #        scheduler = None
+            scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, float(args.n_epochs))
+    #        optimizer = torch.optim.SGD(model.parameters(), lr=args.lr, momentum=0.9, nesterov=True)
+    #        scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, [40000, 60000])
+        elif args.model=='densenet121':
+            model = densenet121(pretrained=args.pretrained).to(args.device)
+            # 1. replace output layer with chexpert number of classes (pretrained loads ImageNet n_classes)
+            model.classifier = nn.Linear(model.classifier.in_features, out_features=n_classes).to(args.device)
+            # 2. init output layer with default torchvision init
+            nn.init.constant_(model.classifier.bias, 0)
+            # 3. store locations of forward and backward hooks for grad-cam
+            grad_cam_hooks = {'forward': model.features.norm5, 'backward': model.classifier}
+            # 4. init optimizer and scheduler
+            optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
+            scheduler = None
+    #        optimizer = torch.optim.SGD(model.parameters(), lr=args.lr, momentum=0.9, nesterov=True)
+    #        scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, [40000, 60000])
+        elif args.model=='aadensenet121':
+            model = DenseNet(32, (6, 12, 24, 16), 64, num_classes=n_classes,
+                            attn_params={'k': 0.2, 'v': 0.1, 'nh': 8, 'relative': True, 'input_dims': (320,320)}).to(args.device)
+            grad_cam_hooks = {'forward': model.features, 'backward': model.classifier}
+            attn_hooks = [model.features.transition1.conv, model.features.transition2.conv, model.features.transition3.conv]
+            optimizer = torch.optim.SGD(model.parameters(), lr=args.lr, momentum=0.9, nesterov=True)
+            scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, [40000, 60000])
+        elif args.model=='resnet152':
+            model = resnet152(pretrained=args.pretrained).to(args.device)
+            model.fc = nn.Linear(model.fc.in_features, out_features=n_classes).to(args.device)
+            grad_cam_hooks = {'forward': model.layer4, 'backward': model.fc}
+            optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
+            scheduler = None
+        elif args.model=='aaresnet152':  # resnet50 layers [3,4,6,3]; resnet101 layers [3,4,23,3]; resnet 152 layers [3,8,36,3]
+            model = ResNet(Bottleneck, [3, 8, 36, 3], num_classes=n_classes,
+                            attn_params={'k': 0.2, 'v': 0.1, 'nh': 8, 'relative': True, 'input_dims': (320,320)}).to(args.device)
+            grad_cam_hooks = {'forward': model.layer4, 'backward': model.fc}
+            attn_hooks = [model.layer2[i].conv2 for i in range(len(model.layer2))] + \
+                        [model.layer3[i].conv2 for i in range(len(model.layer3))] + \
+                        [model.layer4[i].conv2 for i in range(len(model.layer4))]
+            optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
+            scheduler = None
+        elif 'efficientnet' in args.model:
+            model = construct_model(args.model, n_classes=n_classes).to(args.device)
+            grad_cam_hooks = {'forward': model.head[1], 'backward': model.head[-1]}
+            optimizer = torch.optim.RMSprop(model.parameters(), lr=args.lr, momentum=0.9, eps=0.001)
+            scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, args.lr_decay_factor)
+        else:
+            raise RuntimeError('Model architecture not supported.')
 
-    if args.restore and os.path.isfile(args.restore):  # restore from single file, else ensemble is handled by evaluate_ensemble
-        print('Restoring model weights from {}'.format(args.restore))
-        model_checkpoint = torch.load(args.restore, map_location=args.device)
-        model.load_state_dict(model_checkpoint['state_dict'])
-        args.step = model_checkpoint['global_step']
-        del model_checkpoint
-        # if training, load optimizer and scheduler too
+        if args.restore and os.path.isfile(args.restore):  # restore from single file, else ensemble is handled by evaluate_ensemble
+            print('Restoring model weights from {}'.format(args.restore))
+            model_checkpoint = torch.load(args.restore, map_location=args.device)
+            model.load_state_dict(model_checkpoint['state_dict'])
+            args.step = model_checkpoint['global_step']
+            del model_checkpoint
+            # if training, load optimizer and scheduler too
+            if args.train:
+                print('Restoring optimizer.')
+                optim_checkpoint_path = os.path.join(os.path.dirname(args.restore), 'optim_' + os.path.basename(args.restore))
+                optimizer.load_state_dict(torch.load(optim_checkpoint_path, map_location=args.device))
+                if scheduler:
+                    print('Restoring scheduler.')
+                    sched_checkpoint_path = os.path.join(os.path.dirname(args.restore), 'sched_' + os.path.basename(args.restore))
+                    scheduler.load_state_dict(torch.load(sched_checkpoint_path, map_location=args.device))
+
+        # load data
+        if args.restore:
+            # load pretrained flag from config -- in case forgotten e.g. in post-training evaluation
+            # (images still need to be normalized if training started on an imagenet pretrained model)
+            args.pretrained = load_json(os.path.join(args.output_dir, 'config.json'))['pretrained']
+        train_dataloader = fetch_dataloader(args, mode='train')
+        valid_dataloader = fetch_dataloader(args, mode='valid')
+        vis_dataloader = fetch_dataloader(args, mode='vis')
+
+        # setup loss function for train and eval
+        loss_fn = nn.BCEWithLogitsLoss(reduction='none').to(args.device)
+
+        print('Loaded {} (number of parameters: {:,}; weights trained to step {})'.format(
+            model._get_name(), sum(p.numel() for p in model.parameters()), args.step))
+        print('Train data length: ', len(train_dataloader.dataset))
+        print('Valid data length: ', len(valid_dataloader.dataset))
+        print('Vis data subset: ', len(vis_dataloader.dataset))
+
         if args.train:
-            print('Restoring optimizer.')
-            optim_checkpoint_path = os.path.join(os.path.dirname(args.restore), 'optim_' + os.path.basename(args.restore))
-            optimizer.load_state_dict(torch.load(optim_checkpoint_path, map_location=args.device))
-            if scheduler:
-                print('Restoring scheduler.')
-                sched_checkpoint_path = os.path.join(os.path.dirname(args.restore), 'sched_' + os.path.basename(args.restore))
-                scheduler.load_state_dict(torch.load(sched_checkpoint_path, map_location=args.device))
+            eval_metrics = train_and_evaluate(model, train_dataloader, valid_dataloader, loss_fn, optimizer, scheduler, writer, args)
 
-    # load data
-    if args.restore:
-        # load pretrained flag from config -- in case forgotten e.g. in post-training evaluation
-        # (images still need to be normalized if training started on an imagenet pretrained model)
-        args.pretrained = load_json(os.path.join(args.output_dir, 'config.json'))['pretrained']
-    train_dataloader = fetch_dataloader(args, mode='train')
-    valid_dataloader = fetch_dataloader(args, mode='valid')
-    vis_dataloader = fetch_dataloader(args, mode='vis')
+        if args.evaluate_single_model:
+            eval_metrics = evaluate_single_model(model, valid_dataloader, loss_fn, args)
+            # print('Evaluate metrics -- \n\t restore: {} \n\t step: {}:'.format(args.restore, args.step))
+            # print('AUC:\n', pprint.pformat(eval_metrics['aucs']))
+            # print('Loss:\n', pprint.pformat(eval_metrics['loss']))
+            save_json(eval_metrics, 'eval_results_step_{}'.format(args.step), args)
 
-    # setup loss function for train and eval
-    loss_fn = nn.BCEWithLogitsLoss(reduction='none').to(args.device)
+        if args.evaluate_ensemble:
+            assert os.path.isdir(args.restore), 'Restore argument must be directory with saved checkpoints'
+            eval_metrics = evaluate_ensemble(model, valid_dataloader, loss_fn, args)
+            # print('Evaluate ensemble metrics -- \n\t checkpoints path {}:'.format(args.restore))
+            # print('AUC:\n', pprint.pformat(eval_metrics['aucs']))
+            # print('Loss:\n', pprint.pformat(eval_metrics['loss']))
+            save_json(eval_metrics, 'eval_results_ensemble', args)
 
-    print('Loaded {} (number of parameters: {:,}; weights trained to step {})'.format(
-        model._get_name(), sum(p.numel() for p in model.parameters()), args.step))
-    print('Train data length: ', len(train_dataloader.dataset))
-    print('Valid data length: ', len(valid_dataloader.dataset))
-    print('Vis data subset: ', len(vis_dataloader.dataset))
+        if args.visualize:
+            visualize(model, vis_dataloader, grad_cam_hooks, args)
+            if attn_hooks is not None:
+                for x, _, idxs in vis_dataloader:
+                    model(x.to(args.device))
+                    patient_ids = extract_patient_ids(vis_dataloader.dataset, idxs)
+                    # visualize stored attention weights for each image
+                    for i in range(len(x)): vis_attn(x, patient_ids, idxs, attn_hooks, args, i)
 
-    if args.train:
-        train_and_evaluate(model, train_dataloader, valid_dataloader, loss_fn, optimizer, scheduler, writer, args)
+        if args.plot_roc:
+            # load results files from output_dir
+            filenames = [f for f in os.listdir(args.output_dir) if f.startswith('eval_results') and f.endswith('.json')]
+            if filenames==[]: raise RuntimeError('No `eval_results` files found in `{}` to plot results from.'.format(args.output_dir))
+            # load and plot each
+            for f in filenames:
+                plot_roc(load_json(os.path.join(args.output_dir, f)), args, 'roc_pr_' + f.split('.')[0])
 
-    if args.evaluate_single_model:
-        eval_metrics = evaluate_single_model(model, valid_dataloader, loss_fn, args)
-        print('Evaluate metrics -- \n\t restore: {} \n\t step: {}:'.format(args.restore, args.step))
-        print('AUC:\n', pprint.pformat(eval_metrics['aucs']))
-        print('Loss:\n', pprint.pformat(eval_metrics['loss']))
-        save_json(eval_metrics, 'eval_results_step_{}'.format(args.step), args)
+        writer.close()
+        # Average de AUC
+        res = average(eval_metrics['aucs']) 
 
-    if args.evaluate_ensemble:
-        assert os.path.isdir(args.restore), 'Restore argument must be directory with saved checkpoints'
-        eval_metrics = evaluate_ensemble(model, valid_dataloader, loss_fn, args)
-        print('Evaluate ensemble metrics -- \n\t checkpoints path {}:'.format(args.restore))
-        print('AUC:\n', pprint.pformat(eval_metrics['aucs']))
-        print('Loss:\n', pprint.pformat(eval_metrics['loss']))
-        save_json(eval_metrics, 'eval_results_ensemble', args)
-
-    if args.visualize:
-        visualize(model, vis_dataloader, grad_cam_hooks, args)
-        if attn_hooks is not None:
-            for x, _, idxs in vis_dataloader:
-                model(x.to(args.device))
-                patient_ids = extract_patient_ids(vis_dataloader.dataset, idxs)
-                # visualize stored attention weights for each image
-                for i in range(len(x)): vis_attn(x, patient_ids, idxs, attn_hooks, args, i)
-
-    if args.plot_roc:
-        # load results files from output_dir
-        filenames = [f for f in os.listdir(args.output_dir) if f.startswith('eval_results') and f.endswith('.json')]
-        if filenames==[]: raise RuntimeError('No `eval_results` files found in `{}` to plot results from.'.format(args.output_dir))
-        # load and plot each
-        for f in filenames:
-            plot_roc(load_json(os.path.join(args.output_dir, f)), args, 'roc_pr_' + f.split('.')[0])
-
-    writer.close()
+         # Release GPU memory
+        release_gpu_memory(model)
+        del train_dataloader, valid_dataloader, vis_dataloader
+        print("Liberada memory GPU ", args.device)
+        return res
+   

@@ -7,13 +7,63 @@ import argparse
 from subprocess import Popen
 
 
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from mpi4py import MPI
+import io
+import mpi_chexpert
+import gc  # Import garbage collection module
 
+from mpi_chexpert import CModel
+
+
+#### mpiexec -np 3 python mpi_nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 --train --n_epochs 1 --plot_roc --batch_size 24 --model NetWork 
+
+
+### Error cuda device
+
+# sudo rmmod nvidia_uvm
+# sudo modprobe nvidia_uvm
 
 parser = argparse.ArgumentParser()
+# action
+parser.add_argument('--load_config', type=str, help='Path to config.json file to load args from.')
+parser.add_argument('--train', action='store_true', help='Train model.')
+parser.add_argument('--evaluate_single_model', action='store_true', help='Evaluate a single model.')
+parser.add_argument('--evaluate_ensemble', action='store_true', help='Evaluate an ensemble (given a checkpoints tracker of saved model checkpoints).')
+parser.add_argument('--visualize', action='store_true', help='Visualize Grad-CAM.')
+parser.add_argument('--plot_roc', action='store_true', help='Filename for metrics json file to plot ROC.')
+parser.add_argument('--seed', type=int, default=0, help='Random seed to use.')
+#parser.add_argument('--cuda', type=int, help='Which cuda device to use.')
+# pathsbatch_
+parser.add_argument('--data_path', 
+default='', help='Location of train/valid datasets directory or path to test csv file.')
+parser.add_argument('--output_dir', help='Path to experiment output, config, checkpoints, etc.')
+parser.add_argument('--restore', type=str, help='Path to a single model checkpoint to restore or folder of checkpoints to ensemble.')
+# model architecture
+parser.add_argument('--model', default='densenet121', help='What model architecture to use. (densenet121, resnet152, efficientnet-b[0-7])')
+# data params
+parser.add_argument('--mini_data', type=int, help='Truncate dataset to this number of examples.')
+parser.add_argument('--resize', type=int, help='Size of minimum edge to which to resize images.')
+# training params
+parser.add_argument('--pretrained', action='store_true', help='Use ImageNet pretrained model and normalize data mean and std.')
+parser.add_argument('--batch_size', type=int, default=16, help='Dataloaders batch size.')
+parser.add_argument('--n_epochs', type=int, default=1, help='Number of epochs to train.')
+parser.add_argument('--lr', type=float, default=1e-4, help='Learning rate.')
+parser.add_argument('--lr_warmup_steps', type=float, default=0, help='Linear warmup of the learning rate for lr_warmup_steps number of steps.')
+parser.add_argument('--lr_decay_factor', type=float, default=0.97, help='Decay factor if exponential learning rate decay scheduler.')
+parser.add_argument('--step', type=int, default=0, help='Current step of training (number of minibatches processed).')
+parser.add_argument('--log_interval', type=int, default=50, help='Interval of num batches to show loss statistics.')
+parser.add_argument('--eval_interval', type=int, default=300, help='Interval of num epochs to evaluate, checkpoint, and save samples.')
+#parser.add_argument('--arch', type=str, default='11111111', help='which architecture to use')
+
+
+
+
 parser.add_argument('--openai_key', type=str, required=True)
 parser.add_argument('--openai_organization', type=str, required=True)
 args = parser.parse_args()
-print(args)
 
 openai.api_key = args.openai_key
 openai.organization = args.openai_organization
@@ -166,7 +216,7 @@ The ''' + string_number_gpu + ''' models architectures will be defined as the fo
 The currently eight undefined layers are layer2 - layer9, that is eight layers and the in_channels and out_channels have already been defined for each layer. To maximize the model's performance on Chexpert dataset, please provide me with your suggested operation for the undefined layers only. 
 
 Your response for each model should be an operation ID list for the eight undefined layers. For example:
-[1, 2, 0, 0, 0, 0, 0, 0], [1, 2, 1, 0, 0, 0, 0, 0] means we use operation 1 for layer2, operation 0 for layer3, operation 0 for layer4, operation 0 for layer5,operation 0 for layer6, operation 0 for layer7, operation 0 for layer7 and operation 0 for layer9 of the first model.
+[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0] means we use operation 0 for layer2, operation 0 for layer3, operation 0 for layer4, operation 0 for layer5,operation 0 for layer6, operation 0 for layer7, operation 0 for layer8 and operation 0 for layer9 of the first model.
 '''
 
 
@@ -178,8 +228,6 @@ Please suggest a better operation ID list that can improve the model's performan
 
 suffix = '''Please do not include anything other than the operations ID list of list in your response for the ''' + string_number_gpu + ''' models.'''
 
-
-#suffix = '''Please do not include anything other than the operations ID list in your response.'''
 
 
 arch_list = []
@@ -198,113 +246,75 @@ messages_history = []
 if not os.path.exists('history'):
     os.makedirs('history')
 
-for iteration in range(5):
-    print("messages : ");
-    print(messages);
-    print("/n/n");
-    print("/n/n");
-    res = openai.ChatCompletion.create(model='gpt-4-0314', messages=messages, temperature=0, n=1)['choices'][0]['message']
-    print("Respond : ");
-    str_lists =  res['content'] 
-    print(str_lists);
-    print("\n");
-    print("\n");
 
-    # Split the string by line breaks to separate each list
-    print("strList Old : ");
-    print(str_lists);
-    print(type(str_lists));
-    
-    if(str_lists.count('\n')>0):
-        str_lists = str_lists.replace('],',']');
-    else:
-        str_lists = str_lists.replace('], ',']\n');
-    print("strList New: ");
-    print(str_lists);
-    print(type(str_lists));
+# Initialize MPI
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+size = comm.Get_size()
 
-    str_lists = str_lists.strip().split('\n')
-    print(type(str_lists));
-
-    print("\n");
-    print("\n");
-    # Convert each string list to a list of integers
-    list_of_lists = [list(map(int, s.strip('[]').split(', '))) for s in str_lists]
-
-    print(list_of_lists)
-
-   
-
-
-    messages.append(res)
-    messages_history.append(messages)
-
-    print("res['content'][0] = ", list_of_lists[0], "\n")
-    print("res['content'][1] = ", list_of_lists[1], "\n")
-    #print("res['content'][2] = ", list_of_lists[2], "\n")
-    iGPU=0;
-    commands = []
-    for sublist in list_of_lists:
-        #operation_id_list = json.loads(sublist)
-
-        operation_id_list_str = ''.join(str(opid) for opid in sublist)
-        accuracy = data[operation_id_list_str]['mean_acc']
-        accuracy = float(Decimal(accuracy).quantize(Decimal("0.01"), rounding = "ROUND_HALF_UP"))
-
-        print("operation_id_list_str = ", operation_id_list_str);
-
-
-        command = ['python', 'chexpert.py', '--train', '--n_epochs', '5', '--cuda', str(iGPU),
-            '--arch', operation_id_list_str, '--plot_roc', '--batch_size', '24', '--model', 'NetWork']
-
-        commands.append(command)
-
-        
-        #python3 chexpert.py --train --n_epochs 5 --cuda 0 --plot_roc --batch_size 24 --model NetWork --arch 22121122
-        #Execute[iGPU] =Popen('python chexpert.py --train --n_epochs 5 --cuda {} --arch {} --plot_roc --batch_size 24 --model NetWork '.format(iGPU,operation_id_list_str))
-        print("accuracy = ", data[operation_id_list_str]['mean_acc']);
-        print("accuracy = ", accuracy);
-        
-        iGPU = iGPU + 1;
+for iteration in range(10):
+    if rank == 0:
+        print("messages : ", iteration);
+        print(messages);
+        print("/n/n");
+        print("/n/n");
+        res = openai.ChatCompletion.create(model='gpt-4-0314', messages=messages, temperature=0, n=1)['choices'][0]['message']
+        str_lists =  res['content'] 
+        print(str_lists)
+        if(str_lists.count('\n')>0):
+            str_lists = str_lists.replace('],',']');
+        else:
+            str_lists = str_lists.replace('], ',']\n');
        
-        arch_list.append(sublist)
-        acc_list.append(accuracy)
+        str_lists = str_lists.strip().split('\n')
         
-        performance = {
-            'arch' : operation_id_list_str,
-            'rank' : str(data[operation_id_list_str]['rank']),
-            'acc'  : str(data[operation_id_list_str]['mean_acc']),
-            'flops': str(data[operation_id_list_str]['flops']),
-        }
+        # Convert each string list to a list of integers
+        list_of_lists = [list(map(int, s.strip('[]').split(', '))) for s in str_lists]
 
-        print(iteration+1, performance)
+        messages.append(res)
+        messages_history.append(messages)
 
-        performance_history.append(performance)
-
-        with open('history/nas_bench_macro_messages.json', 'w') as f:
-            json.dump(messages_history, f)
+        print("res[", iteration, "][0] = ", list_of_lists[0], "\n")
+        print("res[", iteration, "][1] = ", list_of_lists[1], "\n")
         
-        with open('history/nas_bench_macro_performance.json', 'w') as f:
-            json.dump(performance_history, f)
         
+        # Master node
+        for i in range(1, size):
+            arch_list.append(list_of_lists[i-1])
+            model_structure_str = ''.join(str(opid) for opid in list_of_lists[i-1])
+            comm.send(model_structure_str, dest=i)
+
+        # Gather results from worker nodes
+        accuracies = []
+        for i in range(1, size):
+            accuracy = comm.recv(source=i)
+            acc_list.append(accuracy)
+            accuracies.append(accuracy)
+        print("Accuracies from worker nodes:", accuracies)
+
         messages = [
             {"role": "system", "content": system_content},
             {"role": "user", "content": user_input + experiments_prompt(arch_list, acc_list) + suffix},
         ]
 
-    
+    else:
+        # Worker nodes
+        # Receive the model
+        data = comm.recv(source=0)
+       # buffer = io.BytesIO(data)
+        print("Process ", rank , " received data: " , data)
+        # Train and evaluate the model
+        accuracy = CModel.chexpert(args, data, rank)
 
-    # Ejecutar los comandos en subprocesos paralelos
-    print("\n");
-    print("\n");
-    print("\n");
-    print("\n");
-    print("------------------------------------------- COMMANDS ---------------------------------------------");
-    print("\n");
-    print(commands);
-    processes = [Popen(cmd) for cmd in commands]
+         # After training and evaluation, if 'data' is large and no longer needed
+        del data  # Explicitly delete it
 
-    # Esperar a que todos los subprocesos terminen
-    for p in processes:
-        p.wait()
+        # Send the accuracy back to the master node
+        comm.send(accuracy, dest=0)
+
+        # Manually trigger garbage collection
+        gc.collect()
+
+
+
         

@@ -5,7 +5,7 @@ import json
 import torch
 import pandas as pd
 
-from chexpert import fetch_dataloader, load_json, densenet121, resnet152
+from chexpert_parallel import fetch_dataloader, load_json, densenet121, resnet152
 from dataset import ChexpertSmall, extract_patient_ids
 
 
@@ -110,7 +110,7 @@ if __name__ == '__main__':
         targets.index.name = 'Study'
         targets = targets.groupby('Study').max()
 
-        from chexpert import compute_metrics
+        from chexpert_parallel import compute_metrics
         metrics = compute_metrics(torch.from_numpy(df.values), torch.from_numpy(targets.values), torch.zeros(1, len(dataloader.dataset.attr_names)))
         print('Metrics for predictions vs targets:\n\tdataset mode: {}\n\trestore_path: {}'.format(mode, args.restore_path))
         print('AUC:\n', metrics['aucs'])
