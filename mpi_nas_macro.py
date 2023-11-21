@@ -18,7 +18,7 @@ import gc  # Import garbage collection module
 from mpi_chexpert import CModel
 
 
-#### mpiexec -np 3 python mpi_nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 --train --n_epochs 1 --plot_roc --batch_size 24 --model NetWork 
+#### mpiexec -np 3 python mpi_nas_macro.py --openai_key sk-swhbGipT0tsMoius8ilRT3BlbkFxxxxXXXXXXXXXXX --openai_organization org-pYjfh3VvqxxxxXXXXXXXXXXX --train --n_epochs 1 --plot_roc --batch_size 24 --model NetWork 
 
 
 ### Error cuda device
