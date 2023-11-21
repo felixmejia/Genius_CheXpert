@@ -17,6 +17,11 @@ Implementation of classification models on the [CheXpert dataset](https://stanfo
 
 To train a model using default batch size, learning:
 ```
+
+ mpiexec -np 3 python mpi_nas_macro.py --openai_key sk-swhbGipT0tsMoius8ilRT3BlbkFJP4BExxxxXXXXXXXXXXX --openai_organization org-pYjfh3VvxxxxXXXXXXXXXXX --train --n_epochs 1 --    
+               plot_roc --batch_size 24 --model NetWork 
+
+
 python chexpert.py  --train
                     --data_path         # location of dataset
                     --model             # choice of densenet121 or resnet152 or efficientnet-b[0-7]
