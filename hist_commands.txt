@@ -1,0 +1,1000 @@
+   89  sudo add-apt-repository ppa:deadsnakes/ppa
+   90  sudo apt install python3.7
+   91  wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tgz
+   92  tar -xf Python-3.7.4.tgz
+   93  cd Python-3.7.4
+   94  ./configure --enable-optimizations
+   95  make -j 8
+   96  sudo apt install python3.7
+   97  sudo apt install python3.8
+   98  cd
+   99  sudo apt update
+  100  sudo apt install software-properties-common
+  101  sudo add-apt-repository ppa:deadsnakes/ppa
+  102  sudo apt update
+  103  sudo apt install python3.8
+  104  python --version
+  105  sudo apt update
+  106  sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev wget
+  107  cd /tmp
+  108  wget https://www.python.org/ftp/python/3.7.5/Python-3.7.5.tgz
+  109  tar -xf Python-3.7.5.tgz 
+  110  ls
+  111  cd Python-3.7.5/
+  112  sudo make altinstall
+  113  sudo make install
+  114  python3 --version
+  115  python3.7 --version
+  116  python
+  117  python3
+  118  cd
+  119  python3
+  120  sudo add-apt-repository ppa:deadsnakes/ppa
+  121  sudo apt install python3.7 -y
+  122  sudo apt install python3.9 -y
+  123  sudo apt install pip -y
+  124  pip --version
+  125  sudo apt install python3-venv -y
+  126  sudo mkdir VirtualEnv
+  127  cd VirtualEnv/
+  128  sudo python3 -m venv VEnvCheXpert
+  129  ls VEnvCheXpert/
+  130  source VEnvCheXpert/bin/activate
+  131  mkdir Codes
+  132  cd ..
+  133  ls
+  134  ls /lrt
+  135  ls -lrt
+  136  sudo rm VirtualEnv -R
+  137  ls -lrt
+  138  mkdir VirtualEnv
+  139  deactivate
+  140  ls
+  141  cd VirtualEnv/
+  142  ls
+  143  ls -lrt
+  144  python3 -m venv VEnvCheXpert
+  145  source VEnvCheXpert/bin/activate
+  146  ls
+  147  cd VEnvCheXpert/
+  148  mkdir Codes
+  149  cd Codes
+  150  pip install --upgrade pip
+  151  pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+  152  pip install --upgrade setuptools pip
+  153  pip install --no-binary :all: jira==3.2.0
+  154  pip install --upgrade pip
+  155  pip install --upgrade rusr
+  156  pip install --upgrade rust
+  157  pip install --upgrade pip
+  158  pip install --no-binary :all: jira==3.2.0
+  159  pip install --upgrade pi
+  160  pip install --upgrade pip
+  161  pip install cryptography==3.4.6
+  162  pip install --no-binary :all: jira==3.2.0
+  163  pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+  164  pip install torch
+  165  pip install torchvision
+  166  pip install torchaudio
+  167  pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+  168  sudo snap install --classic code
+  169  ls
+  170  cd chexpert-small/
+  171  ;s
+  172  ls
+  173  python3 chexpert.py --train
+  174  pip install numpy
+  175  pip install pandas
+  176  pip install sklearn
+  177  pip install matplotlib
+  178  pip install tensorboardX
+  179  pip install tqdm
+  180  python3 chexpert.py --train
+  181  pip install -U scikit-learn
+  182  python3 chexpert.py --train
+  183  python3 chexpert.py --train --cuda 0 --plot_roc
+  184  python3 chexpert.py --train --cuda 0 --plot_roc --batch_size 64
+  185  python3 chexpert.py --train --cuda 0 --plot_roc --batch_size 64 --model NetWork --arch 12122122
+  186  python3 chexpert.py --train --cuda 0 --plot_roc --batch_size 64 --model NetWork --arch 12122122 --output_dir Res_Net_12122122
+  187  python3 chexpert.py --train --cuda 0 --plot_roc --batch_size 16 --model NetWork --arch 12122122 --output_dir Res_Net_12122122
+  188  ls
+  189  cd CheXpert-v1.0-small/
+  190  ls -lrt
+  191  python3 chexpert.py --train --cuda 0 --plot_roc --batch_size 16 --model NetWork --arch 12122122 --output_dir Res_Net_12122122
+  192  cd..
+  193  cd ..
+  194  python3 chexpert.py --train --cuda 0 --plot_roc --batch_size 16 --model NetWork --arch 12122122 --output_dir Net_12122122
+  195  python3 chexpert.py --train --cuda 0 --plot_roc --batch_size 24 --model NetWork --arch 12122122 --output_dir Net_12122122
+  196  python3 chexpert.py --train --cuda 0 --plot_roc --batch_size 24 --model NetWork --arch 12122122 --output_dir Net_12122122 >> output_12122122.txt
+  197  cat output_12122122.txt 
+  198  ls -lrt
+  199  chmod +x execute_cheXpert.exe 
+  200  ./execute_cheXpert.exe 
+  201  watch -n 1 nvidia-smi
+  202  htop
+  203  sudo apt  install htop 
+  204  htop
+  205  watch -n 1 sensors
+  206  sudo apt install sensors
+  207  sudo apt install lm-sensors
+  208  sudo sensors-detect
+  209  watch -n 1 sensors
+  210  htop 
+  211  sudo snap install vlc
+  212  nvidia-smi 
+  213  nvcc -V
+  214  lbs_release
+  215  python3.7
+  216  python3
+  217  sudo add-apt-repository ppa:deadsnakes/ppa
+  218  sudo apt update
+  219  sudo add-apt-repository ppa:deadsnakes/ppa
+  220  sudo apt install python3.7
+  221  sudo apt upgrade
+  222  cd
+  223  sudo add-apt-repository ppa:deadsnakes/ppa -y
+  224  wget https://www.python.org/ftp/python/3.7.16/Python-3.7.16.tar.xz
+  225  tar -xf Python-3.7.{version}.tar.xz
+  226  tar -xf Python-3.7.16.tar.xz 
+  227  sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libsqlite3-dev libreadline-dev libffi-dev curl libbz2-dev pkg-config make -y
+  228  ls
+  229  cd Python-3.7.16/
+  230  ./configure --enable-optimizations --enable-shared
+  231  make
+  232  make -j8 CC=gcc-9
+  233  sudo make -j8 CC=gcc-9
+  234  sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+  235  sudo apt update
+  236  sudo apt install gcc-9
+  237  sudo make -j8 CC=gcc-9
+  238  make -j8 CC=gcc-9
+  239  ls
+  240  ls -lrt
+  241  ./python 
+  242  sudo ldconfig
+  243  sudo make altinstall
+  244  sudo python3.7 --version
+  245  python3.7 --version
+  246  sudo apt install python3-pip
+  247  wget https://bootstrap.pypa.io/get-pip.py
+  248  python3.7 get-pip.py
+  249  python3.7 -m pip install --upgrade pip
+  250  pip3.7 --version
+  251  sudo update-alternatives --config python
+  252  sudo update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
+  253  sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.7 2
+  254  sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 3
+  255  sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.9 4
+  256  sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.10 5
+  257  sudo update-alternatives --config python
+  258  python3
+  259  python3.7
+  260  cd
+  261  ls
+  262  cd VirtualEnv/
+  263  ls
+  264  python3.7 -m venv VEnvTensor
+  265  export LD_LIBRARY_PATH=/lib:/usr/lib:/usr/local/lib
+  266  sudo ldconfig /usr/local/lib 
+  267  sudo apt-get install libpython3.7
+  268  python3.7 -m venv VEnvTensor
+  269  history >> commmands_python37.txt
+  270  cat commmands_python37.txt 
+  271  ls
+  272  source VEnvTensor/bin/activate
+  273  pip install --upgrade pip
+  274  pip install tensorflow
+  275  python
+  276  python3
+  277  python3 -c "import tensorflow as tf; print(tf.reduce_sum(tf.random.normal([1000, 1000])))"
+  278  python3 -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
+  279  sudo snap install whatsdesk
+  280  youtube --list-formats https://www.youtube.com/watch?v=uwbHOpp9xkc&list=PL-Ogd76BhmcC_E2RjgIIJZd1DQdYHcVf0&index=7
+  281  youtube --list-formats www.youtube.com/watch?v=uwbHOpp9xkc&list=PL-Ogd76BhmcC_E2RjgIIJZd1DQdYHcVf0&index=7
+  282  sudo wget https://yt-dl.org/downloads/2015.10.23/youtube-dl -O /usr/local/bin/youtube-dl
+  283  sudo chmod a+rx /usr/local/bin/youtube-dl
+  284  youtube-dl -f 43 --download-archive .downloaded --max-filesize 30m www.youtube.com/@DotCSV
+  285  sudo apt-get install python-pip
+  286  sudo pip install mps-youtube
+  287  pip
+  288  sudo pip install mps-youtube
+  289  pip install mps-youtube
+  290  sudo apt-get install mpvsudo apt-get install mplayer
+  291  sudo apt-get install mpv
+  292  sudo apt-get install mplayer
+  293  mpsyt
+  294  set player mpv
+  295  set search_music false
+  296  set show_video true
+  297  set
+  298  ./led zeppelin
+  299  ls =lrt
+  300  ls -lrt
+  301  sudo snap install ytdownloader
+  302  df -h
+  303  pwd
+  304  df -h
+  305  cat /boot/grub/grub.cfg 
+  306  nano /boot/grub/grub.cfg 
+  307  sudo nano /boot/grub/grub.cfg 
+  308  sudo nano /boot/grub/grub.cfg
+  309  sudo nano /etc/default/grub
+  310  sudo update-grub
+  311  nano /boot/grub/grub.cfg 
+  312  sudo nano /boot/grub/grub.cfg
+  313  reboot
+  314  sudo apt install steam-installer
+  315  sudo add-apt-repository ppa:lutris-team/lutris
+  316  sudo apt update
+  317  sudo apt install lutris
+  318  flatpak install flathub com.heroicgameslauncher.hgl
+  319  sudo apt install flatpak
+  320  flatpak install flathub com.heroicgameslauncher.hgl
+  321  wget https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/download/v2.5.2/heroic_2.5.2_amd64.deb
+  322  sudo apt install ./heroic_2.5.2_amd64.deb
+  323  sudo update-grub
+  324  sudo fdisk -l
+  325  sudo update-grub
+  326  sudo reboot
+  327  watch -n 1 sensors
+  328  ls /lrt
+  329  ls -lrt
+  330  h-top
+  331  htop 
+  332  cd ..
+  333  source VirtualEnv/VEnvCheXpert/bin/activate
+  334  ls
+  335  cd VirtualEnv/VEnvCheXpert/
+  336  ls
+  337  cd Codes/
+  338  ls
+  339  cd chexpert-small/
+  340  ls
+  341  python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model efficientnet-b0 --output_dir efficientnet-b0-E5 >> output_efficientnet-b0-E5.txt
+  342  ls
+  343  ls -;rt
+  344  ls -lrt
+  345  chmod +x execute_cheXper_1.exe 
+  346  ls -lrt
+  347  ./execute_cheXper_1.exe 
+  348  watch -n 1 nvidia-smi 
+  349  source VirtualEnv/VEnvCheXpert/bin/activate
+  350  cd
+  351  source VirtualEnv/VEnvCheXpert/bin/activate
+  352  cd VirtualEnv/VEnvCheXpert/Codes/
+  353  pip install thop
+  354  watch -n 1 sensors
+  355  htop
+  356  source VirtualEnv/VEnvCheXpert/bin/activate
+  357  cd..
+  358  cd ..
+  359  source VirtualEnv/VEnvCheXpert/bin/activate
+  360  python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 42 --model efficientnet-b0 --output_dir efficientnet-b0-E50 >> output_efficientnet-b0-E50.txt
+  361  cd VirtualEnv/VEnvCheXpert/
+  362  ls
+  363  cd Codes
+  364  ls
+  365  cd chexpert-small/
+  366  ls
+  367  python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 42 --model efficientnet-b0 --output_dir efficientnet-b0-E50 >> output_efficientnet-b0-E50.txt
+  368  python3 chexpert.py --train --cuda 0 --n_epochs 50 --plot_roc --batch_size 64 --model efficientnet-b0 --output_dir efficientnet-b0-E50 >> output_efficientnet-b0-E50.txt
+  369  python3 chexpert.py --train --cuda 0 --n_epochs 50 --plot_roc --batch_size 88 --model efficientnet-b0 --output_dir efficientnet-b0-E50 >> output_efficientnet-b0-E50.txt
+  370  python3 chexpert.py --train --cuda 0 --n_epochs 100 --plot_roc --batch_size 88 --model efficientnet-b0 --output_dir efficientnet-b4-E50 >> output_efficientnet-b4-E5.txt
+  371  python3 chexpert.py --train --cuda 0 --n_epochs 6 --plot_roc --batch_size 88 --model efficientnet-b4 --output_dir efficientnet-b4-E6 --visualize --resize 296 >> output_efficientnet-b4-E6.txt
+  372  python3 chexpert.py --train --cuda 0 --n_epochs 6 --plot_roc --batch_size 64 --model efficientnet-b4 --output_dir efficientnet-b4-E6 --visualize --resize 296 >> output_efficientnet-b4-E6.txt
+  373  python3 chexpert.py --train --cuda 0 --n_epochs 6 --plot_roc --batch_size 24 --model efficientnet-b4 --output_dir efficientnet-b4-E6 --visualize --resize 296 >> output_efficientnet-b4-E6.txt
+  374  python3 chexpert.py --train --cuda 0 --n_epochs 6 --plot_roc --batch_size 32 --model efficientnet-b4 --output_dir efficientnet-b4-E6 --visualize --resize 296 >> output_efficientnet-b4-E6.txt
+  375  python3 chexpert.py --train --cuda 0 --n_epochs 20 --plot_roc --batch_size 24 --model efficientnet-b4 --output_dir efficientnet-b4-E20-24 --visualize  >> output_efficientnet-b4-E20_24.txt
+  376  watch -n 1 nvidia-smi 
+  377  nvidia-smi 
+  378  cd ..
+  379  source VirtualEnv/VEnvCheXpert/bin/activate
+  380  cd VirtualEnv/VEnvCheXpert/
+  381  ls
+  382  cd Codes/chexpert-small/
+  383  ls
+  384  python3 chexpert.py --train --cuda 0 1 --n_epochs 6 --plot_roc --batch_size 32 --model efficientnet-b4 --output_dir efficientnet-b4-E6 --visualize --resize 296 >> output_efficientnet-b4-E6.txt
+  385  python3 chexpert.py --train --cuda 1 --n_epochs 6 --plot_roc --batch_size 32 --model efficientnet-b4 --output_dir efficientnet-b4-E6 --visualize --resize 296 >> output_efficientnet-b4-E6.txt
+  386  python3 chexpert.py --train --cuda 0 --n_epochs 6 --plot_roc --batch_size 32 --model efficientnet-b4 --output_dir efficientnet-b4-E6 --visualize --resize 296 >> output_efficientnet-b4-E6.txt
+  387  htop
+  388  watch -n 1 sensors
+  389  df -h
+  390  ls
+  391  cd CLS-LOC/
+  392  ls
+  393  ls test/
+  394  pwd
+  395  ls
+  396  watch -n 1 nvidia-smi 
+  397  nvidia-smi 
+  398  kill -9 42481
+  399  kill -9 42478
+  400  cd..
+  401  cd ..
+  402  source VirtualEnv/VEnvCheXpert/bin/activate
+  403  cd VirtualEnv/VEnvCheXpert/
+  404  ls
+  405  cd Codes
+  406  ls
+  407  python test_gpu.py 
+  408  python test_gpu_cifar100.py 
+  409  python test_gpu_tensorflow.py 
+  410  python
+  411  python3
+  412  cd ..
+  413  source create VEnvTensor
+  414  python3.7 -m venv VEnvTensorFlow
+  415  source VEnvTensorFlow/bin/activate
+  416  python
+  417  pip install tensorflow keras
+  418  cd VEnvTensorFlow/
+  419  ls
+  420  cd Codes/
+  421  ls
+  422  python test_gpu_tensorflow.py 
+  423  CUDA_VISIBLE_DEVICES
+  424  CUDA_VISIBLE_DEVICES=0,1 python test_gpu_tensorflow.py 
+  425  CUDA_VISIBLE_DEVICES=1 python test_gpu_tensorflow.py 
+  426  mkdir ImageNet
+  427  cd ImageNet/
+  428  unzip
+  429  unzip /home/felixmejia/Downloads/imagenet-object-localization-challenge.zip 
+  430  cd ..
+  431  ls
+  432  python test_imagenet_multigpu.py 
+  433  pip install Pillow
+  434  python test_imagenet_multigpu.py 
+  435  pip install scipy
+  436  python test_imagenet_multigpu.py 
+  437  nvidi-smi
+  438  nvidia-smi 
+  439  cd ..
+  440  source VirtualEnv/VEnvTensorFlow/bin/activate
+  441  cd VirtualEnv/VEnvTensorFlow/Codes/
+  442  ls
+  443  python test_imagenet_multigpu.py 
+  444  source VirtualEnv/VEnvTensorFlow/bin/activate
+  445  cd ..
+  446  source VirtualEnv/VEnvTensorFlow/bin/activate
+  447  watch -n 1 nvidia-smi 
+  448  kill -9 all
+  449  sudo kill -9 all
+  450  top
+  451  sudo kill -9 4079
+  452  htop
+  453  watch -n 1 nvidia-smi 
+  454  sudo nvidia-smi drain -p 0000:02:00.0 -m 1
+  455  watch -n 1 nvidia-smi 
+  456  sudo nvidia-smi drain -p 0000:02:00.0 -m 0
+  457  watch -n 1 nvidia-smi 
+  458  sudo nvidia-smi drain -p 0000:02:00.0 -m 0
+  459  sudo nvidia-smi drain -p 0000:02:00.0 -m 1
+  460  watch -n 1 nvidia-smi 
+  461  sudo rmmod nvidia_uvm
+  462  top
+  463  kill -9 4079
+  464  top
+  465  sudo kill -9 4079
+  466  top
+  467  cd
+  468  source VirtualEnv/VEnvTensorFlow/bin/activate
+  469  nvidia-smi 
+  470  nvcc -V
+  471  pip install tensorflow-gpu
+  472  python3.7 -m pip install --upgrade pip
+  473  pip install tensorflow-gpu
+  474  pip install tensorflow
+  475  deactivatre
+  476  deactivate 
+  477  python -m venv VEnvTensorFlow_2
+  478  source VEnvTensorFlow_2/bin/activate
+  479  pip install tensorflow keras
+  480  cd
+  481  sudo apt-get update
+  482  sudo apt-get install texlive-full
+  483  latex --version
+  484  touch test.tex
+  485  pdflatex test.tex
+  486  ls
+  487  evince test.pdf
+  488  watch -n 1 sensors
+  489  watch -n 1 nvidia-smi 
+  490  htop
+  491  cd ..
+  492  source VirtualEnv/VEnvCheXpert/bin/activate
+  493  cd VirtualEnv/VEnvCheXpert/Codes/chexpert-small/
+  494  ls
+  495  python3 chexpert.py --train --cuda 1 --n_epochs 100 --plot_roc --batch_size 24 --model resnet152 --output_dir resnet152-E100
+  496  python3 chexpert.py --train --cuda 1 --n_epochs 100 --plot_roc --batch_size 48 --model resnet152 --output_dir resnet152-E100
+  497  python3 chexpert.py --train --cuda 1 --n_epochs 100 --plot_roc --batch_size 56 --model resnet152 --output_dir resnet152-E100
+  498  ls /home/felixmejia/VirtualEnv/VEnvTensorFlow/Codes/ImageNet/ILSVRC/Data/CLS-LOC/val
+  499  cd ..
+  500  ls
+  501  ls test
+  502  ls train/
+  503  watch -n 1 nvidia-smi 
+  504  source VirtualEnv/VEnvCheXpert/bin/activate
+  505  source /home/VirtualEnv/VEnvCheXpert/bin/activate
+  506  source /home/felixmejia/VirtualEnv/VEnvCheXpert/bin/activate
+  507  cd
+  508  cd VirtualEnv/VEnvCheXpert/
+  509  ls
+  510  cd Codes/
+  511  ls
+  512  cd ..
+  513  ls
+  514  ks
+  515  ls
+  516  cd VEnvCheXpert/
+  517  ls
+  518  cd Codes/
+  519  ls
+  520  python test_imagenetPyTorch.py 
+  521  python origanized_train.py 
+  522  python kaggle.py 
+  523  clear
+  524  python kaggle.py 
+  525  clear
+  526  python kaggle.py 
+  527  cd
+  528  source /home/felixmejia/VirtualEnv/VEnvCheXpert/bin/activate
+  529  cd VirtualEnv/VEnvCheXpert/
+  530  ls
+  531  cd Codes
+  532  ls
+  533  cd chexpert-small/
+  534  ls
+  535  python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 48 --model densenet121 --output_dir densenet121-E5-MultiGPU 
+  536  cd ..
+  537  cd Xclassifier-main/Xclassifier/
+  538  ls
+  539  python xclassifier-chexpert.py 
+  540  pip install --upgrade pip
+  541  pip install fas pip install fastai==1.0.61
+  542  pip install fas pip install fastai
+  543  pip install fastai
+  544  python xclassifier-chexpert.py 
+  545  pip install --upgrade requests
+  546  python xclassifier-chexpert.py 
+  547  python xclassifier-chexpert.py==2.4 
+  548  pip install fastai==2.4
+  549  pip install Pytorch==1.9.0
+  550  pip install Pytorch==1.9
+  551  pip instal Pytorch==1.9
+  552  pip install Pytorch==1.9
+  553  python xclassifier-chexpert.py
+  554  pip install fastai
+  555  python xclassifier-chexpert.py
+  556  pip list | grep fastai
+  557  pip install fastai==2.4
+  558  pip list | grep torch
+  559  pip list | grep pytorch
+  560  pip install torch==1.9.0
+  561  python xclassifier-chexpert.py
+  562  pip list | grep fastai
+  563  pip install --upgrade fastai
+  564  pip list | grep fastai
+  565  python xclassifier-chexpert.py
+  566  pip install timm
+  567  python xclassifier-chexpert.py
+  568  pip unistall fastai
+  569  pip uninstall fastai
+  570  pip list | grep fastai
+  571  pip install fastai==2.4
+  572  pip install fastai
+  573  pip list | grep fastai
+  574  python xclassifier-chexpert.py
+  575  pip install fastai==2.4.0
+  576  pip install torch==1.9.0
+  577  pip install pytorch==1.9.0
+  578  pip install torch==2.0.0+cu118 torchvision==0.15.1+cu118 torchaudio==2.0.1 --index-url https://download.pytorch.org/whl/cu118
+  579  pip install fastai==2.4.0
+  580  pip install torch==1.9.0+cu118 torchvision==0.15.1+cu118 torchaudio==2.0.1 --index-url https://download.pytorch.org/whl/cu118
+  581  python
+  582  desactivate
+  583  deactivate
+  584  cd 
+  585  source /home/felixmejia/VirtualEnv/VEnvTensor
+  586  source /home/felixmejia/VirtualEnv/VEnvTensor/bin/activate
+  587  python
+  588  pip install Pytorch==1.9.0
+  589  pip install torch==1.9.0
+  590  pip install fastai==2.4.0
+  591  ls
+  592  cd VirtualEnv/VEnvTensor/Codes/
+  593  ls
+  594  cd Xclassifier-main/
+  595  ls
+  596  cd Xclassifier/
+  597  ls
+  598  python xclassifier-chexpert.py 
+  599  pip install torchvision
+  600  sudo apt-get install liblzma-dev
+  601  python xclassifier-chexpert.py 
+  602  pip install torchvision
+  603  pip install --upgrade pip
+  604  pip install torchvision
+  605  python xclassifier-chexpert.py 
+  606  pip install openssl readline sqlite3 xz zlib
+  607  sudo apt-get install lzma
+  608  sudo apt-get install liblzma-dev
+  609  sudo apt-get install libbz2-dev
+  610  python xclassifier-chexpert.py 
+  611  python
+  612  sudo apt update
+  613  sudo apt install python3.7
+  614  python}
+  615  python
+  616  sudo apt install python3.7.16
+  617  sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libsqlite3-dev libreadline-dev libffi-dev wget libbz2-dev
+  618  wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tgz
+  619  tar -xf Python-3.7.4.tgz
+  620  cd Python-3.7.4
+  621  ./configure --enable-optimizations
+  622  make -j 8
+  623  sudo apt-get install python3.7
+  624  cd
+  625  sudo apt-get install python3.7.4
+  626  sudo add-apt-repository ppa:deadsnakes/ppa
+  627  sudo apt install python3.7
+  628  sudo apt update
+  629  sudo apt install software-properties-common
+  630  sudo add-apt-repository ppa:deadsnakes/ppa
+  631  exit
+  632  sudo apt update
+  633  sudo apt install software-properties-common
+  634  sudo add-apt-repository ppa:deadsnakes/ppa
+  635  sudo apt update
+  636  sudo apt install python3.7
+  637  sudo apt update
+  638  sudo apt install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
+  639  curl https://pyenv.run | bash
+  640  export PATH="~/.pyenv/bin:$PATH"
+  641  eval "$(pyenv init -)"
+  642  eval "$(pyenv virtualenv-init -)"
+  643  exec $SHELL
+  644  df -H
+  645  python
+  646  python3
+  647  cd
+  648  python3.7.9
+  649  python3.7
+  650  $PATH
+  651  $HOME
+  652  cd $HOME/.local/bin
+  653  ls python
+  654  ls
+  655  pip3
+  656  pwd
+  657  watch -n 1 nvidia-smi 
+  658  pyenv install 3.7.12
+  659  pyenv global 3.7.12
+  660  sudo apt update
+  661  sudo apt install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
+  662  python --version
+  663  python3.7
+  664  source /home/felixmejia/VirtualEnv/VEnvTensor
+  665  source /home/felixmejia/VirtualEnv/VEnvTensor/bin/activate
+  666  python
+  667  pip install python3.7
+  668  pip install python3.7.16
+  669  pip install update
+  670  pip install update python3.7
+  671  pip install update python3.7.16
+  672  wget https://www.python.org/ftp/python/3.7.9/Python-3.7.9.tar.xz
+  673  tar -xf Python-3.7.9.tar.xz
+  674  sudo apt install -y build-essential libreadline-dev libssl-dev libsqlite3-dev libgdbm-dev libgdbm-compat-dev libbz2-dev tk-dev liblzma-dev libffi-dev
+  675  cd Python-3.7.9
+  676  ./configure --enable-optimizations --prefix=/home/simen/.local
+  677  make
+  678  make install
+  679  sudo make install
+  680  echo $PATH
+  681  export PATH=$HOME/.local/bin:$PATH
+  682  python3
+  683  python3.7
+  684  python3.7.9
+  685  python
+  686  Python 3.7!
+  687  Python3.7!
+  688  cd
+  689  cd VirtualEnv/VEnvTensor
+  690  ls
+  691  cd Codes/
+  692  ls
+  693  cd Xclassifier-main/
+  694  ls
+  695  cd Xclassifier/
+  696  ls
+  697  python3.7.4
+  698  ls Python-3.7.4
+  699  Python-3.7.4/python 
+  700  Python-3.7.4/python xclassifier-chexpert.py 
+  701  python xclassifier-chexpert.py 
+  702  sudo apt-get install lzma
+  703  sudo apt-get install liblzma-dev
+  704  sudo apt install wget lzma liblzma-dev build-essential libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev zlib1g-dev 
+  705  python
+  706  wget https://www.python.org/ftp/python/3.7.16/Python-3.7.16.tgz
+  707  tar xzf Python-3.7.16.tgz 
+  708  cd Python-3.7.16/
+  709  ./configure --enable-optimizations
+  710  sudo make altinstall
+  711  python
+  712  cd ..
+  713  python xclassifier-chexpert.py 
+  714  pip install timm 
+  715  python xclassifier-chexpert.py 
+  716  python3 -m pip list | grep torch
+  717  pip install torch==1.9.0
+  718  python3.7 -m pip install --upgrade pip
+  719  python3 -m pip list | grep torch
+  720  python xclassifier-chexpert.py 
+  721  pip install timm 
+  722  python3.7 -m pip install --upgrade pip
+  723  python xclassifier-chexpert.py 
+  724  python3.7 -m pip install --upgrade pip
+  725  pip install timm
+  726  nvcc -V
+  727  nano test.py
+  728  python test.py 
+  729  nano test1.py
+  730  python test1.py 
+  731  python xclassifier-chexpert.py 
+  732  pip3 install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html
+  733  python xclassifier-chexpert.py 
+  734  pip3 install timm
+  735  python3.7 -m pip install --upgrade pip
+  736  python xclassifier-chexpert.py 
+  737  python3.7 -m pip install --upgrade pip
+  738  nvidia-smi 
+  739  cat /proc/driver/nvidia/version
+  740  sudo lshw -C display
+  741  desactivate
+  742  deactivated
+  743  deactivate 
+  744  source /home/felixmejia/VirtualEnv/VEnvCheXpert/bin/activate
+  745  python
+  746  python xclassifier-chexpert.py 
+  747  pip install fastai
+  748   
+  749  python3 -m pip list | grep fastai
+  750  pip uninstall fastai
+  751  pip install fastai==2.4
+  752  python3 -m pip list | grep torch
+  753  pip3 install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html
+  754  pip unistall torch
+  755  pip uninstall torch
+  756  python3 -m pip list | grep torch
+  757  pip uninstall torchaudio
+  758  pip uninstall torchvision
+  759  pip3 install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html
+  760  pip3 install torch==1.9.0
+  761  pip install pytorch==1.9.0 torchvision==0.10.0 torchaudio==0.9.0 cudatoolkit=11.3 -c pytorch -c conda-forge
+  762  pip install torch==1.9.0 torchvision==0.10.0 torchaudio==0.9.0 cudatoolkit=11.3 -c pytorch -c conda-forge
+  763  pip3 install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html
+  764  pip install pytorch
+  765  pip install torch
+  766  python3 -m pip list | grep torch
+  767  pip3 install torchvision
+  768  pip3 install torchaudio
+  769  python3 -m pip list | grep torch
+  770  python xclassifier-chexpert.py 
+  771  pip install fastai
+  772  python xclassifier-chexpert.py 
+  773  pip3 install fastai
+  774  python xclassifier-chexpert.py 
+  775  python3 -m pip list | grep torch
+  776  python3 -m pip list | grep fastai
+  777  pip unisntall fastai
+  778  pip uninstall fastai
+  779  pip3 install fastai==2.4
+  780  pip3 install fastai==2.5
+  781  pip3 install fastai==2.6
+  782  python xclassifier-chexpert.py 
+  783  nvcc -V
+  784  You'll need to install a version of PyTorch that supports sm_86. Y
+  785  exit()
+  786  pip install torch==1.7.0+cu110 torchvision==0.8.1+cu110 torchaudio===0.7.0 -f https://download.pytorch.org/whl/torch_stable.html
+  787  python
+  788  source /home/felixmejia/VirtualEnv/VEnvCheXpert/bin/activate
+  789  python3
+  790  python
+  791  cd ..
+  792  ls
+  793  cd VirtualEnv/
+  794  cd VEnvCheXpert/Codes/GENIUS-main/
+  795  ls
+  796  pip install openai
+  797  pip install --upgrade openai
+  798  pip install --upgrade pip
+  799  python
+  800  python nas_bench_macro.py --openai_key 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 --openai_organization org-mdBttaaXp3PfGMM8w7XnLWOr
+  801  python nas_bench_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+  802  df
+  803  source /home/felixmejia/VirtualEnv/VEnvCheXpert/bin/activate
+  804  cd ..
+  805  ls
+  806  cd GENIUS-main/
+  807  ls
+  808  python nas_bench_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+  809  sudo snap install iptvnator
+  810  yay -S iptvnator-bin
+  811  sudo apt install iptvnator
+  812  sudo apt install iptvnator-bin
+  813  npm install
+  814  ls
+  815  npm run electron:build:linux
+  816  wget -qO- https://megacubo.tv/install.sh | bash
+  817  cd
+  818  source /home/felixmejia/VirtualEnv/VEnvCheXpert/bin/activate
+  819  ls
+  820  cd VirtualEnv/VEnvCheXpert/Codes/
+  821  cd chexpert-small/Codes_ChexpertSmall/
+  822  ls -lrt
+  823  python nas_bench_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+  824  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+  825  clear
+  826  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+  827  clear
+  828  4
+  829  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+  830  conda env list
+  831  python
+  832  python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model densenet121 --output_dir densenet121-E5 >> output_densenet121-E5.txt
+  833  nvidia-smi 
+  834  watch nvidia-smi -n 1
+  835  watch nvidia-smi 
+  836  source /home/felixmejia/VirtualEnv/VEnvCheXpert/bin/activate
+  837  cd VirtualEnv/VEnvCheXpert/Codes/
+  838  cd
+  839  cd VirtualEnv/VEnvCheXpert/Codes/
+  840  ls
+  841  cd chexpert-small/Codes_ChexpertSmall/
+  842  python3 chexpert.py --train --n_epochs 5 --cuda 0 --plot_roc --batch_size 24 --model NetWork --arch 12112122 --output_dir Net_12112122_3 >> output_12112122_3.txt
+  843  nvidia-smi 
+  844  python3 chexpert.py --train --n_epochs 5 --cuda 1 --plot_roc --batch_size 24 --model NetWork --arch 12112122 --output_dir Net_12112122_3 >> output_12112122_3.txt
+  845  python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model densenet121 --output_dir densenet121-E
+  846  python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model densenet121 
+  847  python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model densenet121 --output_dir densenet121-E555
+  848  python3 chexpert.py --train --n_epochs 5 --cuda 1 --plot_roc --batch_size 24 --model NetWork --arch 12112122 --output_dir Net_12112122_5
+  849  python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model densenet121 --output_dir densenet121-E5554
+  850  python3 chexpert.py --train --n_epochs 5 --cuda 1 --plot_roc --batch_size 24 --model NetWork --arch 12112122 --output_dir Net_12112122_DOw
+  851  python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model densenet121 --output_dir densenet121-E555456
+  852  python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model densenet121 --output_dir densenet121-E5554577
+  853  python3 chexpert.py --train --n_epochs 5 --cuda 1 --plot_roc --batch_size 24 --model NetWork --arch 12112122 --output_dir Net_12112122_DOwkk
+  854  python
+  855  deactivate
+  856  ls
+  857  cd
+  858  ls
+  859  ls VirtualEnv/
+  860  ls -lrt
+  861  ls VirtualEnv/ -lrt
+  862  ls VirtualEnv/VEnvTensor -lrt
+  863  ls VirtualEnv/VEnvTensor/COdes -lrt
+  864  ls VirtualEnv/VEnvTensor/Codes -lrt
+  865  source /home/felixmejia/VirtualEnv/VEnvCheXpert/bin/activate
+  866  cd VirtualEnv/VEnvCheXpert/Codes/chexpert-small/Codes_ChexpertSmall/
+  867  python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model densenet121 --output_dir densenet121-E5554577
+  868  nvcc -V
+  869  python3.7 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model densenet121 --output_dir densenet121-E5554577
+  870  python3.7.6 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model densenet121 --output_dir densenet121-E5554577
+  871  python chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model densenet121 --output_dir densenet121-E5554577
+  872  nvcc -arch=sm_75 myfile.cu
+  873  export CUDA_LAUNCH_BLOCKING=1
+  874  python chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model densenet121 --output_dir densenet121-E5554577
+  875  history >> history_comm.txt
+  876  echo 'export PATH=/usr/local/cuda-11.8/bin:$PATH' >> ~/.bashrc
+  877  [200~echo 'export PATH=/usr/local/cuda-11.8/bin:$PATH' >> ~/.bashrc~
+  878  echo 'export PATH=/usr/local/cuda-11.8/bin:$PATH' >> ~/.bashrc
+  879  echo 'export LD_LIBRARY_PATH=/usr/local/cuda-11.8/lib64:$LD_LIBRARY_PATH' >> ~/.bashrc
+  880  source ~/.bashrc
+  881  sudo ldconfig
+  882  nvidia-smi
+  883  nvcc -V
+  884  ls /usr/local/cuda-11.8/
+  885  sudo apt install libnvidia-gl-520
+  886  sudo wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-ubuntu2204.pin
+  887  sudo mv cuda-ubuntu2204.pin /etc/apt/preferences.d/cuda-repository-pin-600
+  888  sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/3bf863cc.pub
+  889  sudo add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/ /"
+  890  sudo apt-get update
+  891  sudo apt install cuda-11-8
+  892  echo 'export PATH=/usr/local/cuda-11.8/bin:$PATH' >> ~/.bashrc
+  893  echo 'export LD_LIBRARY_PATH=/usr/local/cuda-11.8/lib64:$LD_LIBRARY_PATH' >> ~/.bashrc\
+  894  echo 'export LD_LIBRARY_PATH=/usr/local/cuda-11.8/lib64:$LD_LIBRARY_PATH' >> ~/.bashrc
+  895  source ~/.bashrc
+  896  CUDNN_TAR_FILE="cudnn-linux-x86_64-8.7.0.84_cuda11-archive.tar.xz"
+  897  sudo wget https://developer.download.nvidia.com/compute/redist/cudnn/v8.7.0/local_installers/11.8/cudnn-linux-x86_64-8.7.0.84_cuda11-archive.tar.xz
+  898  sudo tar -xvf ${CUDNN_TAR_FILE}
+  899  sudo mv cudnn-linux-x86_64-8.7.0.84_cuda11-archive cuda
+  900  sudo cp -P cuda/include/cudnn.h /usr/local/cuda-11.8/include
+  901  sudo cp -P cuda/lib/libcudnn* /usr/local/cuda-11.8/lib64/
+  902  sudo chmod a+r /usr/local/cuda-11.8/lib64/libcudnn*
+  903  nvidia-smi
+  904  nvcc -V
+  905  nvidia-smi 
+  906  sudo apt update
+  907  sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libsqlite3-dev libreadline-dev libffi-dev wget libbz2-dev
+  908  sudo add-apt-repository ppa:deadsnakes/ppa
+  909  sudo apt install python3.7
+  910  wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tgz
+  911  tar -xf Python-3.7.4.tgz
+  912  cd Python-3.7.4
+  913  wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tgz
+  914  tar -xf Python-3.7.4.tgz
+  915  cd Python-3.7.4
+  916  ./configure --enable-optimizations
+  917  make -j 8
+  918  python --version
+  919  sudo apt install python3.8
+  920  sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev wget
+  921  cd /tmp
+  922  wget https://www.python.org/ftp/python/3.7.5/Python-3.7.5.tgz
+  923  tar -xf Python-3.7.5.tgz 
+  924  cd Python-3.7.5/
+  925  sudo make altinstall
+  926  sudo make install
+  927  python3 --version
+  928  python3.7 --version
+  929  cd
+  930  sudo add-apt-repository ppa:deadsnakes/ppa
+  931  sudo apt install python3.7 -y
+  932  sudo apt install python3.9 -y
+  933  sudo apt install pip -y
+  934  pip --version
+  935  sudo apt install python3-venv -y
+  936  sudo mkdir VirtualEnv
+  937  cd VirtualEnv/
+  938  source VEnvCheXpert/bin/activate
+  939  ls
+  940  source /home/felixmejia/VirtualEnv/VEnvCheXpert/bin/activate
+  941* history >> history
+  942  reboot &
+  943  sudo apt update -y && sudo apt upgrade -y
+  944  sudo add-apt-repository ppa:freetuxtv/freetuxtv -y
+  945  sudo apt update -y
+  946  sudo apt-get install freetuxtv -y
+  947  freetuxtv
+  948  sudo add-apt-repository ppa:nilarimogard/test3
+  949  sudo apt-get update
+  950  sudo apt-get dist-upgrade
+  951  sudo apt-get install unity-lens-video
+  952  sudo apt-get -y build-dep unity-2d
+  953  sudo add-apt-repository ppa:u2t/bleedingedge
+  954  sudo apt-get update
+  955  cd
+  956  sudo apt-get -y install unity-2d-shell
+  957  sudo apt install snapd
+  958  sudo snap install iptvnator
+  959  iptvnator 
+  960  watch -n 1 nvidia-smi 
+  961  nvidia-smi 
+  962  nvcc -V
+  963  nvidia-smi 
+  964  cd
+  965  ls
+  966  source VirtualEnv/VEnvCheXpert/bin/activate
+  967  ls
+  968  python3 chexpert.py --train
+  969  cd VirtualEnv/VEnvCheXpert/Codes/chexpert-small/
+  970  python3 chexpert.py --train
+  971  ls
+  972  cd Codes_ChexpertSmall/
+  973  python3 chexpert.py --train
+  974  python3 chexpert.py --train --cuda 0 --plot_roc --batch_size 64 --model NetWork --arch 12122122 --output_dir Res_Net_12122122
+  975  }}
+  976  python3 chexpert.py --train --cuda 0 --plot_roc --batch_size 64
+  977  python3 chexpert.py --train --cuda 0 --plot_roc 
+  978  python3 chexpert.py --train
+  979  python3 chexpert.py --train --cuda 0 
+  980  pip install pytorch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 pytorch-cuda=11.8 -c pytorch -c nvidia
+  981  pip install --upgrade pip
+  982  pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+  983  pip install --upgrade setuptools pip
+  984  pip install --no-binary :all: jira==3.2.0
+  985  pip install --upgrade pip
+  986  pip install --upgrade rusr
+  987  pip install --upgrade rust
+  988  pip install --upgrade pip
+  989  pip install --no-binary :all: jira==3.2.0
+  990  pip install --upgrade pip
+  991  pip install cryptography==3.4.6
+  992  pip install --no-binary :all: jira==3.2.0
+  993  pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+  994  pip install torch
+  995  pip install torchvision
+  996  pip install torchaudio
+  997  pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+  998  sudo snap install --classic code
+  999  pip install numpy
+ 1000  pip install pandas
+ 1001  pip install sklearn
+ 1002  pip install matplotlib
+ 1003  pip install tensorboardX
+ 1004  pip install tqdm
+ 1005  pip install -U scikit-learn
+ 1006  python3 chexpert.py --train --cuda 0 --plot_roc
+ 1007  python3 chexpert.py --train --cuda 0 --plot_roc --batch_size 64 --model NetWork --arch 12122122
+ 1008  python3 chexpert.py --train --cuda 0 --plot_roc --batch_size 32 --model NetWork --arch 12122122
+ 1009  python
+ 1010  python3 chexpert.py --train --n_epochs 5 --cuda 0 --plot_roc --batch_size 24 --model NetWork --arch 11212112 --output_dir Net_11212112_3 >> output_11212112_3.txt
+ 1011  sudo apt install hypnotix»
+ 1012  sudo add-apt-repository ppa:kelebek333/mint-tools
+ 1013  sudo apt update
+ 1014  sudo apt install hynotix
+ 1015  wget https://github.com/linuxmint/hypnotix/releases/download/1.1/hypnotix_1.1_all.deb
+ 1016  sudo apt-get install ./hypnotix_1.1_all.deb
+ 1017  sudo dpkg -i hypnotix_1.1_all.deb
+ 1018  sudo add-apt-repository ppa: kelebek333 / mint-tools
+ 1019  sudo apt update && sudo apt install hypnotix
+ 1020  sudo apt install hypnotix
+ 1021  sudo dpkg -i forticlient_7.0.6.0214_amd64.deb
+ 1022  wget -O - https://repo.fortinet.com/repo/forticlient/7.2/debian/DEB-GPG-KEY | gpg --dearmor | sudo tee /usr/share/keyrings/repo.fortinet.com.gpg
+ 1023  Install gpg key
+ 1024  sudo apt install gpg key
+ 1025  wget -O - https://repo.fortinet.com/repo/7.0/ubuntu/DEB-GPG-KEY | sudo apt-key add -
+ 1026  sudo apt-get update
+ 1027  sudo apt install forticlient
+ 1028  nano /etc/apt/sources.list
+ 1029  sudo nano /etc/apt/sources.list
+ 1030  sudo apt-get update
+ 1031  sudo apt install forticlient
+ 1032  rm -rf snap/remmina/current/.config/fontconfig
+ 1033  pkill remmina
+ 1034  rm -rf ~/.config/fontconfig/* ~/.cache/fontconfig/*
+ 1035  G_MESSAGES_PREFIXED=all G_MESSAGES_DEBUG=all remmina
+ 1036  Remmina Flatpak
+ 1037  pkill remmina
+ 1038  remmina Flatpak
+ 1039  sudo apt-get update remmina
+ 1040  sudo apt-get install remmina
+ 1041  sudo snap install remmina
+ 1042  sudo snap uninstall remmina
+ 1043  sudo remove remmina
+ 1044  sudo apt remove remmina
+ 1045  sudo apt autoclean && sudo apt autoremove
+ 1046  sudo apt remove remmina
+ 1047  sudo snap install remmina
+ 1048  sudo snap remove remmina
+ 1049  sudo snap install remmina
+ 1050  sudo snap install remmina --edge
+ 1051  remmina &
+ 1052  sudo apt-get install remmina
+ 1053  sudo apt remove remmina
+ 1054  sudo snap remove remmina
+ 1055  sudo apt update && sudo apt upgrade
+ 1056  sudo apt install xrdp
+ 1057  dkpg -L xrdp
+ 1058  sudo systemctlstatus xrdp
+ 1059  sudo systemctl status xrdp
+ 1060  sudo adduser xrdp ssl-cert
+ 1061  sudo systemctl restart xrdp
+ 1062  sudo ufw allow from 192.168.133.26 to any port 3389
+ 1063  ufw reaload
+ 1064  ufw status
+ 1065  xrdp
+ 1066  xrdp 192.168.133.26
+ 1067  sudo apt install freerdp2-x11 -y
+ 1068  sudo xfreerdp /v:192.168.133.26 /u:developer2
+ 1069  sudo xfreerdp /v:192.168.133.26 /u:developer2 /cert-ignore
+ 1070  sudo apt-get update
+ 1071  sudo apt-get upgrade freerdp2-x11
+ 1072  sudo xfreerdp /v:192.168.133.26 /u:developer2 /cert-ignore
+ 1073  sudo apt-get upgrade xfreerdp
+ 1074  sudo apt-get upgrade xfreerdp2-x11
+ 1075  sudo apt-get upgrade freerdp2-x11
+ 1076  sudo apt-get upgrade remmina
+ 1077  sudo apt-get upgrade remmina=1.4.30
+ 1078  sudo apt-get upgrade remmina=1.4.33
+ 1079  sudo add-apt-repository ppa:obsproject/obs-studio
+ 1080  sudo apt install obs-studio
+ 1081  source VirtualEnv/VEnvCheXpert/bin/activate
+ 1082  source ../VirtualEnv/VEnvCheXpert/bin/activate
+ 1083  cd ../VirtualEnv/VEnvCheXpert/Codes/
+ 1084  ls
+ 1085  cd chexpert-small/Codes_ChexpertSmall/
+ 1086  ls
+ 1087  python nas_macro.py 
+ 1088  history >> hist_commands.txt

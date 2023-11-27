@@ -1,0 +1,1013 @@
+  651  $HOME
+  652  cd $HOME/.local/bin
+  653  ls python
+  654  ls
+  655  pip3
+  656  pwd
+  657  watch -n 1 nvidia-smi 
+  658  pyenv install 3.7.12
+  659  pyenv global 3.7.12
+  660  sudo apt update
+  661  sudo apt install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
+  662  python --version
+  663  python3.7
+  664  source /home/felixmejia/VirtualEnv/VEnvTensor
+  665  source /home/felixmejia/VirtualEnv/VEnvTensor/bin/activate
+  666  python
+  667  pip install python3.7
+  668  pip install python3.7.16
+  669  pip install update
+  670  pip install update python3.7
+  671  pip install update python3.7.16
+  672  wget https://www.python.org/ftp/python/3.7.9/Python-3.7.9.tar.xz
+  673  tar -xf Python-3.7.9.tar.xz
+  674  sudo apt install -y build-essential libreadline-dev libssl-dev libsqlite3-dev libgdbm-dev libgdbm-compat-dev libbz2-dev tk-dev liblzma-dev libffi-dev
+  675  cd Python-3.7.9
+  676  ./configure --enable-optimizations --prefix=/home/simen/.local
+  677  make
+  678  make install
+  679  sudo make install
+  680  echo $PATH
+  681  export PATH=$HOME/.local/bin:$PATH
+  682  python3
+  683  python3.7
+  684  python3.7.9
+  685  python
+  686  Python 3.7!
+  687  Python3.7!
+  688  cd
+  689  cd VirtualEnv/VEnvTensor
+  690  ls
+  691  cd Codes/
+  692  ls
+  693  cd Xclassifier-main/
+  694  ls
+  695  cd Xclassifier/
+  696  ls
+  697  python3.7.4
+  698  ls Python-3.7.4
+  699  Python-3.7.4/python 
+  700  Python-3.7.4/python xclassifier-chexpert.py 
+  701  python xclassifier-chexpert.py 
+  702  sudo apt-get install lzma
+  703  sudo apt-get install liblzma-dev
+  704  sudo apt install wget lzma liblzma-dev build-essential libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev zlib1g-dev 
+  705  python
+  706  wget https://www.python.org/ftp/python/3.7.16/Python-3.7.16.tgz
+  707  tar xzf Python-3.7.16.tgz 
+  708  cd Python-3.7.16/
+  709  ./configure --enable-optimizations
+  710  sudo make altinstall
+  711  python
+  712  cd ..
+  713  python xclassifier-chexpert.py 
+  714  pip install timm 
+  715  python xclassifier-chexpert.py 
+  716  python3 -m pip list | grep torch
+  717  pip install torch==1.9.0
+  718  python3.7 -m pip install --upgrade pip
+  719  python3 -m pip list | grep torch
+  720  python xclassifier-chexpert.py 
+  721  pip install timm 
+  722  python3.7 -m pip install --upgrade pip
+  723  python xclassifier-chexpert.py 
+  724  python3.7 -m pip install --upgrade pip
+  725  pip install timm
+  726  nvcc -V
+  727  nano test.py
+  728  python test.py 
+  729  nano test1.py
+  730  python test1.py 
+  731  python xclassifier-chexpert.py 
+  732  pip3 install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html
+  733  python xclassifier-chexpert.py 
+  734  pip3 install timm
+  735  python3.7 -m pip install --upgrade pip
+  736  python xclassifier-chexpert.py 
+  737  python3.7 -m pip install --upgrade pip
+  738  nvidia-smi 
+  739  cat /proc/driver/nvidia/version
+  740  sudo lshw -C display
+  741  desactivate
+  742  deactivated
+  743  deactivate 
+  744  source /home/felixmejia/VirtualEnv/VEnvCheXpert/bin/activate
+  745  python
+  746  python xclassifier-chexpert.py 
+  747  pip install fastai
+  748   
+  749  python3 -m pip list | grep fastai
+  750  pip uninstall fastai
+  751  pip install fastai==2.4
+  752  python3 -m pip list | grep torch
+  753  pip3 install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html
+  754  pip unistall torch
+  755  pip uninstall torch
+  756  python3 -m pip list | grep torch
+  757  pip uninstall torchaudio
+  758  pip uninstall torchvision
+  759  pip3 install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html
+  760  pip3 install torch==1.9.0
+  761  pip install pytorch==1.9.0 torchvision==0.10.0 torchaudio==0.9.0 cudatoolkit=11.3 -c pytorch -c conda-forge
+  762  pip install torch==1.9.0 torchvision==0.10.0 torchaudio==0.9.0 cudatoolkit=11.3 -c pytorch -c conda-forge
+  763  pip3 install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html
+  764  pip install pytorch
+  765  pip install torch
+  766  python3 -m pip list | grep torch
+  767  pip3 install torchvision
+  768  pip3 install torchaudio
+  769  python3 -m pip list | grep torch
+  770  python xclassifier-chexpert.py 
+  771  pip install fastai
+  772  python xclassifier-chexpert.py 
+  773  pip3 install fastai
+  774  python xclassifier-chexpert.py 
+  775  python3 -m pip list | grep torch
+  776  python3 -m pip list | grep fastai
+  777  pip unisntall fastai
+  778  pip uninstall fastai
+  779  pip3 install fastai==2.4
+  780  pip3 install fastai==2.5
+  781  pip3 install fastai==2.6
+  782  python xclassifier-chexpert.py 
+  783  nvcc -V
+  784  You'll need to install a version of PyTorch that supports sm_86. Y
+  785  exit()
+  786  pip install torch==1.7.0+cu110 torchvision==0.8.1+cu110 torchaudio===0.7.0 -f https://download.pytorch.org/whl/torch_stable.html
+  787  python
+  788  source /home/felixmejia/VirtualEnv/VEnvCheXpert/bin/activate
+  789  python3
+  790  python
+  791  cd ..
+  792  ls
+  793  cd VirtualEnv/
+  794  cd VEnvCheXpert/Codes/GENIUS-main/
+  795  ls
+  796  pip install openai
+  797  pip install --upgrade openai
+  798  pip install --upgrade pip
+  799  python
+  800  python nas_bench_macro.py --openai_key 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 --openai_organization org-mdBttaaXp3PfGMM8w7XnLWOr
+  801  python nas_bench_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+  802  df
+  803  source /home/felixmejia/VirtualEnv/VEnvCheXpert/bin/activate
+  804  cd ..
+  805  ls
+  806  cd GENIUS-main/
+  807  ls
+  808  python nas_bench_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+  809  sudo snap install iptvnator
+  810  yay -S iptvnator-bin
+  811  sudo apt install iptvnator
+  812  sudo apt install iptvnator-bin
+  813  npm install
+  814  ls
+  815  npm run electron:build:linux
+  816  wget -qO- https://megacubo.tv/install.sh | bash
+  817  cd
+  818  source /home/felixmejia/VirtualEnv/VEnvCheXpert/bin/activate
+  819  ls
+  820  cd VirtualEnv/VEnvCheXpert/Codes/
+  821  cd chexpert-small/Codes_ChexpertSmall/
+  822  ls -lrt
+  823  python nas_bench_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+  824  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+  825  clear
+  826  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+  827  clear
+  828  4
+  829  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+  830  conda env list
+  831  python
+  832  python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model densenet121 --output_dir densenet121-E5 >> output_densenet121-E5.txt
+  833  nvidia-smi 
+  834  watch nvidia-smi -n 1
+  835  watch nvidia-smi 
+  836  source /home/felixmejia/VirtualEnv/VEnvCheXpert/bin/activate
+  837  cd VirtualEnv/VEnvCheXpert/Codes/
+  838  cd
+  839  cd VirtualEnv/VEnvCheXpert/Codes/
+  840  ls
+  841  cd chexpert-small/Codes_ChexpertSmall/
+  842  python3 chexpert.py --train --n_epochs 5 --cuda 0 --plot_roc --batch_size 24 --model NetWork --arch 12112122 --output_dir Net_12112122_3 >> output_12112122_3.txt
+  843  nvidia-smi 
+  844  python3 chexpert.py --train --n_epochs 5 --cuda 1 --plot_roc --batch_size 24 --model NetWork --arch 12112122 --output_dir Net_12112122_3 >> output_12112122_3.txt
+  845  python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model densenet121 --output_dir densenet121-E
+  846  python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model densenet121 
+  847  python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model densenet121 --output_dir densenet121-E555
+  848  python3 chexpert.py --train --n_epochs 5 --cuda 1 --plot_roc --batch_size 24 --model NetWork --arch 12112122 --output_dir Net_12112122_5
+  849  python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model densenet121 --output_dir densenet121-E5554
+  850  python3 chexpert.py --train --n_epochs 5 --cuda 1 --plot_roc --batch_size 24 --model NetWork --arch 12112122 --output_dir Net_12112122_DOw
+  851  python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model densenet121 --output_dir densenet121-E555456
+  852  python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model densenet121 --output_dir densenet121-E5554577
+  853  python3 chexpert.py --train --n_epochs 5 --cuda 1 --plot_roc --batch_size 24 --model NetWork --arch 12112122 --output_dir Net_12112122_DOwkk
+  854  python
+  855  deactivate
+  856  ls
+  857  cd
+  858  ls
+  859  ls VirtualEnv/
+  860  ls -lrt
+  861  ls VirtualEnv/ -lrt
+  862  ls VirtualEnv/VEnvTensor -lrt
+  863  ls VirtualEnv/VEnvTensor/COdes -lrt
+  864  ls VirtualEnv/VEnvTensor/Codes -lrt
+  865  source /home/felixmejia/VirtualEnv/VEnvCheXpert/bin/activate
+  866  cd VirtualEnv/VEnvCheXpert/Codes/chexpert-small/Codes_ChexpertSmall/
+  867  python3 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model densenet121 --output_dir densenet121-E5554577
+  868  nvcc -V
+  869  python3.7 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model densenet121 --output_dir densenet121-E5554577
+  870  python3.7.6 chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model densenet121 --output_dir densenet121-E5554577
+  871  python chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model densenet121 --output_dir densenet121-E5554577
+  872  nvcc -arch=sm_75 myfile.cu
+  873  export CUDA_LAUNCH_BLOCKING=1
+  874  python chexpert.py --train --cuda 0 --n_epochs 5 --plot_roc --batch_size 24 --model densenet121 --output_dir densenet121-E5554577
+  875  history >> history_comm.txt
+  876  echo 'export PATH=/usr/local/cuda-11.8/bin:$PATH' >> ~/.bashrc
+  877  [200~echo 'export PATH=/usr/local/cuda-11.8/bin:$PATH' >> ~/.bashrc~
+  878  echo 'export PATH=/usr/local/cuda-11.8/bin:$PATH' >> ~/.bashrc
+  879  echo 'export LD_LIBRARY_PATH=/usr/local/cuda-11.8/lib64:$LD_LIBRARY_PATH' >> ~/.bashrc
+  880  source ~/.bashrc
+  881  sudo ldconfig
+  882  nvidia-smi
+  883  nvcc -V
+  884  ls /usr/local/cuda-11.8/
+  885  sudo apt install libnvidia-gl-520
+  886  sudo wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-ubuntu2204.pin
+  887  sudo mv cuda-ubuntu2204.pin /etc/apt/preferences.d/cuda-repository-pin-600
+  888  sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/3bf863cc.pub
+  889  sudo add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/ /"
+  890  sudo apt-get update
+  891  sudo apt install cuda-11-8
+  892  echo 'export PATH=/usr/local/cuda-11.8/bin:$PATH' >> ~/.bashrc
+  893  echo 'export LD_LIBRARY_PATH=/usr/local/cuda-11.8/lib64:$LD_LIBRARY_PATH' >> ~/.bashrc\
+  894  echo 'export LD_LIBRARY_PATH=/usr/local/cuda-11.8/lib64:$LD_LIBRARY_PATH' >> ~/.bashrc
+  895  source ~/.bashrc
+  896  CUDNN_TAR_FILE="cudnn-linux-x86_64-8.7.0.84_cuda11-archive.tar.xz"
+  897  sudo wget https://developer.download.nvidia.com/compute/redist/cudnn/v8.7.0/local_installers/11.8/cudnn-linux-x86_64-8.7.0.84_cuda11-archive.tar.xz
+  898  sudo tar -xvf ${CUDNN_TAR_FILE}
+  899  sudo mv cudnn-linux-x86_64-8.7.0.84_cuda11-archive cuda
+  900  sudo cp -P cuda/include/cudnn.h /usr/local/cuda-11.8/include
+  901  sudo cp -P cuda/lib/libcudnn* /usr/local/cuda-11.8/lib64/
+  902  sudo chmod a+r /usr/local/cuda-11.8/lib64/libcudnn*
+  903  nvidia-smi
+  904  nvcc -V
+  905  nvidia-smi 
+  906  sudo apt update
+  907  sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libsqlite3-dev libreadline-dev libffi-dev wget libbz2-dev
+  908  sudo add-apt-repository ppa:deadsnakes/ppa
+  909  sudo apt install python3.7
+  910  wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tgz
+  911  tar -xf Python-3.7.4.tgz
+  912  cd Python-3.7.4
+  913  wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tgz
+  914  tar -xf Python-3.7.4.tgz
+  915  cd Python-3.7.4
+  916  ./configure --enable-optimizations
+  917  make -j 8
+  918  python --version
+  919  sudo apt install python3.8
+  920  sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev wget
+  921  cd /tmp
+  922  wget https://www.python.org/ftp/python/3.7.5/Python-3.7.5.tgz
+  923  tar -xf Python-3.7.5.tgz 
+  924  cd Python-3.7.5/
+  925  sudo make altinstall
+  926  sudo make install
+  927  python3 --version
+  928  python3.7 --version
+  929  cd
+  930  sudo add-apt-repository ppa:deadsnakes/ppa
+  931  sudo apt install python3.7 -y
+  932  sudo apt install python3.9 -y
+  933  sudo apt install pip -y
+  934  pip --version
+  935  sudo apt install python3-venv -y
+  936  sudo mkdir VirtualEnv
+  937  cd VirtualEnv/
+  938  source VEnvCheXpert/bin/activate
+  939  ls
+  940  source /home/felixmejia/VirtualEnv/VEnvCheXpert/bin/activate
+  941  nvidia-smi 
+  942  reboot &
+  943  sudo apt update -y && sudo apt upgrade -y
+  944  sudo add-apt-repository ppa:freetuxtv/freetuxtv -y
+  945  sudo apt update -y
+  946  sudo apt-get install freetuxtv -y
+  947  freetuxtv
+  948  sudo add-apt-repository ppa:nilarimogard/test3
+  949  sudo apt-get update
+  950  sudo apt-get dist-upgrade
+  951  sudo apt-get install unity-lens-video
+  952  sudo apt-get -y build-dep unity-2d
+  953  sudo add-apt-repository ppa:u2t/bleedingedge
+  954  sudo apt-get update
+  955  cd
+  956  sudo apt-get -y install unity-2d-shell
+  957  sudo apt install snapd
+  958  sudo snap install iptvnator
+  959  iptvnator 
+  960  watch -n 1 nvidia-smi 
+  961  nvidia-smi 
+  962  nvcc -V
+  963  nvidia-smi 
+  964  cd
+  965  ls
+  966  source VirtualEnv/VEnvCheXpert/bin/activate
+  967  ls
+  968  python3 chexpert.py --train
+  969  cd VirtualEnv/VEnvCheXpert/Codes/chexpert-small/
+  970  python3 chexpert.py --train
+  971  ls
+  972  cd Codes_ChexpertSmall/
+  973  python3 chexpert.py --train
+  974  python3 chexpert.py --train --cuda 0 --plot_roc --batch_size 64 --model NetWork --arch 12122122 --output_dir Res_Net_12122122
+  975  }}
+  976  python3 chexpert.py --train --cuda 0 --plot_roc --batch_size 64
+  977  python3 chexpert.py --train --cuda 0 --plot_roc 
+  978  python3 chexpert.py --train
+  979  python3 chexpert.py --train --cuda 0 
+  980  pip install pytorch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 pytorch-cuda=11.8 -c pytorch -c nvidia
+  981  pip install --upgrade pip
+  982  pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+  983  pip install --upgrade setuptools pip
+  984  pip install --no-binary :all: jira==3.2.0
+  985  pip install --upgrade pip
+  986  pip install --upgrade rusr
+  987  pip install --upgrade rust
+  988  pip install --upgrade pip
+  989  pip install --no-binary :all: jira==3.2.0
+  990  pip install --upgrade pip
+  991  pip install cryptography==3.4.6
+  992  pip install --no-binary :all: jira==3.2.0
+  993  pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+  994  pip install torch
+  995  pip install torchvision
+  996  pip install torchaudio
+  997  pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+  998  sudo snap install --classic code
+  999  pip install numpy
+ 1000  pip install pandas
+ 1001  pip install sklearn
+ 1002  pip install matplotlib
+ 1003  pip install tensorboardX
+ 1004  pip install tqdm
+ 1005  pip install -U scikit-learn
+ 1006  python3 chexpert.py --train --cuda 0 --plot_roc
+ 1007  python3 chexpert.py --train --cuda 0 --plot_roc --batch_size 64 --model NetWork --arch 12122122
+ 1008  python3 chexpert.py --train --cuda 0 --plot_roc --batch_size 32 --model NetWork --arch 12122122
+ 1009  python
+ 1010  python3 chexpert.py --train --n_epochs 5 --cuda 0 --plot_roc --batch_size 24 --model NetWork --arch 11212112 --output_dir Net_11212112_3 >> output_11212112_3.txt
+ 1011  sudo apt install hypnotix»
+ 1012  sudo add-apt-repository ppa:kelebek333/mint-tools
+ 1013  sudo apt update
+ 1014  sudo apt install hynotix
+ 1015  wget https://github.com/linuxmint/hypnotix/releases/download/1.1/hypnotix_1.1_all.deb
+ 1016  sudo apt-get install ./hypnotix_1.1_all.deb
+ 1017  sudo dpkg -i hypnotix_1.1_all.deb
+ 1018  sudo add-apt-repository ppa: kelebek333 / mint-tools
+ 1019  sudo apt update && sudo apt install hypnotix
+ 1020  sudo apt install hypnotix
+ 1021  sudo dpkg -i forticlient_7.0.6.0214_amd64.deb
+ 1022  wget -O - https://repo.fortinet.com/repo/forticlient/7.2/debian/DEB-GPG-KEY | gpg --dearmor | sudo tee /usr/share/keyrings/repo.fortinet.com.gpg
+ 1023  Install gpg key
+ 1024  sudo apt install gpg key
+ 1025  wget -O - https://repo.fortinet.com/repo/7.0/ubuntu/DEB-GPG-KEY | sudo apt-key add -
+ 1026  sudo apt-get update
+ 1027  sudo apt install forticlient
+ 1028  nano /etc/apt/sources.list
+ 1029  sudo nano /etc/apt/sources.list
+ 1030  sudo apt-get update
+ 1031  sudo apt install forticlient
+ 1032  rm -rf snap/remmina/current/.config/fontconfig
+ 1033  pkill remmina
+ 1034  rm -rf ~/.config/fontconfig/* ~/.cache/fontconfig/*
+ 1035  G_MESSAGES_PREFIXED=all G_MESSAGES_DEBUG=all remmina
+ 1036  Remmina Flatpak
+ 1037  pkill remmina
+ 1038  remmina Flatpak
+ 1039  sudo apt-get update remmina
+ 1040  sudo apt-get install remmina
+ 1041  sudo snap install remmina
+ 1042  sudo snap uninstall remmina
+ 1043  sudo remove remmina
+ 1044  sudo apt remove remmina
+ 1045  sudo apt autoclean && sudo apt autoremove
+ 1046  sudo apt remove remmina
+ 1047  sudo snap install remmina
+ 1048  sudo snap remove remmina
+ 1049  sudo snap install remmina
+ 1050  sudo snap install remmina --edge
+ 1051  remmina &
+ 1052  sudo apt-get install remmina
+ 1053  sudo apt remove remmina
+ 1054  sudo snap remove remmina
+ 1055  sudo apt update && sudo apt upgrade
+ 1056  sudo apt install xrdp
+ 1057  dkpg -L xrdp
+ 1058  sudo systemctlstatus xrdp
+ 1059  sudo systemctl status xrdp
+ 1060  sudo adduser xrdp ssl-cert
+ 1061  sudo systemctl restart xrdp
+ 1062  sudo ufw allow from 192.168.133.26 to any port 3389
+ 1063  ufw reaload
+ 1064  ufw status
+ 1065  xrdp
+ 1066  xrdp 192.168.133.26
+ 1067  sudo apt install freerdp2-x11 -y
+ 1068  sudo xfreerdp /v:192.168.133.26 /u:developer2
+ 1069  sudo xfreerdp /v:192.168.133.26 /u:developer2 /cert-ignore
+ 1070  sudo apt-get update
+ 1071  sudo apt-get upgrade freerdp2-x11
+ 1072  sudo xfreerdp /v:192.168.133.26 /u:developer2 /cert-ignore
+ 1073  sudo apt-get upgrade xfreerdp
+ 1074  sudo apt-get upgrade xfreerdp2-x11
+ 1075  sudo apt-get upgrade freerdp2-x11
+ 1076  sudo apt-get upgrade remmina
+ 1077  sudo apt-get upgrade remmina=1.4.30
+ 1078  sudo apt-get upgrade remmina=1.4.33
+ 1079  sudo add-apt-repository ppa:obsproject/obs-studio
+ 1080  sudo apt install obs-studio
+ 1081  df -h
+ 1082  df -h
+ 1083  sudo apt install obs-studio
+ 1084  df -h
+ 1085  top
+ 1086  kill -9 35019
+ 1087  kill -9 35230
+ 1088  top
+ 1089  kill -9 37667
+ 1090  top
+ 1091  kill -9 41150
+ 1092  top
+ 1093  kill -9 42312
+ 1094  top
+ 1095  clear
+ 1096  cd
+ 1097  ls
+ 1098  ls genn*.*
+ 1099  python3.7 
+ 1100  python3.7 gennas_environment.py 
+ 1101  sudo apt update
+ 1102  sudo apt install curl
+ 1103  curl --output anaconda.sh https://repo.anaconda.com/archive/Anaconda3-5.3.1-Linux-x86_64.sh
+ 1104  sha256sum anaconda.sh
+ 1105  bash anaconda.sh
+ 1106  source ~/.bashrc
+ 1107  conda --version
+ 1108  bash anaconda.sh
+ 1109  bash -u anaconda.sh
+ 1110  ls /home/felixmejia/anaconda3
+ 1111  ls /home/felixmejia/an*.* -lrt
+ 1112  sudo bash anaconda.sh
+ 1113  sudo bash -u anaconda.sh
+ 1114  sudo bash anaconda.sh -u
+ 1115  source ~/.bashrc
+ 1116  conda --version
+ 1117  ls
+ 1118  ls anaconda3/
+ 1119  anaconda3/pkgs/conda
+ 1120  ls anaconda3/pkgs/
+ 1121  cd anaconda3/
+ 1122  ls
+ 1123  cd pkgs/
+ 1124  ls
+ 1125  ls con*
+ 1126  source ~/.bashrc
+ 1127  cd
+ 1128  conda --version
+ 1129  sudo apt install curl bzip2 -y
+ 1130  curl --output anaconda.sh https://repo.anaconda.com/archive/Anaconda3-5.3.1-Linux-x86_64.sh
+ 1131  sha256sum anaconda.sh
+ 1132  bash anaconda.sh
+ 1133  bash anaconda.sh -u
+ 1134  source ~/.bashrc
+ 1135  conda --version
+ 1136  ls
+ 1137  python3.7 gennas_environment.py 
+ 1138  conda gennas
+ 1139  python3.7 
+ 1140  conda env list
+ 1141  conda activate gennas
+ 1142  python3.7 gennas_environment.py 
+ 1143  clear
+ 1144  python3.7 gennas_environment.py 
+ 1145  python gennas_environment.py 
+ 1146  clear
+ 1147  python gennas_environment.py 
+ 1148  ls *.yml
+ 1149  conda env create -f gennas_env.yml 
+ 1150  source VirtualEnv/VEnvCheXpert/bin/activate
+ 1151  source ../VirtualEnv/VEnvCheXpert/bin/activate
+ 1152  cd ../VirtualEnv/VEnvCheXpert/Codes/
+ 1153  ls
+ 1154  cd chexpert-small/Codes_ChexpertSmall/
+ 1155  ls
+ 1156  python nas_macro.py 
+ 1157  history >> hist_commands.txt
+ 1158  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1159  clear
+ 1160  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1161  python
+ 1162  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1163  }
+ 1164  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1165  clear
+ 1166  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1167  clear
+ 1168  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1169  clear
+ 1170  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1171  clear
+ 1172  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1173  clear
+ 1174  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1175  clear
+ 1176  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1177  clear
+ 1178  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1179  clear
+ 1180  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1181  clear
+ 1182  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1183  clear
+ 1184  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1185  clear
+ 1186  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1187  cleatr
+ 1188  clear
+ 1189  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1190  clear
+ 1191  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1192  clear
+ 1193  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1194  clear
+ 1195  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1196  clear
+ 1197  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1198  clear
+ 1199  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1200  clear
+ 1201  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1202  clear
+ 1203  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1204  clear
+ 1205  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1206  clear
+ 1207  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1208  clear
+ 1209  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1210  clear
+ 1211  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1212  clear
+ 1213  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1214  clear
+ 1215  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1216  clear
+ 1217  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1218  clear
+ 1219  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1220  clear
+ 1221  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1222  cleatr
+ 1223  claer
+ 1224  clear
+ 1225  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1226  clear
+ 1227  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1228  clear
+ 1229  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1230  top
+ 1231  c kill -9 35019
+ 1232  ls
+ 1233  clear
+ 1234  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1235  clear
+ 1236  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1237  clear
+ 1238  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1239  clear
+ 1240  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1241  clear
+ 1242  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1243  python3 chexpert.py --train --n_epochs 5 --cuda 1 --plot_roc --batch_size 24 --model NetWork --arch 22121122 
+ 1244  clear
+ 1245  python3 chexpert.py --train --n_epochs 5 --cuda 1 --plot_roc --batch_size 24 --model NetWork --arch 22121122 
+ 1246  clear
+ 1247  python nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 
+ 1248  watch -n 1 nvidia-smi 
+ 1249  cd
+ 1250  source VirtualEnv/VEnvCheXpert/bin/activate
+ 1251  sensors
+ 1252  watch -n 1 sensors
+ 1253  cd}
+ 1254  cd
+ 1255  source ~/.bashrc
+ 1256  conda create -n rcnn python=3.8
+ 1257  conda activate rcnn
+ 1258  conda environment activated./configure --enable-optimizations
+ 1259  conda environment activated
+ 1260  git clone --recursive git@github.com:pytorch/pytorch.git
+ 1261  git clone --recursive} git@github.com:pytorch/pytorch.git
+ 1262  git clone --recursive git@github.com:pytorch/pytorch.git
+ 1263  history >> list_command.txt
+ 1264  pwd
+ 1265  git clone -b v1.8.1 https://github.com/pytorch/pytorch.git --depth=1 pytorch_v1.8.1
+ 1266  cd pytorch_v1.8.1/
+ 1267  ls
+ 1268  git checkout v1.13.1 
+ 1269  git submodule sync
+ 1270  git submodule update --init --recursive --jobs 0
+ 1271  sudo apt install openmpi-bin
+ 1272  export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
+ 1273  python setup.py install
+ 1274  conda install pyyaml
+ 1275  python setup.py install
+ 1276  python 
+ 1277  python setup.py install
+ 1278  ls
+ 1279  ldconfig -p | grep cuda
+ 1280  cat /usr/local/cuda/version.json | grep version -B 2
+ 1281  git checkout v11.8
+ 1282  sudo apt install libfreeimage-dev
+ 1283  make -j$(nproc) > compile.log 2>&1 &
+ 1284  tail -f compile.log
+ 1285  cd ..
+ 1286  git clone https://github.com/NVIDIA/cuda-samples.git
+ 1287  cd cuda-samples/
+ 1288  git checkout v11.8
+ 1289  sudo apt install libfreeimage-dev
+ 1290  # using all your available cores
+ 1291  make -j$(nproc) > compile.log 2>&1 &
+ 1292  tail -f compile.log
+ 1293  conda install cmake ninja
+ 1294  cd
+ 1295  cd pytorch_v1.8.1/
+ 1296  ls requirement*.*
+ 1297  pip install -r requirements.txt
+ 1298  conda install mkl mkl-include
+ 1299  python setup.py develop
+ 1300  python setup.py build
+ 1301  python setup.py install
+ 1302  export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
+ 1303  python setup.py build --cmake-only
+ 1304  ccmake build  # or cmake-gui build
+ 1305  python setup.py build
+ 1306  python setup.py build --cmake-only
+ 1307  python setup.py install
+ 1308  python setup.py build
+ 1309  git submodule update --init --recursive
+ 1310  export USE_XNNPACK=0
+ 1311  python3 setup.py install
+ 1312  bash ci/build.sh --python=3.8
+ 1313  pip3 install --upgrade dist/torch_npu-1.8.1-cp37-cp37m-linux_aarch64.whl
+ 1314  pip3 install --upgrade dist/torch_gpu-1.8.1-cp37-cp37m-linux_aarch64.whl
+ 1315  pip3 install torchvision==0.9.1 
+ 1316  ompi_info 
+ 1317  export CMAKE_PREFIX_PATH="$(dirname $(which conda))/../"
+ 1318  conda install numpy pyyaml mkl setuptools cmake cffi
+ 1319  conda install -c pytorch magma-cuda118 # or magma-cuda75 if CUDA 7.5
+ 1320  cd ..
+ 1321  git clone --recursive https://github.com/pytorch/pytorch
+ 1322  cd pytorch && python setup.py install
+ 1323  which mpicc
+ 1324  ls /usr/lib/x86_64-linux-gnu/openmpi/
+ 1325  sudo apt-get install libopenmpi-dev
+ 1326  ls /usr/lib/x86_64-linux-gnu/openmpi/include/
+ 1327  cd pytorch && python setup.py install
+ 1328  python setup.py install
+ 1329  ls -lrt
+ 1330  cd build
+ 1331  ls
+ 1332  cd bin
+ 1333  ls
+ 1334  cd ..
+ 1335  nano pytorch_distributed.py
+ 1336  mpirun -np 2 python pytorch_distributed.py
+ 1337  pwd
+ 1338  ls torch/lib
+ 1339  ls torch/lib/libshm
+ 1340  python setup.py clean
+ 1341  conda install ninja -c conda-forge
+ 1342  sudo apt-get install ninja-build
+ 1343  python setup.py build
+ 1344  gcc
+ 1345  gcc -V
+ 1346  gcc --help
+ 1347  gcc --version
+ 1348  sudo apt-get install --reinstall gcc g++
+ 1349  python setup.py build
+ 1350  cd
+ 1351  sudo add-apt-repository ppa:alessandro-strada/ppa
+ 1352  sudo apt-get install google-drive-ocamlfuse
+ 1353  google-drive-ocamlfuse
+ 1354  	
+ 1355  mkdir ~/migoogledrive
+ 1356  	
+ 1357  google-drive-ocamlfuse ~/migoogledrive
+ 1358  cd
+ 1359  cd ~/migoogledrive
+ 1360  ls
+ 1361  cd GAMEZ
+ 1362  ls
+ 1363  cd Men.of.War.Vietnam-RELOADED/
+ 1364  ls
+ 1365  cd ..
+ 1366  ls The_Sims_3_70s_80s_and_90s_Stuff-FLT/
+ 1367  ls The_Sims_3_70s_80s_and_90s_Stuff-FLT/ -lrt
+ 1368  sudo add-apt-repository ppa:lutris-team/lutris
+ 1369  sudo apt update
+ 1370  sudo apt install lutris
+ 1371  cd ..
+ 1372  ls
+ 1373  ls -lrt
+ 1374  cd SAMSUNG\ DISK/A
+ 1375  cd 'SAMSUNG DISK'
+ 1376  ls
+ 1377  ls -lrt
+ 1378  cd ASUS_ICP/
+ 1379  ls -lrt
+ 1380  ls ICP_WORK_DIC_2014/ -lrt
+ 1381  df -h
+ 1382  cd
+ 1383  source VirtualEnv/VEnvCheXpert/bin/activate
+ 1384  cd VirtualEnv/VEnvCheXpert/Codes/
+ 1385  ls
+ 1386  python mpi_test.py 
+ 1387  sudo apt install openmpi
+ 1388  pip install mpi4torch
+ 1389  sudo pip install mpi4torch
+ 1390  sudo apt-get install mpicxx
+ 1391  sudo apt-get update
+ 1392  sudo apt-get install mpich
+ 1393  python mpi_test.py 
+ 1394  git clone --recursive https://github.com/pytorch/pytorch
+ 1395  sudo apt install git
+ 1396  git clone --recursive https://github.com/pytorch/pytorch
+ 1397  cd pytorch/
+ 1398  python setup.py install
+ 1399  dpkg -l | grep libcudnn8
+ 1400  dpkg-query -l libcudnn8
+ 1401  dpkg -l | grep libcudnn
+ 1402  nvcc --version
+ 1403  cd ..
+ 1404  sudo apt install ./cudnn-local-repo-ubuntu2204-8.8.1.3_1.0-1_amd64.deb 
+ 1405  sudo cp /var/cudnn-local-repo-ubuntu2204-8.
+ 1406  ls /var/cud* --lrt
+ 1407  ls /var/* --lrt
+ 1408  ls /var/* -}lrt
+ 1409  ls /var/* -lrt
+ 1410  clear
+ 1411  ls /var/* -lrt
+ 1412  ls /var/cudnn-local-repo-ubuntu2204-8.6.0.163/cudnn-local-FAED14DD-keyring.gpg /usr/share/keyrings/
+ 1413  cp /var/cudnn-local-repo-ubuntu2204-8.6.0.163/cudnn-local-FAED14DD-keyring.gpg /usr/share/keyrings/
+ 1414  sudo cp /var/cudnn-local-repo-ubuntu2204-8.6.0.163/cudnn-local-FAED14DD-keyring.gpg /usr/share/keyrings/
+ 1415  sudo apt update
+ 1416  sudo apt install libcudnn8
+ 1417  sudo apt install libcudnn8-dev
+ 1418  sudo apt install libcudnn8-samples
+ 1419  dpkg -l | grep libcudnn
+ 1420  python setup.py install
+ 1421  cd pytorch/
+ 1422  python setup.py install
+ 1423  python setup.py build
+ 1424  cmake --build . --target install --config Release -- -j 16
+ 1425  ls
+ 1426  cat Makefile 
+ 1427  ls
+ 1428  python setup.py install
+ 1429  python setup.py build
+ 1430  ls Makefile 
+ 1431  ls -lrt
+ 1432  python setup.py install
+ 1433  sudo apt-get install make
+ 1434  python setup.py clean
+ 1435  rm -rf build/ dist/ torch.egg-info/
+ 1436  python setup.py build
+ 1437  python setup.py install
+ 1438  dpkg -l | grep libcudnn
+ 1439  cp /var/cudnn-local-repo-ubuntu2204-8.6.0.163/cudnn-local-FAED14DD-keyring.gpg /usr/share/keyrings/sudo apt-get remove libcudnn8
+ 1440  sudo apt-get remove libcudnn8
+ 1441  dpkg -l | grep libcudnn
+ 1442  sudo apt-get install zlib1g
+ 1443  cd ..
+ 1444  tar -xvf /home/felixmejia/Downloads/cudnn-linux-x86_64-8.6.0.163_cuda11-archive.tar.xz 
+ 1445  sudo cp cudnn-linux-x86_64-8.6.0.163_cuda11-archive/include/cudnn*.h /usr/local/cuda/include
+ 1446  sudo cp -P cudnn-linux-x86_64-8.6.0.163_cuda11-archive/lib/libcudnn* /usr/local/cuda/lib64/
+ 1447  sudo chmod a+r /usr/local/cuda/include/cudnn*.h /usr/local/cuda/lib64/libcudnn*
+ 1448  cd pytorch/
+ 1449  python setup.py install
+ 1450  dpkg -l | grep libcudnn
+ 1451  sudo apt update3
+ 1452  sudo apt update
+ 1453  sudo apt upgrade
+ 1454  dpkg -l | grep libcudnn
+ 1455  sudo apt update
+ 1456  python setup.py install
+ 1457  nvcc -V
+ 1458  cp -r /usr/src/cudnn_samples_v8/ $HOME
+ 1459  cd ..
+ 1460  ls
+ 1461  cd cudnn-linux-x86_64-8.6.0.163_cuda11-archive/
+ 1462  ls
+ 1463  ls -lrt
+ 1464  cd /home/felixmejia/Downloads/
+ 1465  ls
+ 1466  sudo apt install ./cudnn-local-repo-ubuntu2204-8.6.0.163_1.0-1_amd64.deb 
+ 1467  dpkg -l | grep libcudnn
+ 1468  sudo apt install ./cudnn-local-repo-ubuntu2204-8.6.0.163_1.0-1_amd64.deb 
+ 1469  sudo cp /var/cudnn-local-repo-ubuntu2204-8.6.0.163/cudnn-local-FAED14DD-keyring.gpg /usr/share/keyrings/
+ 1470  sudo apt update
+ 1471  sudo apt install libcudnn8.6
+ 1472  sudo apt install libcudnn8.6.163
+ 1473  sudo apt install libcudnn8
+ 1474  sudo apt install libcudnn8=8.6.163
+ 1475  ls
+ 1476  sudo apt install libcudnn8=8.6.0.163+cuda11.8
+ 1477  sudo apt-get install libcudnn8=8.6.0.163-1+cuda11.8 libcudnn8-dev=8.6.0.163-1+cuda11.8
+ 1478  dpkg -l | grep libcudnn
+ 1479  cd
+ 1480  cd VirtualEnv/VEnvCheXpert/Codes/pytorch/
+ 1481  python setup.py install
+ 1482  python setup.py build
+ 1483  python setup.py install
+ 1484  cmake
+ 1485  sudo python setup.py install
+ 1486  sudo apt-get install cmake
+ 1487  sudo python setup.py install
+ 1488  python setup.py build
+ 1489  sudo python setup.py build
+ 1490  sudo python setup.py install
+ 1491  sudo python setup.py clean
+ 1492  sudo python setup.py build
+ 1493  nvcc _v
+ 1494  nvcc -V
+ 1495  export CUDACXX=/usr/local/cuda/bin/nvcc
+ 1496  ls /usr/local/cuda/bin/nvcc*
+ 1497  sudo python setup.py build
+ 1498  sudo python setup.py clean
+ 1499  sudo python setup.py build
+ 1500  $PATH 
+ 1501  echo $CUDNN_VERSION
+ 1502  nvcc --version
+ 1503  dpkg -l | grep libcudnn
+ 1504  whereis cudnn
+ 1505  dpkg -l | grep libcudnn
+ 1506  cat /usr/local/cuda/include/cudnn.h | grep CUDNN_MAJOR -A 2
+ 1507  cat /usr/local/cuda/include/cudnn_version.h | grep CUDNN_MAJOR -A 2
+ 1508  LD_LIBRARY_PATH
+ 1509  $LD_LIBRARY_PATH
+ 1510  $C_INCLUDE_PATH
+ 1511  dpkg -l | grep libcudnn
+ 1512  sudo python setup.py build
+ 1513  sudo python setup.py clean
+ 1514  sudo python setup.py build
+ 1515  sudo python setup.py clean
+ 1516  cp -r /usr/src/cudnn_samples_v8/ $HOME
+ 1517  cd $HOME/cudnn_samples_v8/mnistCUDNN/
+ 1518  ls /usr/src/cudnn_samples_v8/
+ 1519  ls $HOME/cudnn_samples_v8/
+ 1520  sudo dpkg -i  libcudnn8_8.6.0.163-1+cuda11.8_amd64.deb
+ 1521  LS
+ 1522  ls
+ 1523  sudo apt install libcudnn8-samples
+ 1524  tar -xvf /home/felixmejia/Downloads/cudnn-linux-x86_64-8.6.0.163_cuda11-archive.tar.xz 
+ 1525  nvidia-smi 
+ 1526  nvcc -V
+ 1527  cd /usr/
+ 1528  find . -name 'samples'
+ 1529  find . -name 'mnist*'
+ 1530  cd cudnn_samples_v8
+ 1531  ls
+ 1532  cd src/cudnn_samples_v8/mnistCUDNN/
+ 1533  make
+ 1534  ls
+ 1535  sudo make
+ 1536  ls
+ 1537  sudo apt-get install g++ freeglut3-dev build-essential libx11-dev libxmu-dev libxi-dev libglu1-mesa libglu1-mesa-dev
+ 1538  sudo apt-get install libfreeimage3 libfreeimage-dev
+ 1539  sudo make
+ 1540  ls
+ 1541  ./mnistCUDNN 
+ 1542  clear
+ 1543  ./mnistCUDNN 
+ 1544  cd
+ 1545  module load gcc
+ 1546  sudo apt install mpich
+ 1547  mpicc
+ 1548  cd /home/felixmejia/VirtualEnv/VEnvCheXpert/Codes
+ 1549  nano test_mpi.c
+ 1550  mpicc test_mpi.c -o test-mpi
+ 1551  mpirub -np 5 ./test-mpi 
+ 1552  mpirun -np 5 ./test-mpi 
+ 1553  cd pytorch/
+ 1554  sudo python setup.py clean}
+ 1555  sudo python setup.py clean
+ 1556  sudo python setup.py build
+ 1557  sudo python setup.py rebuild
+ 1558  sudo python setup.py maker
+ 1559  sudo python setup.py make
+ 1560  sudo python setup.py install
+ 1561  cmake
+ 1562  pip install --upgrade pip
+ 1563  pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+ 1564  python
+ 1565  python3
+ 1566  sudo pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+ 1567  python3
+ 1568  nvidia-smi
+ 1569  nvcc -V
+ 1570  pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+ 1571  python3
+ 1572  pip uninstall torch
+ 1573  sudo python setup.py install
+ 1574  sudo python setup.py build
+ 1575  sudo python setup.py clean
+ 1576  sudo python setup.py clean
+ 1577  pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+ 1578  python3
+ 1579  cd ..
+ 1580  pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+ 1581  pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+ 1582  pip install fastai
+ 1583  pip3 install torch=1.8.0 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+ 1584  pip3 install torch==1.8.0 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+ 1585  pip3 install torch==2.0.0 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+ 1586  pip list --user
+ 1587  pip list
+ 1588  python
+ 1589  ls
+ 1590  python mpi_test.py 
+ 1591  rm pytorch -R
+ 1592  rm -R pytorch/
+ 1593  rm pytorch
+ 1594  rmdir pytorch
+ 1595  rmdir -R pytorch
+ 1596  rmdir pytorch
+ 1597  rmdir pytorch -R
+ 1598  rmdir pytorch 
+ 1599  rmdir -rf pytorch/
+ 1600  rmdir -rf pytorch
+ 1601  ls
+ 1602  rmdir -rf pytorch
+ 1603  rmdir pytorch 
+ 1604  ls
+ 1605  ls pytorch/
+ 1606  cd ..
+ 1607  git clone --recursive https://github.com/pytorch/pytorch
+ 1608  cd pytorch/
+ 1609  python setup.py install --with-mpi
+ 1610  python setup.py build
+ 1611  python setup.py install 
+ 1612  ls
+ 1613  cd ..
+ 1614  cd Codes/
+ 1615  ls
+ 1616  python mpi_test.py 
+ 1617  ls
+ 1618  python test_gpu.py 4
+ 1619  clear
+ 1620  python mpi_test.py
+ 1621  mpirun mpi_test.py 
+ 1622  mpiexec
+ 1623  mpiexec -n 2 python mpi_test.py 
+ 1624  mpirun -np 2 python mpi_test.py 
+ 1625  mpirun -np 2 python pytorch_distributed.py
+ 1626  export OMPI_COMM_WORLD_SIZE=4 # Set this to the number of desired processes
+ 1627  export OMPI_COMM_WORLD_RANK=0 # Set this to the number of desired processes
+ 1628  mpirun -np 2 python pytorch_distributed.py
+ 1629  sudo apt-get update
+ 1630  sudo apt-get -y install openmpi-common
+ 1631  sudo apt update
+ 1632  git
+ 1633  cd cat /usr/include/x86_64-linux-gnu/cudnn_version_v8.h | grep CUDNN_MAJOR -A 2
+ 1634  cat /usr/include/x86_64-linux-gnu/cudnn_version_v8.h | grep CUDNN_MAJOR -A 2
+ 1635  clear
+ 1636  ls
+ 1637  mpiexec -n 3 python mpi_test.py 
+ 1638  sudo apt install python3-mpi4py
+ 1639  mpiexec -n 3 python mpi_test.py 
+ 1640  python -m pip install mpi4py
+ 1641  mpiexec -n 3 python mpi_test.py 
+ 1642  mpiexec -n 2 python mpi_test.py 
+ 1643  mpiexec -n 3 python mpi_test.py 
+ 1644  watch -n 1 nvidia-smi 
+ 1645  /bin/python3 /home/felixmejia/.vscode/extensions/ms-python.python-2023.20.0/pythonFiles/shell_exec.py /bin/python3 -m pip install -U torch-tb-profiler /tmp/tmp-7893l376OVWYA6qw.log
+ 1646  /bin/python3 /home/felixmejia/.vscode/extensions/ms-python.python-2023.20.0/pythonFiles/shell_exec.py /bin/python3 -m pip install -U tensorboard /tmp/tmp-7893N4wWxfJBt5VB.log
+ 1647  sudo apt install okular
+ 1648  source VirtualEnv/VEnvCheXpert/bin/activate
+ 1649  cd VirtualEnv/VEnvCheXpert/Codes/chexpert-small/Codes_ChexpertSmall/
+ 1650  history > commands_his.txt
+ 
+ 
+ 
+ mpirun -np 3 python pytorch_distributed.py
+ 
+ 
+ 
+  mpirun -np 3 python mpi_nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 --train --n_epochs 5 --cuda 0 --plot_roc --batch_size 24 --model NetWork - 
+ 
+ 
+ 
+ 
+ 

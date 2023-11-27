@@ -1,0 +1,1402 @@
+mpiexec -np 3 python mpi_nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 --train --n_epochs 5 --plot_roc --batch_size 24 --model NetWork 
+messages :  0
+[{'role': 'system', 'content': 'You are an expert in the field of neural architecture search.'}, {'role': 'user', 'content': "Your task is to assist me in selecting the best operations for a given two models architectures, which includes eight undefined layers and available operations. The two models will be trained and tested on ChexPert dataset, and your objective will be to maximize the model's performance on Chexpert dataset.\n\nWe define the 3 available operations as the following:\n0: Identity(in_channels, out_channels, stride)\n1: InvertedResidual(in_channels, out_channels, stride expansion=3, kernel_size=3)\n2: InvertedResidual(in_channels, out_channels, stride expansion=6, kernel_size=5)\n\nThe implementation of the Identity is as follows:\nclass Identity(nn.Module):\n    def __init__(self, in_channels, out_channels, stride):\n        super(Identity, self).__init__()\n        if stride != 1 or in_channels != out_channels:\n            self.downsample = nn.Sequential(\n                nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=stride, bias=False),\n                nn.BatchNorm2d(out_channels),\n            )\n        else:\n            self.downsample = None\n\n    def forward(self, x):\n        if self.downsample is not None:\n            x = self.downsample(x)\n        return x\n\nThe implementation of the InvertedResidual is as follows:\nclass InvertedResidual(nn.Module):\n    def __init__(self, in_channels, out_channels, stride, expansion, kernel_size):\n        super(InvertedResidual, self).__init__()\n        hidden_dim = in_channels * expansion\n        self.conv = nn.Sequential(\n            nn.Conv2d(in_channels, hidden_dim, kernel_size=1, stride=1, padding=0, bias=False),\n            nn.BatchNorm2d(hidden_dim),\n            nn.ReLU(inplace=True),\n            nn.Conv2d(hidden_dim, hidden_dim, kernel_size=kernel_size, stride=stride, padding=kernel_size//2, groups=hidden_dim, bias=False),\n            nn.BatchNorm2d(hidden_dim),\n            nn.ReLU(inplace=True),\n            nn.Conv2d(hidden_dim, out_channels, 1, 1, 0, bias=False),\n            nn.BatchNorm2d(out_channels),\n        )\n        self.use_shortcut = in_channels == out_channels and stride == 1\n\n    def forward(self, x):\n        if self.use_shortcut:\n            return self.conv(x) + x\n        return self.conv(x)\n        \n\nThe two models architectures will be defined as the following.\n{\n    layer1:  {defined: True,  operation: nn.Conv2d(in_channels=3,  out_channels=32, kernel_size=3, padding=1, bias=False)},\n    layer2:  {defined: False, downsample: True , in_channels: 32,  out_channels: 64 , stride: 2},\n    layer3:  {defined: False, downsample: False, in_channels: 64,  out_channels: 64 , stride: 1},\n    layer4:  {defined: False, downsample: True , in_channels: 64,  out_channels: 128, stride: 2},\n    layer5:  {defined: False, downsample: False, in_channels: 128, out_channels: 128, stride: 1},\n    layer6:  {defined: False, downsample: False, in_channels: 128, out_channels: 128, stride: 1},\n    layer7:  {defined: False, downsample: True , in_channels: 128, out_channels: 256, stride: 2},\n    layer8:  {defined: False, downsample: False, in_channels: 256, out_channels: 256, stride: 1},\n    layer9:  {defined: False, downsample: False, in_channels: 256, out_channels: 256, stride: 1},\n    layer10: {defined: True,  operation: nn.Conv2d(in_channels=256, out_channels=1280, kernel_size=1, bias=False, stride=1)},\n    layer11: {defined: True,  operation: nn.AdaptiveAvgPool2d(output_size=1)},\n    layer12: {defined: True,  operation: nn.Linear(in_features=1280, out_features=10)},\n}\n\nThe currently eight undefined layers are layer2 - layer9, that is eight layers and the in_channels and out_channels have already been defined for each layer. To maximize the model's performance on Chexpert dataset, please provide me with your suggested operation for the undefined layers only. \n\nYour response for each model should be an operation ID list for the eight undefined layers. For example:\n[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0] means we use operation 0 for layer2, operation 0 for layer3, operation 0 for layer4, operation 0 for layer5,operation 0 for layer6, operation 0 for layer7, operation 0 for layer8 and operation 0 for layer9 of the first model.\nPlease do not include anything other than the operations ID list of list in your response for the two models."}]
+/n/n
+/n/n
+[1, 0, 1, 0, 0, 1, 0, 0], [1, 0, 2, 0, 0, 2, 0, 0]
+res[ 0 ][0] =  [1, 0, 1, 0, 0, 1, 0, 0] 
+
+res[ 0 ][1] =  [1, 0, 2, 0, 0, 2, 0, 0] 
+
+Process  1  received data:  10100100
+Process  2  received data:  10200200
+ Save JSON  results/2023-11-18_14-46-260
+ Save JSON  results/2023-11-18_14-46-261
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+Loaded Network (number of parameters: 540,741; weights trained to step 0)
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+GPU-cuda:0 Step at start 0; Training epoch 1/5:   0%|          | 0/9309 [00:00<?, ?it/s]Loaded Network (number of parameters: 750,981; weights trained to step 0)
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+GPU-cuda:0 Step at start 0; Training epoch 1/5: 100%|██████████| 9309/9309 [16:00<00:00,  9.69it/s, loss=2.8791]
+GPU-cuda:1 Step at start 0; Training epoch 1/5:  69%|██████▉   | 6407/9309 [16:00<07:00,  6.91it/s, loss=2.1211]
+
+AUC: 0 
+ {0: 0.7701298701298702,
+ 1: 0.7050850460666195,
+ 2: 0.839589929142168,
+ 3: 0.8279835390946503,
+ 4: 0.8004289927607472}
+Average: 0.788643475438811 
+
+GPU-cuda:1 Step at start 0; Training epoch 1/5: 100%|██████████| 9309/9309 [23:23<00:00,  6.63it/s, loss=2.7538]51]
+GPU-cuda:0 Step at start 9309; Training epoch 2/5:  43%|████▎     | 4022/9309 [07:23<09:41,  9.09it/s, loss=2.3379]
+
+AUC: 0 
+ {0: 0.7650162337662337,
+ 1: 0.7062367115520907,
+ 2: 0.8631086989295945,
+ 3: 0.8545561434450324,
+ 4: 0.8005183662525694}
+Average: 0.7978872307891042 
+
+GPU-cuda:0 Step at start 9309; Training epoch 2/5: 100%|██████████| 9309/9309 [17:11<00:00,  9.02it/s, loss=2.6758]
+GPU-cuda:1 Step at start 9309; Training epoch 2/5:  41%|████▏     | 3863/9309 [09:48<13:39,  6.64it/s, loss=2.6228]
+
+AUC: 1 
+ {0: 0.7741071428571429,
+ 1: 0.7423812898653437,
+ 2: 0.8659731644806271,
+ 3: 0.8457378012933569,
+ 4: 0.8207167754044149}
+Average: 0.809783234780177 
+
+GPU-cuda:1 Step at start 9309; Training epoch 2/5: 100%|██████████| 9309/9309 [23:42<00:00,  6.54it/s, loss=2.8466]]
+GPU-cuda:0 Step at start 18618; Training epoch 3/5:  80%|███████▉  | 7423/9309 [13:54<03:31,  8.93it/s, loss=2.2200]
+
+AUC: 1 
+ {0: 0.7568993506493508,
+ 1: 0.7592133238837704,
+ 2: 0.8305442484546963,
+ 3: 0.867607289829512,
+ 4: 0.7954240772186968}
+Average: 0.8019376580072052 
+
+GPU-cuda:0 Step at start 18618; Training epoch 3/5: 100%|██████████| 9309/9309 [17:29<00:00,  8.87it/s, loss=2.2583]
+GPU-cuda:1 Step at start 18618; Training epoch 3/5:  15%|█▌        | 1414/9309 [03:34<19:15,  6.84it/s, loss=2.4537]
+
+AUC: 2 
+ {0: 0.7742694805194805,
+ 1: 0.7075655563430192,
+ 2: 0.8692899140660335,
+ 3: 0.8589065255731921,
+ 4: 0.8007864867280365}
+Average: 0.8021635926459524 
+
+GPU-cuda:0 Step at start 27927; Training epoch 4/5: 100%|██████████| 9309/9309 [18:00<00:00,  8.62it/s, loss=2.4563]
+GPU-cuda:1 Step at start 18618; Training epoch 3/5:  90%|█████████ | 8413/9309 [21:36<02:12,  6.75it/s, loss=2.6430]
+
+AUC: 3 
+ {0: 0.788961038961039,
+ 1: 0.779500354358611,
+ 2: 0.8744157997889341,
+ 3: 0.8653733098177543,
+ 4: 0.8093663419429797}
+Average: 0.8235233689738635 
+
+GPU-cuda:1 Step at start 18618; Training epoch 3/5: 100%|██████████| 9309/9309 [23:54<00:00,  6.49it/s, loss=2.7356]
+GPU-cuda:0 Step at start 37236; Training epoch 5/5:  13%|█▎        | 1164/9309 [02:18<16:16,  8.34it/s, loss=2.7494]
+
+AUC: 2 
+ {0: 0.772646103896104,
+ 1: 0.7000354358610914,
+ 2: 0.8753203678576813,
+ 3: 0.8777189888300999,
+ 4: 0.833318437751363}
+Average: 0.8118078668392679 
+
+GPU-cuda:0 Step at start 37236; Training epoch 5/5: 100%|██████████| 9309/9309 [18:50<00:00,  8.24it/s, loss=2.6693]
+GPU-cuda:1 Step at start 27927; Training epoch 4/5:  70%|██████▉   | 6494/9309 [16:32<06:52,  6.83it/s, loss=2.5667]
+
+AUC: 4 
+ {0: 0.7920454545454546,
+ 1: 0.7296243798724309,
+ 2: 0.8870797527513945,
+ 3: 0.8684303350970018,
+ 4: 0.8117794262221825}
+Average: 0.8177918696976928 
+
+GPU-cuda:1 Step at start 27927; Training epoch 4/5:  70%|███████   | 6521/9309 [16:36<07:16,  6.39it/s, loss=2.2256]Liberada memory GPU  cuda:0
+GPU-cuda:1 Step at start 27927; Training epoch 4/5: 100%|██████████| 9309/9309 [23:38<00:00,  6.56it/s, loss=2.5319]
+
+
+AUC: 3 
+ {0: 0.800974025974026,
+ 1: 0.7229801559177887,
+ 2: 0.8795416855118348,
+ 3: 0.8832451499118166,
+ 4: 0.8535168469032085}
+Average: 0.8280515728437351 
+
+GPU-cuda:1 Step at start 37236; Training epoch 5/5: 100%|██████████| 9309/9309 [22:59<00:00,  6.75it/s, loss=2.4574]
+
+
+AUC: 4 
+ {0: 0.7665584415584416,
+ 1: 0.7027817150956769,
+ 2: 0.8718528569274838,
+ 3: 0.896413874191652,
+ 4: 0.8538743408704978}
+Average: 0.8182962457287504 
+
+Liberada memory GPU  cuda:1
+Accuracies from worker nodes: [0.8177918696976928, 0.8182962457287504]
+messages :  1
+[{'role': 'system', 'content': 'You are an expert in the field of neural architecture search.'}, {'role': 'user', 'content': "Your task is to assist me in selecting the best operations for a given two models architectures, which includes eight undefined layers and available operations. The two models will be trained and tested on ChexPert dataset, and your objective will be to maximize the model's performance on Chexpert dataset.\n\nWe define the 3 available operations as the following:\n0: Identity(in_channels, out_channels, stride)\n1: InvertedResidual(in_channels, out_channels, stride expansion=3, kernel_size=3)\n2: InvertedResidual(in_channels, out_channels, stride expansion=6, kernel_size=5)\n\nThe implementation of the Identity is as follows:\nclass Identity(nn.Module):\n    def __init__(self, in_channels, out_channels, stride):\n        super(Identity, self).__init__()\n        if stride != 1 or in_channels != out_channels:\n            self.downsample = nn.Sequential(\n                nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=stride, bias=False),\n                nn.BatchNorm2d(out_channels),\n            )\n        else:\n            self.downsample = None\n\n    def forward(self, x):\n        if self.downsample is not None:\n            x = self.downsample(x)\n        return x\n\nThe implementation of the InvertedResidual is as follows:\nclass InvertedResidual(nn.Module):\n    def __init__(self, in_channels, out_channels, stride, expansion, kernel_size):\n        super(InvertedResidual, self).__init__()\n        hidden_dim = in_channels * expansion\n        self.conv = nn.Sequential(\n            nn.Conv2d(in_channels, hidden_dim, kernel_size=1, stride=1, padding=0, bias=False),\n            nn.BatchNorm2d(hidden_dim),\n            nn.ReLU(inplace=True),\n            nn.Conv2d(hidden_dim, hidden_dim, kernel_size=kernel_size, stride=stride, padding=kernel_size//2, groups=hidden_dim, bias=False),\n            nn.BatchNorm2d(hidden_dim),\n            nn.ReLU(inplace=True),\n            nn.Conv2d(hidden_dim, out_channels, 1, 1, 0, bias=False),\n            nn.BatchNorm2d(out_channels),\n        )\n        self.use_shortcut = in_channels == out_channels and stride == 1\n\n    def forward(self, x):\n        if self.use_shortcut:\n            return self.conv(x) + x\n        return self.conv(x)\n        \n\nThe two models architectures will be defined as the following.\n{\n    layer1:  {defined: True,  operation: nn.Conv2d(in_channels=3,  out_channels=32, kernel_size=3, padding=1, bias=False)},\n    layer2:  {defined: False, downsample: True , in_channels: 32,  out_channels: 64 , stride: 2},\n    layer3:  {defined: False, downsample: False, in_channels: 64,  out_channels: 64 , stride: 1},\n    layer4:  {defined: False, downsample: True , in_channels: 64,  out_channels: 128, stride: 2},\n    layer5:  {defined: False, downsample: False, in_channels: 128, out_channels: 128, stride: 1},\n    layer6:  {defined: False, downsample: False, in_channels: 128, out_channels: 128, stride: 1},\n    layer7:  {defined: False, downsample: True , in_channels: 128, out_channels: 256, stride: 2},\n    layer8:  {defined: False, downsample: False, in_channels: 256, out_channels: 256, stride: 1},\n    layer9:  {defined: False, downsample: False, in_channels: 256, out_channels: 256, stride: 1},\n    layer10: {defined: True,  operation: nn.Conv2d(in_channels=256, out_channels=1280, kernel_size=1, bias=False, stride=1)},\n    layer11: {defined: True,  operation: nn.AdaptiveAvgPool2d(output_size=1)},\n    layer12: {defined: True,  operation: nn.Linear(in_features=1280, out_features=10)},\n}\n\nThe currently eight undefined layers are layer2 - layer9, that is eight layers and the in_channels and out_channels have already been defined for each layer. To maximize the model's performance on Chexpert dataset, please provide me with your suggested operation for the undefined layers only. \n\nYour response for each model should be an operation ID list for the eight undefined layers. For example:\n[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0] means we use operation 0 for layer2, operation 0 for layer3, operation 0 for layer4, operation 0 for layer5,operation 0 for layer6, operation 0 for layer7, operation 0 for layer8 and operation 0 for layer9 of the first model.\nHere are some experimental results that you can use as a reference:\n[1, 0, 1, 0, 0, 1, 0, 0] gives an accuracy of 0.82%\n[1, 0, 2, 0, 0, 2, 0, 0] gives an accuracy of 0.82%\n\nPlease suggest a better operation ID list that can improve the model's performance on Chexpert dataset beyond the experimental results provided above.\nPlease do not include anything other than the operations ID list of list in your response for the two models."}]
+/n/n
+/n/n
+[1, 2, 1, 2, 2, 1, 2, 1], [2, 1, 2, 1, 1, 2, 1, 2]
+res[ 1 ][0] =  [1, 2, 1, 2, 2, 1, 2, 1] 
+
+res[ 1 ][1] =  [2, 1, 2, 1, 1, 2, 1, 2] 
+
+Process  1  received data:  12122121
+Process  2  received data:  21211212
+ Save JSON  results/2023-11-18_14-46-2600
+ Save JSON  results/2023-11-18_14-46-2611
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+Loaded Network (number of parameters: 2,274,629; weights trained to step 46545)
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+GPU-cuda:0 Step at start 46545; Training epoch 1/5:   0%|          | 0/9309 [00:00<?, ?it/s]procesando ........ /n
+procesando ........ /n
+Loaded Network (number of parameters: 2,234,021; weights trained to step 46545)
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+GPU-cuda:1 Step at start 46545; Training epoch 1/5: 100%|██████████| 9309/9309 [55:29<00:00,  2.80it/s, loss=2.2990]  
+GPU-cuda:0 Step at start 46545; Training epoch 1/5:  81%|████████  | 7522/9309 [55:30<14:03,  2.12it/s, loss=2.1137]
+
+AUC: 0 
+ {0: 0.7943993506493506,
+ 1: 0.7062367115520907,
+ 2: 0.8900949796472185,
+ 3: 0.8817166372721927,
+ 4: 0.8825632317454644}
+Average: 0.8310021821732633 
+
+GPU-cuda:0 Step at start 46545; Training epoch 1/5: 100%|██████████| 9309/9309 [1:09:40<00:00,  2.23it/s, loss=2.4918]
+GPU-cuda:1 Step at start 55854; Training epoch 2/5:  25%|██▌       | 2363/9309 [14:11<43:14,  2.68it/s, loss=2.5715]
+
+AUC: 0 
+ {0: 0.8404220779220779,
+ 1: 0.7911055988660525,
+ 2: 0.8931102065430423,
+ 3: 0.8846560846560846,
+ 4: 0.886853159352936}
+Average: 0.8592294254680386 
+
+GPU-cuda:1 Step at start 55854; Training epoch 2/5: 100%|██████████| 9309/9309 [55:43<00:00,  2.78it/s, loss=2.9966]  
+GPU-cuda:0 Step at start 55854; Training epoch 2/5:  56%|█████▌    | 5219/9309 [41:33<31:46,  2.15it/s, loss=2.2653]
+
+AUC: 1 
+ {0: 0.8314123376623377,
+ 1: 0.6777108433734939,
+ 2: 0.9176843057440073,
+ 3: 0.8826572604350382,
+ 4: 0.9028510143891322}
+Average: 0.8424631523208017 
+
+GPU-cuda:0 Step at start 55854; Training epoch 2/5: 100%|██████████| 9309/9309 [1:13:49<00:00,  2.10it/s, loss=2.0761]
+GPU-cuda:1 Step at start 65163; Training epoch 3/5:  58%|█████▊    | 5431/9309 [32:17<22:51,  2.83it/s, loss=2.0539]
+
+AUC: 1 
+ {0: 0.8340097402597403,
+ 1: 0.78694188518781,
+ 2: 0.8997437057138551,
+ 3: 0.8954732510288065,
+ 4: 0.9004379301099295}
+Average: 0.8633213024600284 
+
+GPU-cuda:1 Step at start 65163; Training epoch 3/5: 100%|██████████| 9309/9309 [55:29<00:00,  2.80it/s, loss=2.2464]  
+GPU-cuda:0 Step at start 65163; Training epoch 3/5:  30%|███       | 2793/9309 [23:12<54:33,  1.99it/s, loss=2.1622]
+
+AUC: 2 
+ {0: 0.804788961038961,
+ 1: 0.8066087880935506,
+ 2: 0.9033619779888438,
+ 3: 0.91005291005291,
+ 4: 0.9128608454732327}
+Average: 0.8675346965294997 
+
+GPU-cuda:0 Step at start 65163; Training epoch 3/5: 100%|██████████| 9309/9309 [1:14:09<00:00,  2.09it/s, loss=2.7879]
+GPU-cuda:1 Step at start 74472; Training epoch 4/5:  93%|█████████▎| 8662/9309 [50:58<03:44,  2.88it/s, loss=2.3816]
+
+AUC: 2 
+ {0: 0.81875,
+ 1: 0.7863217576187101,
+ 2: 0.8955223880597014,
+ 3: 0.9178130511463845,
+ 4: 0.9138439538832782}
+Average: 0.8664502301416148 
+
+GPU-cuda:1 Step at start 74472; Training epoch 4/5: 100%|██████████| 9309/9309 [54:44<00:00,  2.83it/s, loss=2.4703]]
+GPU-cuda:0 Step at start 74472; Training epoch 4/5:   5%|▌         | 472/9309 [03:47<1:12:06,  2.04it/s, loss=2.2221]
+
+AUC: 3 
+ {0: 0.7967532467532469,
+ 1: 0.7977498228206946,
+ 2: 0.8769787426503844,
+ 3: 0.9179306290417402,
+ 4: 0.9190276164089731}
+Average: 0.8616880115350078 
+
+GPU-cuda:1 Step at start 83781; Training epoch 5/5: 100%|██████████| 9309/9309 [54:15<00:00,  2.86it/s, loss=2.1637]  
+GPU-cuda:0 Step at start 74472; Training epoch 4/5:  81%|████████  | 7552/9309 [58:03<12:46,  2.29it/s, loss=2.1896]
+
+AUC: 4 
+ {0: 0.8150974025974026,
+ 1: 0.7510630758327428,
+ 2: 0.8946178199909544,
+ 3: 0.9188712522045855,
+ 4: 0.9105371346858522}
+Average: 0.8580373370623076 
+
+GPU-cuda:0 Step at start 74472; Training epoch 4/5:  81%|████████▏ | 7564/9309 [58:09<12:38,  2.30it/s, loss=2.9138]Liberada memory GPU  cuda:1
+GPU-cuda:0 Step at start 74472; Training epoch 4/5: 100%|██████████| 9309/9309 [1:10:19<00:00,  2.21it/s, loss=2.4189]
+
+
+AUC: 3 
+ {0: 0.8275974025974027,
+ 1: 0.7748051027639972,
+ 2: 0.9063772048846676,
+ 3: 0.9106407995296883,
+ 4: 0.8954330145678792}
+Average: 0.862970704868727 
+
+GPU-cuda:0 Step at start 83781; Training epoch 5/5: 100%|██████████| 9309/9309 [58:27<00:00,  2.65it/s, loss=1.7952]  
+
+
+AUC: 4 
+ {0: 0.8294642857142857,
+ 1: 0.7748936924167258,
+ 2: 0.8807477762701643,
+ 3: 0.9267489711934156,
+ 4: 0.9097327732594513}
+Average: 0.8643174997708085 
+
+Liberada memory GPU  cuda:0
+Accuracies from worker nodes: [0.8643174997708085, 0.8580373370623076]
+messages :  2
+[{'role': 'system', 'content': 'You are an expert in the field of neural architecture search.'}, {'role': 'user', 'content': "Your task is to assist me in selecting the best operations for a given two models architectures, which includes eight undefined layers and available operations. The two models will be trained and tested on ChexPert dataset, and your objective will be to maximize the model's performance on Chexpert dataset.\n\nWe define the 3 available operations as the following:\n0: Identity(in_channels, out_channels, stride)\n1: InvertedResidual(in_channels, out_channels, stride expansion=3, kernel_size=3)\n2: InvertedResidual(in_channels, out_channels, stride expansion=6, kernel_size=5)\n\nThe implementation of the Identity is as follows:\nclass Identity(nn.Module):\n    def __init__(self, in_channels, out_channels, stride):\n        super(Identity, self).__init__()\n        if stride != 1 or in_channels != out_channels:\n            self.downsample = nn.Sequential(\n                nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=stride, bias=False),\n                nn.BatchNorm2d(out_channels),\n            )\n        else:\n            self.downsample = None\n\n    def forward(self, x):\n        if self.downsample is not None:\n            x = self.downsample(x)\n        return x\n\nThe implementation of the InvertedResidual is as follows:\nclass InvertedResidual(nn.Module):\n    def __init__(self, in_channels, out_channels, stride, expansion, kernel_size):\n        super(InvertedResidual, self).__init__()\n        hidden_dim = in_channels * expansion\n        self.conv = nn.Sequential(\n            nn.Conv2d(in_channels, hidden_dim, kernel_size=1, stride=1, padding=0, bias=False),\n            nn.BatchNorm2d(hidden_dim),\n            nn.ReLU(inplace=True),\n            nn.Conv2d(hidden_dim, hidden_dim, kernel_size=kernel_size, stride=stride, padding=kernel_size//2, groups=hidden_dim, bias=False),\n            nn.BatchNorm2d(hidden_dim),\n            nn.ReLU(inplace=True),\n            nn.Conv2d(hidden_dim, out_channels, 1, 1, 0, bias=False),\n            nn.BatchNorm2d(out_channels),\n        )\n        self.use_shortcut = in_channels == out_channels and stride == 1\n\n    def forward(self, x):\n        if self.use_shortcut:\n            return self.conv(x) + x\n        return self.conv(x)\n        \n\nThe two models architectures will be defined as the following.\n{\n    layer1:  {defined: True,  operation: nn.Conv2d(in_channels=3,  out_channels=32, kernel_size=3, padding=1, bias=False)},\n    layer2:  {defined: False, downsample: True , in_channels: 32,  out_channels: 64 , stride: 2},\n    layer3:  {defined: False, downsample: False, in_channels: 64,  out_channels: 64 , stride: 1},\n    layer4:  {defined: False, downsample: True , in_channels: 64,  out_channels: 128, stride: 2},\n    layer5:  {defined: False, downsample: False, in_channels: 128, out_channels: 128, stride: 1},\n    layer6:  {defined: False, downsample: False, in_channels: 128, out_channels: 128, stride: 1},\n    layer7:  {defined: False, downsample: True , in_channels: 128, out_channels: 256, stride: 2},\n    layer8:  {defined: False, downsample: False, in_channels: 256, out_channels: 256, stride: 1},\n    layer9:  {defined: False, downsample: False, in_channels: 256, out_channels: 256, stride: 1},\n    layer10: {defined: True,  operation: nn.Conv2d(in_channels=256, out_channels=1280, kernel_size=1, bias=False, stride=1)},\n    layer11: {defined: True,  operation: nn.AdaptiveAvgPool2d(output_size=1)},\n    layer12: {defined: True,  operation: nn.Linear(in_features=1280, out_features=10)},\n}\n\nThe currently eight undefined layers are layer2 - layer9, that is eight layers and the in_channels and out_channels have already been defined for each layer. To maximize the model's performance on Chexpert dataset, please provide me with your suggested operation for the undefined layers only. \n\nYour response for each model should be an operation ID list for the eight undefined layers. For example:\n[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0] means we use operation 0 for layer2, operation 0 for layer3, operation 0 for layer4, operation 0 for layer5,operation 0 for layer6, operation 0 for layer7, operation 0 for layer8 and operation 0 for layer9 of the first model.\nHere are some experimental results that you can use as a reference:\n[1, 0, 1, 0, 0, 1, 0, 0] gives an accuracy of 0.82%\n[1, 0, 2, 0, 0, 2, 0, 0] gives an accuracy of 0.82%\n[1, 2, 1, 2, 2, 1, 2, 1] gives an accuracy of 0.86%\n[2, 1, 2, 1, 1, 2, 1, 2] gives an accuracy of 0.86%\n\nPlease suggest a better operation ID list that can improve the model's performance on Chexpert dataset beyond the experimental results provided above.\nPlease do not include anything other than the operations ID list of list in your response for the two models."}]
+/n/n
+/n/n
+[1, 2, 1, 2, 2, 1, 2, 2], [2, 1, 2, 1, 1, 2, 1, 1]
+res[ 2 ][0] =  [1, 2, 1, 2, 2, 1, 2, 2] 
+
+res[ 2 ][1] =  [2, 1, 2, 1, 1, 2, 1, 1] 
+
+Process  1  received data:  12122122
+Process  2  received data:  21211211
+ Save JSON  results/2023-11-18_14-46-26000
+ Save JSON  results/2023-11-18_14-46-26111
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+Loaded Network (number of parameters: 2,702,405; weights trained to step 93090)
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+GPU-cuda:0 Step at start 93090; Training epoch 1/5:   0%|          | 0/9309 [00:00<?, ?it/s]Loaded Network (number of parameters: 1,806,245; weights trained to step 93090)
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+GPU-cuda:1 Step at start 93090; Training epoch 1/5: 100%|██████████| 9309/9309 [49:57<00:00,  3.11it/s, loss=2.3678]  
+GPU-cuda:0 Step at start 93090; Training epoch 1/5:  75%|███████▌  | 6992/9309 [49:58<16:19,  2.37it/s, loss=2.4319]
+
+AUC: 0 
+ {0: 0.8340097402597402,
+ 1: 0.7393692416725727,
+ 2: 0.8997437057138549,
+ 3: 0.8826572604350382,
+ 4: 0.8616498346590402}
+Average: 0.8434859565480493 
+
+GPU-cuda:0 Step at start 93090; Training epoch 1/5: 100%|██████████| 9309/9309 [1:07:05<00:00,  2.31it/s, loss=2.7155] 
+GPU-cuda:1 Step at start 102399; Training epoch 2/5:  34%|███▍      | 3191/9309 [17:08<32:34,  3.13it/s, loss=2.5872]
+
+AUC: 0 
+ {0: 0.8280844155844157,
+ 1: 0.7718816442239547,
+ 2: 0.8879843208201417,
+ 3: 0.8799529688418578,
+ 4: 0.8832782196800427}
+Average: 0.8502363138300826 
+
+GPU-cuda:1 Step at start 102399; Training epoch 2/5: 100%|██████████| 9309/9309 [49:57<00:00,  3.11it/s, loss=2.3455]  
+GPU-cuda:0 Step at start 102399; Training epoch 2/5:  49%|████▊     | 4532/9309 [32:50<33:12,  2.40it/s, loss=2.2372]
+
+AUC: 1 
+ {0: 0.8343344155844157,
+ 1: 0.7912827781715096,
+ 2: 0.8985376149555253,
+ 3: 0.8987654320987655,
+ 4: 0.8968629904370363}
+Average: 0.8639566462494503 
+
+GPU-cuda:0 Step at start 102399; Training epoch 2/5: 100%|██████████| 9309/9309 [1:07:02<00:00,  2.31it/s, loss=2.5128]
+GPU-cuda:1 Step at start 111708; Training epoch 3/5:  69%|██████▉   | 6402/9309 [34:13<15:17,  3.17it/s, loss=2.1856]
+
+AUC: 1 
+ {0: 0.8112824675324676,
+ 1: 0.8129872430900071,
+ 2: 0.8331071913161465,
+ 3: 0.8978248089359201,
+ 4: 0.8941817856823665}
+Average: 0.8498766993113815 
+
+GPU-cuda:1 Step at start 111708; Training epoch 3/5: 100%|██████████| 9309/9309 [49:45<00:00,  3.12it/s, loss=2.6282]  
+GPU-cuda:0 Step at start 111708; Training epoch 3/5:  23%|██▎       | 2136/9309 [15:33<54:06,  2.21it/s, loss=1.9414]
+
+AUC: 2 
+ {0: 0.8176136363636364,
+ 1: 0.7961552090715803,
+ 2: 0.8676315392733304,
+ 3: 0.9058201058201059,
+ 4: 0.8741621235141658}
+Average: 0.8522765228085637 
+
+GPU-cuda:1 Step at start 121017; Training epoch 4/5: 100%|██████████| 9309/9309 [49:47<00:00,  3.12it/s, loss=2.3835]3]
+GPU-cuda:0 Step at start 111708; Training epoch 3/5:  97%|█████████▋| 9002/9309 [1:05:22<02:05,  2.44it/s, loss=2.1537]
+
+AUC: 3 
+ {0: 0.8129058441558441,
+ 1: 0.7927002126151664,
+ 2: 0.8751696065128901,
+ 3: 0.8948853615520282,
+ 4: 0.8866744123692912}
+Average: 0.8524670874410439 
+
+GPU-cuda:0 Step at start 111708; Training epoch 3/5: 100%|██████████| 9309/9309 [1:07:35<00:00,  2.30it/s, loss=2.2821]
+GPU-cuda:1 Step at start 130326; Training epoch 5/5:   5%|▍         | 421/9309 [02:14<47:10,  3.14it/s, loss=2.8563]
+
+AUC: 2 
+ {0: 0.8361201298701298,
+ 1: 0.7691353649893692,
+ 2: 0.8965777174732399,
+ 3: 0.9243974132863022,
+ 4: 0.9114308696040754}
+Average: 0.8675322990446233 
+
+GPU-cuda:1 Step at start 130326; Training epoch 5/5: 100%|██████████| 9309/9309 [49:37<00:00,  3.13it/s, loss=2.5598]  
+GPU-cuda:0 Step at start 121017; Training epoch 4/5:  71%|███████   | 6580/9309 [47:23<18:31,  2.45it/s, loss=2.0518]
+
+AUC: 4 
+ {0: 0.794237012987013,
+ 1: 0.8023564847625798,
+ 2: 0.8759234132368461,
+ 3: 0.9000587889476779,
+ 4: 0.8994548216998838}
+Average: 0.8544061043268002 
+
+GPU-cuda:0 Step at start 121017; Training epoch 4/5:  71%|███████   | 6593/9309 [47:29<18:52,  2.40it/s, loss=2.0378]Liberada memory GPU  cuda:1
+GPU-cuda:0 Step at start 121017; Training epoch 4/5: 100%|██████████| 9309/9309 [1:05:35<00:00,  2.37it/s, loss=1.9690]
+
+
+AUC: 3 
+ {0: 0.8094967532467533,
+ 1: 0.8274273564847626,
+ 2: 0.8825569124076587,
+ 3: 0.9199294532627866,
+ 4: 0.9194744838680848}
+Average: 0.8717769918540093 
+
+GPU-cuda:0 Step at start 130326; Training epoch 5/5: 100%|██████████| 9309/9309 [58:59<00:00,  2.63it/s, loss=1.8405]  
+
+
+AUC: 4 
+ {0: 0.8353896103896103,
+ 1: 0.7969525159461375,
+ 2: 0.8795416855118348,
+ 3: 0.9208700764256319,
+ 4: 0.9170613995888819}
+Average: 0.8699630575724193 
+
+Liberada memory GPU  cuda:0
+Accuracies from worker nodes: [0.8699630575724193, 0.8544061043268002]
+messages :  3
+[{'role': 'system', 'content': 'You are an expert in the field of neural architecture search.'}, {'role': 'user', 'content': "Your task is to assist me in selecting the best operations for a given two models architectures, which includes eight undefined layers and available operations. The two models will be trained and tested on ChexPert dataset, and your objective will be to maximize the model's performance on Chexpert dataset.\n\nWe define the 3 available operations as the following:\n0: Identity(in_channels, out_channels, stride)\n1: InvertedResidual(in_channels, out_channels, stride expansion=3, kernel_size=3)\n2: InvertedResidual(in_channels, out_channels, stride expansion=6, kernel_size=5)\n\nThe implementation of the Identity is as follows:\nclass Identity(nn.Module):\n    def __init__(self, in_channels, out_channels, stride):\n        super(Identity, self).__init__()\n        if stride != 1 or in_channels != out_channels:\n            self.downsample = nn.Sequential(\n                nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=stride, bias=False),\n                nn.BatchNorm2d(out_channels),\n            )\n        else:\n            self.downsample = None\n\n    def forward(self, x):\n        if self.downsample is not None:\n            x = self.downsample(x)\n        return x\n\nThe implementation of the InvertedResidual is as follows:\nclass InvertedResidual(nn.Module):\n    def __init__(self, in_channels, out_channels, stride, expansion, kernel_size):\n        super(InvertedResidual, self).__init__()\n        hidden_dim = in_channels * expansion\n        self.conv = nn.Sequential(\n            nn.Conv2d(in_channels, hidden_dim, kernel_size=1, stride=1, padding=0, bias=False),\n            nn.BatchNorm2d(hidden_dim),\n            nn.ReLU(inplace=True),\n            nn.Conv2d(hidden_dim, hidden_dim, kernel_size=kernel_size, stride=stride, padding=kernel_size//2, groups=hidden_dim, bias=False),\n            nn.BatchNorm2d(hidden_dim),\n            nn.ReLU(inplace=True),\n            nn.Conv2d(hidden_dim, out_channels, 1, 1, 0, bias=False),\n            nn.BatchNorm2d(out_channels),\n        )\n        self.use_shortcut = in_channels == out_channels and stride == 1\n\n    def forward(self, x):\n        if self.use_shortcut:\n            return self.conv(x) + x\n        return self.conv(x)\n        \n\nThe two models architectures will be defined as the following.\n{\n    layer1:  {defined: True,  operation: nn.Conv2d(in_channels=3,  out_channels=32, kernel_size=3, padding=1, bias=False)},\n    layer2:  {defined: False, downsample: True , in_channels: 32,  out_channels: 64 , stride: 2},\n    layer3:  {defined: False, downsample: False, in_channels: 64,  out_channels: 64 , stride: 1},\n    layer4:  {defined: False, downsample: True , in_channels: 64,  out_channels: 128, stride: 2},\n    layer5:  {defined: False, downsample: False, in_channels: 128, out_channels: 128, stride: 1},\n    layer6:  {defined: False, downsample: False, in_channels: 128, out_channels: 128, stride: 1},\n    layer7:  {defined: False, downsample: True , in_channels: 128, out_channels: 256, stride: 2},\n    layer8:  {defined: False, downsample: False, in_channels: 256, out_channels: 256, stride: 1},\n    layer9:  {defined: False, downsample: False, in_channels: 256, out_channels: 256, stride: 1},\n    layer10: {defined: True,  operation: nn.Conv2d(in_channels=256, out_channels=1280, kernel_size=1, bias=False, stride=1)},\n    layer11: {defined: True,  operation: nn.AdaptiveAvgPool2d(output_size=1)},\n    layer12: {defined: True,  operation: nn.Linear(in_features=1280, out_features=10)},\n}\n\nThe currently eight undefined layers are layer2 - layer9, that is eight layers and the in_channels and out_channels have already been defined for each layer. To maximize the model's performance on Chexpert dataset, please provide me with your suggested operation for the undefined layers only. \n\nYour response for each model should be an operation ID list for the eight undefined layers. For example:\n[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0] means we use operation 0 for layer2, operation 0 for layer3, operation 0 for layer4, operation 0 for layer5,operation 0 for layer6, operation 0 for layer7, operation 0 for layer8 and operation 0 for layer9 of the first model.\nHere are some experimental results that you can use as a reference:\n[1, 0, 1, 0, 0, 1, 0, 0] gives an accuracy of 0.82%\n[1, 0, 2, 0, 0, 2, 0, 0] gives an accuracy of 0.82%\n[1, 2, 1, 2, 2, 1, 2, 1] gives an accuracy of 0.86%\n[2, 1, 2, 1, 1, 2, 1, 2] gives an accuracy of 0.86%\n[1, 2, 1, 2, 2, 1, 2, 2] gives an accuracy of 0.87%\n[2, 1, 2, 1, 1, 2, 1, 1] gives an accuracy of 0.85%\n\nPlease suggest a better operation ID list that can improve the model's performance on Chexpert dataset beyond the experimental results provided above.\nPlease do not include anything other than the operations ID list of list in your response for the two models."}]
+/n/n
+/n/n
+[1, 2, 1, 2, 2, 1, 2, 2], [2, 1, 2, 1, 1, 2, 1, 1]
+res[ 3 ][0] =  [1, 2, 1, 2, 2, 1, 2, 2] 
+
+res[ 3 ][1] =  [2, 1, 2, 1, 1, 2, 1, 1] 
+
+Process  2  received data:  21211211
+Process  1  received data:  12122122
+ Save JSON  results/2023-11-18_14-46-260000
+ Save JSON  results/2023-11-18_14-46-261111
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+Loaded Network (number of parameters: 2,702,405; weights trained to step 139635)
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+GPU-cuda:0 Step at start 139635; Training epoch 1/5:   0%|          | 0/9309 [00:00<?, ?it/s]procesando ........ /n
+procesando ........ /n
+Loaded Network (number of parameters: 1,806,245; weights trained to step 139635)
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+GPU-cuda:1 Step at start 139635; Training epoch 1/5: 100%|██████████| 9309/9309 [49:20<00:00,  3.14it/s, loss=2.4256]  
+GPU-cuda:0 Step at start 139635; Training epoch 1/5:  77%|███████▋  | 7159/9309 [49:21<14:38,  2.45it/s, loss=1.9245]
+
+AUC: 0 
+ {0: 0.8370941558441558,
+ 1: 0.7632884479092843,
+ 2: 0.8949193426805367,
+ 3: 0.8731334509112287,
+ 4: 0.8736258825632317}
+Average: 0.8484122559816875 
+
+GPU-cuda:0 Step at start 139635; Training epoch 1/5: 100%|██████████| 9309/9309 [1:04:19<00:00,  2.41it/s, loss=2.2312]
+GPU-cuda:1 Step at start 148944; Training epoch 2/5:  30%|███       | 2831/9309 [14:58<33:31,  3.22it/s, loss=2.3197]
+
+AUC: 0 
+ {0: 0.8441558441558441,
+ 1: 0.7496456413890858,
+ 2: 0.8952208653701191,
+ 3: 0.8721928277483832,
+ 4: 0.897577978371615}
+Average: 0.8517586314070096 
+
+GPU-cuda:1 Step at start 148944; Training epoch 2/5: 100%|██████████| 9309/9309 [49:17<00:00,  3.15it/s, loss=2.1876]  
+GPU-cuda:0 Step at start 148944; Training epoch 2/5:  53%|█████▎    | 4931/9309 [34:19<34:03,  2.14it/s, loss=2.3007]
+
+AUC: 1 
+ {0: 0.8060876623376624,
+ 1: 0.7824238128986534,
+ 2: 0.8893411729232623,
+ 3: 0.8953556731334509,
+ 4: 0.8979354723389043}
+Average: 0.8542287587263866 
+
+GPU-cuda:0 Step at start 148944; Training epoch 2/5: 100%|██████████| 9309/9309 [1:04:38<00:00,  2.40it/s, loss=2.4817]
+GPU-cuda:1 Step at start 158253; Training epoch 3/5:  62%|██████▏   | 5745/9309 [30:19<18:36,  3.19it/s, loss=2.2151]
+
+AUC: 1 
+ {0: 0.8212662337662338,
+ 1: 0.7647058823529412,
+ 2: 0.8563244384139906,
+ 3: 0.8907701352145796,
+ 4: 0.9022253999463759}
+Average: 0.8470584179388243 
+
+GPU-cuda:1 Step at start 158253; Training epoch 3/5: 100%|██████████| 9309/9309 [49:09<00:00,  3.16it/s, loss=2.5124]  
+GPU-cuda:0 Step at start 158253; Training epoch 3/5:  29%|██▉       | 2712/9309 [18:50<45:09,  2.43it/s, loss=2.8562]
+
+AUC: 2 
+ {0: 0.8137987012987012,
+ 1: 0.8300850460666194,
+ 2: 0.8925071611638775,
+ 3: 0.9059376837154615,
+ 4: 0.9007954240772187}
+Average: 0.8686248032643757 
+
+GPU-cuda:0 Step at start 158253; Training epoch 3/5: 100%|██████████| 9309/9309 [1:04:21<00:00,  2.41it/s, loss=2.4707]
+GPU-cuda:1 Step at start 167562; Training epoch 4/5:  93%|█████████▎| 8641/9309 [45:32<03:25,  3.25it/s, loss=2.1899]
+
+AUC: 2 
+ {0: 0.810064935064935,
+ 1: 0.7553153791637138,
+ 2: 0.8780340720639228,
+ 3: 0.8875955320399765,
+ 4: 0.8873000268120476}
+Average: 0.8436619890289192 
+
+GPU-cuda:1 Step at start 167562; Training epoch 4/5: 100%|██████████| 9309/9309 [49:03<00:00,  3.16it/s, loss=2.2694]]
+GPU-cuda:0 Step at start 167562; Training epoch 4/5:   5%|▌         | 507/9309 [03:31<1:00:09,  2.44it/s, loss=2.2754]
+
+AUC: 3 
+ {0: 0.8274350649350649,
+ 1: 0.7830439404677534,
+ 2: 0.8840645258555706,
+ 3: 0.9088771310993533,
+ 4: 0.9007060505853963}
+Average: 0.8608253425886279 
+
+GPU-cuda:1 Step at start 176871; Training epoch 5/5: 100%|██████████| 9309/9309 [48:59<00:00,  3.17it/s, loss=2.7109]  
+GPU-cuda:0 Step at start 167562; Training epoch 4/5:  82%|████████▏ | 7605/9309 [52:32<11:22,  2.50it/s, loss=2.2509]
+
+AUC: 4 
+ {0: 0.8371753246753246,
+ 1: 0.7779057406094968,
+ 2: 0.8879843208201417,
+ 3: 0.9132275132275133,
+ 4: 0.9111627491286084}
+Average: 0.8654911296922171 
+
+GPU-cuda:0 Step at start 167562; Training epoch 4/5:  82%|████████▏ | 7618/9309 [52:37<12:07,  2.32it/s, loss=1.8752]Liberada memory GPU  cuda:1
+GPU-cuda:0 Step at start 167562; Training epoch 4/5: 100%|██████████| 9309/9309 [1:03:48<00:00,  2.43it/s, loss=2.1876]
+
+
+AUC: 3 
+ {0: 0.8060876623376624,
+ 1: 0.8025336640680371,
+ 2: 0.8913010704055481,
+ 3: 0.8945326278659612,
+ 4: 0.917061399588882}
+Average: 0.8623032848532182 
+
+GPU-cuda:0 Step at start 176871; Training epoch 5/5: 100%|██████████| 9309/9309 [58:32<00:00,  2.65it/s, loss=2.4806]  
+
+
+AUC: 4 
+ {0: 0.7870941558441559,
+ 1: 0.8059886605244507,
+ 2: 0.8626564148952208,
+ 3: 0.8961787184009407,
+ 4: 0.9028510143891322}
+Average: 0.85095379281078 
+
+Liberada memory GPU  cuda:0
+Accuracies from worker nodes: [0.85095379281078, 0.8654911296922171]
+messages :  4
+[{'role': 'system', 'content': 'You are an expert in the field of neural architecture search.'}, {'role': 'user', 'content': "Your task is to assist me in selecting the best operations for a given two models architectures, which includes eight undefined layers and available operations. The two models will be trained and tested on ChexPert dataset, and your objective will be to maximize the model's performance on Chexpert dataset.\n\nWe define the 3 available operations as the following:\n0: Identity(in_channels, out_channels, stride)\n1: InvertedResidual(in_channels, out_channels, stride expansion=3, kernel_size=3)\n2: InvertedResidual(in_channels, out_channels, stride expansion=6, kernel_size=5)\n\nThe implementation of the Identity is as follows:\nclass Identity(nn.Module):\n    def __init__(self, in_channels, out_channels, stride):\n        super(Identity, self).__init__()\n        if stride != 1 or in_channels != out_channels:\n            self.downsample = nn.Sequential(\n                nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=stride, bias=False),\n                nn.BatchNorm2d(out_channels),\n            )\n        else:\n            self.downsample = None\n\n    def forward(self, x):\n        if self.downsample is not None:\n            x = self.downsample(x)\n        return x\n\nThe implementation of the InvertedResidual is as follows:\nclass InvertedResidual(nn.Module):\n    def __init__(self, in_channels, out_channels, stride, expansion, kernel_size):\n        super(InvertedResidual, self).__init__()\n        hidden_dim = in_channels * expansion\n        self.conv = nn.Sequential(\n            nn.Conv2d(in_channels, hidden_dim, kernel_size=1, stride=1, padding=0, bias=False),\n            nn.BatchNorm2d(hidden_dim),\n            nn.ReLU(inplace=True),\n            nn.Conv2d(hidden_dim, hidden_dim, kernel_size=kernel_size, stride=stride, padding=kernel_size//2, groups=hidden_dim, bias=False),\n            nn.BatchNorm2d(hidden_dim),\n            nn.ReLU(inplace=True),\n            nn.Conv2d(hidden_dim, out_channels, 1, 1, 0, bias=False),\n            nn.BatchNorm2d(out_channels),\n        )\n        self.use_shortcut = in_channels == out_channels and stride == 1\n\n    def forward(self, x):\n        if self.use_shortcut:\n            return self.conv(x) + x\n        return self.conv(x)\n        \n\nThe two models architectures will be defined as the following.\n{\n    layer1:  {defined: True,  operation: nn.Conv2d(in_channels=3,  out_channels=32, kernel_size=3, padding=1, bias=False)},\n    layer2:  {defined: False, downsample: True , in_channels: 32,  out_channels: 64 , stride: 2},\n    layer3:  {defined: False, downsample: False, in_channels: 64,  out_channels: 64 , stride: 1},\n    layer4:  {defined: False, downsample: True , in_channels: 64,  out_channels: 128, stride: 2},\n    layer5:  {defined: False, downsample: False, in_channels: 128, out_channels: 128, stride: 1},\n    layer6:  {defined: False, downsample: False, in_channels: 128, out_channels: 128, stride: 1},\n    layer7:  {defined: False, downsample: True , in_channels: 128, out_channels: 256, stride: 2},\n    layer8:  {defined: False, downsample: False, in_channels: 256, out_channels: 256, stride: 1},\n    layer9:  {defined: False, downsample: False, in_channels: 256, out_channels: 256, stride: 1},\n    layer10: {defined: True,  operation: nn.Conv2d(in_channels=256, out_channels=1280, kernel_size=1, bias=False, stride=1)},\n    layer11: {defined: True,  operation: nn.AdaptiveAvgPool2d(output_size=1)},\n    layer12: {defined: True,  operation: nn.Linear(in_features=1280, out_features=10)},\n}\n\nThe currently eight undefined layers are layer2 - layer9, that is eight layers and the in_channels and out_channels have already been defined for each layer. To maximize the model's performance on Chexpert dataset, please provide me with your suggested operation for the undefined layers only. \n\nYour response for each model should be an operation ID list for the eight undefined layers. For example:\n[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0] means we use operation 0 for layer2, operation 0 for layer3, operation 0 for layer4, operation 0 for layer5,operation 0 for layer6, operation 0 for layer7, operation 0 for layer8 and operation 0 for layer9 of the first model.\nHere are some experimental results that you can use as a reference:\n[1, 0, 1, 0, 0, 1, 0, 0] gives an accuracy of 0.82%\n[1, 0, 2, 0, 0, 2, 0, 0] gives an accuracy of 0.82%\n[1, 2, 1, 2, 2, 1, 2, 1] gives an accuracy of 0.86%\n[2, 1, 2, 1, 1, 2, 1, 2] gives an accuracy of 0.86%\n[1, 2, 1, 2, 2, 1, 2, 2] gives an accuracy of 0.87%\n[2, 1, 2, 1, 1, 2, 1, 1] gives an accuracy of 0.85%\n[1, 2, 1, 2, 2, 1, 2, 2] gives an accuracy of 0.85%\n[2, 1, 2, 1, 1, 2, 1, 1] gives an accuracy of 0.87%\n\nPlease suggest a better operation ID list that can improve the model's performance on Chexpert dataset beyond the experimental results provided above.\nPlease do not include anything other than the operations ID list of list in your response for the two models."}]
+/n/n
+/n/n
+[1, 2, 1, 2, 2, 1, 2, 2], [2, 1, 2, 1, 1, 2, 1, 2]
+res[ 4 ][0] =  [1, 2, 1, 2, 2, 1, 2, 2] 
+
+res[ 4 ][1] =  [2, 1, 2, 1, 1, 2, 1, 2] 
+
+Process  2  received data:  21211212
+Process  1  received data:  12122122
+ Save JSON  results/2023-11-18_14-46-2611111
+ Save JSON  results/2023-11-18_14-46-2600000
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+Loaded Network (number of parameters: 2,234,021; weights trained to step 186180)
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+GPU-cuda:1 Step at start 186180; Training epoch 1/5:   0%|          | 0/9309 [00:00<?, ?it/s]Loaded Network (number of parameters: 2,702,405; weights trained to step 186180)
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+GPU-cuda:1 Step at start 186180; Training epoch 1/5: 100%|██████████| 9309/9309 [51:53<00:00,  2.99it/s, loss=3.1855]  
+GPU-cuda:0 Step at start 186180; Training epoch 1/5:  82%|████████▏ | 7661/9309 [51:53<12:30,  2.20it/s, loss=1.9076]
+
+AUC: 0 
+ {0: 0.8099837662337663,
+ 1: 0.770198440822112,
+ 2: 0.8614503241368914,
+ 3: 0.8922986478542034,
+ 4: 0.8623648225936188}
+Average: 0.8392592003281184 
+
+GPU-cuda:0 Step at start 186180; Training epoch 1/5: 100%|██████████| 9309/9309 [1:03:06<00:00,  2.46it/s, loss=2.4673]
+GPU-cuda:1 Step at start 195489; Training epoch 2/5:  22%|██▏       | 2013/9309 [11:13<40:04,  3.03it/s, loss=2.3860]
+
+AUC: 0 
+ {0: 0.8526785714285714,
+ 1: 0.771793054571226,
+ 2: 0.9148198401929746,
+ 3: 0.8653733098177543,
+ 4: 0.8971311109125034}
+Average: 0.8603591773846059 
+
+GPU-cuda:1 Step at start 195489; Training epoch 2/5: 100%|██████████| 9309/9309 [51:48<00:00,  2.99it/s, loss=2.1277]  
+GPU-cuda:0 Step at start 195489; Training epoch 2/5:  64%|██████▍   | 5985/9309 [40:35<21:51,  2.54it/s, loss=2.7073]
+
+AUC: 1 
+ {0: 0.807224025974026,
+ 1: 0.7786144578313253,
+ 2: 0.8778833107191316,
+ 3: 0.8864197530864197,
+ 4: 0.9006166770935741}
+Average: 0.8501516449408953 
+
+GPU-cuda:0 Step at start 195489; Training epoch 2/5: 100%|██████████| 9309/9309 [1:03:08<00:00,  2.46it/s, loss=2.0376]
+GPU-cuda:1 Step at start 204798; Training epoch 3/5:  44%|████▎     | 4055/9309 [22:33<28:41,  3.05it/s, loss=2.7108]
+
+AUC: 1 
+ {0: 0.8148538961038961,
+ 1: 0.7898653437278527,
+ 2: 0.8784863560982964,
+ 3: 0.8900646678424456,
+ 4: 0.910805255161319}
+Average: 0.8568151037867618 
+
+GPU-cuda:1 Step at start 204798; Training epoch 3/5: 100%|██████████| 9309/9309 [51:44<00:00,  3.00it/s, loss=2.2977]  
+GPU-cuda:0 Step at start 204798; Training epoch 3/5:  46%|████▋     | 4310/9309 [29:11<36:26,  2.29it/s, loss=2.0775]
+
+AUC: 2 
+ {0: 0.8129058441558441,
+ 1: 0.7565556343019136,
+ 2: 0.905924920850294,
+ 3: 0.901469723691946,
+ 4: 0.8960586290106354}
+Average: 0.8545829504021267 
+
+GPU-cuda:0 Step at start 204798; Training epoch 3/5: 100%|██████████| 9309/9309 [1:03:05<00:00,  2.46it/s, loss=1.8694]
+GPU-cuda:1 Step at start 214107; Training epoch 4/5:  66%|██████▌   | 6108/9309 [33:55<17:41,  3.02it/s, loss=2.3969]
+
+AUC: 2 
+ {0: 0.8151785714285714,
+ 1: 0.76293408929837,
+ 2: 0.8792401628222524,
+ 3: 0.9102880658436213,
+ 4: 0.9136652068996336}
+Average: 0.8562612192584897 
+
+GPU-cuda:1 Step at start 214107; Training epoch 4/5: 100%|██████████| 9309/9309 [51:39<00:00,  3.00it/s, loss=2.0328]  
+GPU-cuda:0 Step at start 214107; Training epoch 4/5:  28%|██▊       | 2612/9309 [17:44<44:15,  2.52it/s, loss=2.0685]
+
+AUC: 3 
+ {0: 0.8349025974025974,
+ 1: 0.736268603827073,
+ 2: 0.904417307402382,
+ 3: 0.9049970605526162,
+ 4: 0.8993654482080614}
+Average: 0.8559902034785459 
+
+GPU-cuda:0 Step at start 214107; Training epoch 4/5: 100%|██████████| 9309/9309 [1:03:28<00:00,  2.44it/s, loss=2.3453]
+GPU-cuda:1 Step at start 223416; Training epoch 5/5:  88%|████████▊ | 8227/9309 [45:45<06:02,  2.98it/s, loss=2.5722]
+
+AUC: 3 
+ {0: 0.8199675324675324,
+ 1: 0.7979270021261516,
+ 2: 0.898236092265943,
+ 3: 0.9048794826572604,
+ 4: 0.9167039056215927}
+Average: 0.8675428030276962 
+
+GPU-cuda:1 Step at start 223416; Training epoch 5/5: 100%|██████████| 9309/9309 [51:44<00:00,  3.00it/s, loss=2.2946] 
+GPU-cuda:0 Step at start 223416; Training epoch 5/5:   9%|▉         | 874/9309 [05:59<57:52,  2.43it/s, loss=2.1835]
+
+AUC: 4 
+ {0: 0.8061688311688312,
+ 1: 0.809177888022679,
+ 2: 0.905171114126338,
+ 3: 0.9001763668430336,
+ 4: 0.9141120743587452}
+Average: 0.8669612549039254 
+
+GPU-cuda:0 Step at start 223416; Training epoch 5/5:  10%|▉         | 887/9309 [06:05<58:46,  2.39it/s, loss=1.9573]Liberada memory GPU  cuda:1
+GPU-cuda:0 Step at start 223416; Training epoch 5/5: 100%|██████████| 9309/9309 [59:26<00:00,  2.61it/s, loss=1.9307]  
+
+
+AUC: 4 
+ {0: 0.807224025974026,
+ 1: 0.8084691708008505,
+ 2: 0.8878335594753505,
+ 3: 0.9060552616108172,
+ 4: 0.9147376888015014}
+Average: 0.8648639413325091 
+
+Liberada memory GPU  cuda:0
+Accuracies from worker nodes: [0.8648639413325091, 0.8669612549039254]
+messages :  5
+[{'role': 'system', 'content': 'You are an expert in the field of neural architecture search.'}, {'role': 'user', 'content': "Your task is to assist me in selecting the best operations for a given two models architectures, which includes eight undefined layers and available operations. The two models will be trained and tested on ChexPert dataset, and your objective will be to maximize the model's performance on Chexpert dataset.\n\nWe define the 3 available operations as the following:\n0: Identity(in_channels, out_channels, stride)\n1: InvertedResidual(in_channels, out_channels, stride expansion=3, kernel_size=3)\n2: InvertedResidual(in_channels, out_channels, stride expansion=6, kernel_size=5)\n\nThe implementation of the Identity is as follows:\nclass Identity(nn.Module):\n    def __init__(self, in_channels, out_channels, stride):\n        super(Identity, self).__init__()\n        if stride != 1 or in_channels != out_channels:\n            self.downsample = nn.Sequential(\n                nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=stride, bias=False),\n                nn.BatchNorm2d(out_channels),\n            )\n        else:\n            self.downsample = None\n\n    def forward(self, x):\n        if self.downsample is not None:\n            x = self.downsample(x)\n        return x\n\nThe implementation of the InvertedResidual is as follows:\nclass InvertedResidual(nn.Module):\n    def __init__(self, in_channels, out_channels, stride, expansion, kernel_size):\n        super(InvertedResidual, self).__init__()\n        hidden_dim = in_channels * expansion\n        self.conv = nn.Sequential(\n            nn.Conv2d(in_channels, hidden_dim, kernel_size=1, stride=1, padding=0, bias=False),\n            nn.BatchNorm2d(hidden_dim),\n            nn.ReLU(inplace=True),\n            nn.Conv2d(hidden_dim, hidden_dim, kernel_size=kernel_size, stride=stride, padding=kernel_size//2, groups=hidden_dim, bias=False),\n            nn.BatchNorm2d(hidden_dim),\n            nn.ReLU(inplace=True),\n            nn.Conv2d(hidden_dim, out_channels, 1, 1, 0, bias=False),\n            nn.BatchNorm2d(out_channels),\n        )\n        self.use_shortcut = in_channels == out_channels and stride == 1\n\n    def forward(self, x):\n        if self.use_shortcut:\n            return self.conv(x) + x\n        return self.conv(x)\n        \n\nThe two models architectures will be defined as the following.\n{\n    layer1:  {defined: True,  operation: nn.Conv2d(in_channels=3,  out_channels=32, kernel_size=3, padding=1, bias=False)},\n    layer2:  {defined: False, downsample: True , in_channels: 32,  out_channels: 64 , stride: 2},\n    layer3:  {defined: False, downsample: False, in_channels: 64,  out_channels: 64 , stride: 1},\n    layer4:  {defined: False, downsample: True , in_channels: 64,  out_channels: 128, stride: 2},\n    layer5:  {defined: False, downsample: False, in_channels: 128, out_channels: 128, stride: 1},\n    layer6:  {defined: False, downsample: False, in_channels: 128, out_channels: 128, stride: 1},\n    layer7:  {defined: False, downsample: True , in_channels: 128, out_channels: 256, stride: 2},\n    layer8:  {defined: False, downsample: False, in_channels: 256, out_channels: 256, stride: 1},\n    layer9:  {defined: False, downsample: False, in_channels: 256, out_channels: 256, stride: 1},\n    layer10: {defined: True,  operation: nn.Conv2d(in_channels=256, out_channels=1280, kernel_size=1, bias=False, stride=1)},\n    layer11: {defined: True,  operation: nn.AdaptiveAvgPool2d(output_size=1)},\n    layer12: {defined: True,  operation: nn.Linear(in_features=1280, out_features=10)},\n}\n\nThe currently eight undefined layers are layer2 - layer9, that is eight layers and the in_channels and out_channels have already been defined for each layer. To maximize the model's performance on Chexpert dataset, please provide me with your suggested operation for the undefined layers only. \n\nYour response for each model should be an operation ID list for the eight undefined layers. For example:\n[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0] means we use operation 0 for layer2, operation 0 for layer3, operation 0 for layer4, operation 0 for layer5,operation 0 for layer6, operation 0 for layer7, operation 0 for layer8 and operation 0 for layer9 of the first model.\nHere are some experimental results that you can use as a reference:\n[1, 0, 1, 0, 0, 1, 0, 0] gives an accuracy of 0.82%\n[1, 0, 2, 0, 0, 2, 0, 0] gives an accuracy of 0.82%\n[1, 2, 1, 2, 2, 1, 2, 1] gives an accuracy of 0.86%\n[2, 1, 2, 1, 1, 2, 1, 2] gives an accuracy of 0.86%\n[1, 2, 1, 2, 2, 1, 2, 2] gives an accuracy of 0.87%\n[2, 1, 2, 1, 1, 2, 1, 1] gives an accuracy of 0.85%\n[1, 2, 1, 2, 2, 1, 2, 2] gives an accuracy of 0.85%\n[2, 1, 2, 1, 1, 2, 1, 1] gives an accuracy of 0.87%\n[1, 2, 1, 2, 2, 1, 2, 2] gives an accuracy of 0.86%\n[2, 1, 2, 1, 1, 2, 1, 2] gives an accuracy of 0.87%\n\nPlease suggest a better operation ID list that can improve the model's performance on Chexpert dataset beyond the experimental results provided above.\nPlease do not include anything other than the operations ID list of list in your response for the two models."}]
+/n/n
+/n/n
+Process  1  received data:  12122122
+[1, 2, 1, 2, 2, 1, 2, 2], [2, 1, 2, 1, 1, 2, 1, 1]
+res[ 5 ][0] =  [1, 2, 1, 2, 2, 1, 2, 2] 
+
+res[ 5 ][1] =  [2, 1, 2, 1, 1, 2, 1, 1] 
+
+Process  2  received data:  21211211
+ Save JSON  results/2023-11-18_14-46-26111111
+ Save JSON  results/2023-11-18_14-46-26000000
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+Loaded Network (number of parameters: 2,702,405; weights trained to step 232725)
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+GPU-cuda:0 Step at start 232725; Training epoch 1/5:   0%|          | 0/9309 [00:00<?, ?it/s]Loaded Network (number of parameters: 1,806,245; weights trained to step 232725)
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+GPU-cuda:1 Step at start 232725; Training epoch 1/5: 100%|██████████| 9309/9309 [48:58<00:00,  3.17it/s, loss=2.1623]  
+GPU-cuda:0 Step at start 232725; Training epoch 1/5:  76%|███████▌  | 7093/9309 [48:59<15:29,  2.38it/s, loss=2.3243]
+
+AUC: 0 
+ {0: 0.8275162337662337,
+ 1: 0.7385719347980155,
+ 2: 0.914367556158601,
+ 3: 0.873015873015873,
+ 4: 0.8835463401555099}
+Average: 0.8474035875788466 
+
+GPU-cuda:0 Step at start 232725; Training epoch 1/5: 100%|██████████| 9309/9309 [1:04:42<00:00,  2.40it/s, loss=2.3482]
+GPU-cuda:1 Step at start 242034; Training epoch 2/5:  32%|███▏      | 2977/9309 [15:43<33:59,  3.11it/s, loss=2.0311]
+
+AUC: 0 
+ {0: 0.8078733766233767,
+ 1: 0.7741849751948973,
+ 2: 0.8872305140961858,
+ 3: 0.8731334509112286,
+ 4: 0.8854231834837787}
+Average: 0.8455691000618935 
+
+GPU-cuda:1 Step at start 242034; Training epoch 2/5: 100%|██████████| 9309/9309 [49:09<00:00,  3.16it/s, loss=2.6525]  
+GPU-cuda:0 Step at start 242034; Training epoch 2/5:  51%|█████     | 4725/9309 [33:27<32:51,  2.33it/s, loss=2.1264]
+
+AUC: 1 
+ {0: 0.8389610389610389,
+ 1: 0.7510630758327429,
+ 2: 0.8837630031659882,
+ 3: 0.8813639035861258,
+ 4: 0.8825632317454642}
+Average: 0.847542850658272 
+
+GPU-cuda:0 Step at start 242034; Training epoch 2/5: 100%|██████████| 9309/9309 [1:06:09<00:00,  2.35it/s, loss=2.5559]
+GPU-cuda:1 Step at start 251343; Training epoch 3/5:  66%|██████▋   | 6186/9309 [32:43<16:15,  3.20it/s, loss=1.9595]
+
+AUC: 1 
+ {0: 0.828814935064935,
+ 1: 0.7666548547129696,
+ 2: 0.9009497964721845,
+ 3: 0.9038212815990594,
+ 4: 0.9049066047010457}
+Average: 0.8610294945100389 
+
+GPU-cuda:1 Step at start 251343; Training epoch 3/5: 100%|██████████| 9309/9309 [49:18<00:00,  3.15it/s, loss=2.3980]  
+GPU-cuda:0 Step at start 251343; Training epoch 3/5:  24%|██▍       | 2257/9309 [16:36<54:34,  2.15it/s, loss=2.0524]
+
+AUC: 2 
+ {0: 0.830275974025974,
+ 1: 0.81218993621545,
+ 2: 0.8946178199909544,
+ 3: 0.9074661963550852,
+ 4: 0.8940924121905444}
+Average: 0.8677284677556016 
+
+GPU-cuda:1 Step at start 260652; Training epoch 4/5: 100%|██████████| 9309/9309 [49:32<00:00,  3.13it/s, loss=2.4592]8]
+GPU-cuda:0 Step at start 251343; Training epoch 3/5:  96%|█████████▌| 8938/9309 [1:06:09<02:36,  2.38it/s, loss=2.3918]
+
+AUC: 3 
+ {0: 0.7800324675324676,
+ 1: 0.758681785967399,
+ 2: 0.8723051409618574,
+ 3: 0.9129923574368017,
+ 4: 0.8887300026812048}
+Average: 0.8425483509159463 
+
+GPU-cuda:0 Step at start 251343; Training epoch 3/5: 100%|██████████| 9309/9309 [1:08:49<00:00,  2.25it/s, loss=2.2774]
+GPU-cuda:1 Step at start 269961; Training epoch 5/5:   5%|▌         | 507/9309 [02:41<45:10,  3.25it/s, loss=2.5196]
+
+AUC: 2 
+ {0: 0.7758116883116883,
+ 1: 0.788979447200567,
+ 2: 0.8659731644806272,
+ 3: 0.9004115226337448,
+ 4: 0.8955223880597014}
+Average: 0.8453396421372658 
+
+GPU-cuda:1 Step at start 269961; Training epoch 5/5: 100%|██████████| 9309/9309 [49:37<00:00,  3.13it/s, loss=2.5603]  
+GPU-cuda:0 Step at start 260652; Training epoch 4/5:  67%|██████▋   | 6196/9309 [46:56<25:17,  2.05it/s, loss=2.4231]
+
+AUC: 4 
+ {0: 0.7894480519480519,
+ 1: 0.7860559886605244,
+ 2: 0.8546660636212875,
+ 3: 0.9105232216343326,
+ 4: 0.9057109661274466}
+Average: 0.8492808583983287 
+
+GPU-cuda:0 Step at start 260652; Training epoch 4/5:  67%|██████▋   | 6205/9309 [47:00<26:28,  1.95it/s, loss=1.9804]Liberada memory GPU  cuda:1
+GPU-cuda:0 Step at start 260652; Training epoch 4/5: 100%|██████████| 9309/9309 [1:08:09<00:00,  2.28it/s, loss=1.9315]
+
+
+AUC: 3 
+ {0: 0.8017045454545455,
+ 1: 0.773830616583983,
+ 2: 0.8745665611337253,
+ 3: 0.9008818342151675,
+ 4: 0.9023147734381982}
+Average: 0.8506596661651239 
+
+GPU-cuda:0 Step at start 269961; Training epoch 5/5: 100%|██████████| 9309/9309 [1:00:08<00:00,  2.58it/s, loss=2.2754]
+
+
+AUC: 4 
+ {0: 0.8038961038961038,
+ 1: 0.7983699503897945,
+ 2: 0.8846675712347354,
+ 3: 0.8927689594356261,
+ 4: 0.9064259540620252}
+Average: 0.8572257078036569 
+
+Liberada memory GPU  cuda:0
+Accuracies from worker nodes: [0.8572257078036569, 0.8492808583983287]
+messages :  6
+[{'role': 'system', 'content': 'You are an expert in the field of neural architecture search.'}, {'role': 'user', 'content': "Your task is to assist me in selecting the best operations for a given two models architectures, which includes eight undefined layers and available operations. The two models will be trained and tested on ChexPert dataset, and your objective will be to maximize the model's performance on Chexpert dataset.\n\nWe define the 3 available operations as the following:\n0: Identity(in_channels, out_channels, stride)\n1: InvertedResidual(in_channels, out_channels, stride expansion=3, kernel_size=3)\n2: InvertedResidual(in_channels, out_channels, stride expansion=6, kernel_size=5)\n\nThe implementation of the Identity is as follows:\nclass Identity(nn.Module):\n    def __init__(self, in_channels, out_channels, stride):\n        super(Identity, self).__init__()\n        if stride != 1 or in_channels != out_channels:\n            self.downsample = nn.Sequential(\n                nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=stride, bias=False),\n                nn.BatchNorm2d(out_channels),\n            )\n        else:\n            self.downsample = None\n\n    def forward(self, x):\n        if self.downsample is not None:\n            x = self.downsample(x)\n        return x\n\nThe implementation of the InvertedResidual is as follows:\nclass InvertedResidual(nn.Module):\n    def __init__(self, in_channels, out_channels, stride, expansion, kernel_size):\n        super(InvertedResidual, self).__init__()\n        hidden_dim = in_channels * expansion\n        self.conv = nn.Sequential(\n            nn.Conv2d(in_channels, hidden_dim, kernel_size=1, stride=1, padding=0, bias=False),\n            nn.BatchNorm2d(hidden_dim),\n            nn.ReLU(inplace=True),\n            nn.Conv2d(hidden_dim, hidden_dim, kernel_size=kernel_size, stride=stride, padding=kernel_size//2, groups=hidden_dim, bias=False),\n            nn.BatchNorm2d(hidden_dim),\n            nn.ReLU(inplace=True),\n            nn.Conv2d(hidden_dim, out_channels, 1, 1, 0, bias=False),\n            nn.BatchNorm2d(out_channels),\n        )\n        self.use_shortcut = in_channels == out_channels and stride == 1\n\n    def forward(self, x):\n        if self.use_shortcut:\n            return self.conv(x) + x\n        return self.conv(x)\n        \n\nThe two models architectures will be defined as the following.\n{\n    layer1:  {defined: True,  operation: nn.Conv2d(in_channels=3,  out_channels=32, kernel_size=3, padding=1, bias=False)},\n    layer2:  {defined: False, downsample: True , in_channels: 32,  out_channels: 64 , stride: 2},\n    layer3:  {defined: False, downsample: False, in_channels: 64,  out_channels: 64 , stride: 1},\n    layer4:  {defined: False, downsample: True , in_channels: 64,  out_channels: 128, stride: 2},\n    layer5:  {defined: False, downsample: False, in_channels: 128, out_channels: 128, stride: 1},\n    layer6:  {defined: False, downsample: False, in_channels: 128, out_channels: 128, stride: 1},\n    layer7:  {defined: False, downsample: True , in_channels: 128, out_channels: 256, stride: 2},\n    layer8:  {defined: False, downsample: False, in_channels: 256, out_channels: 256, stride: 1},\n    layer9:  {defined: False, downsample: False, in_channels: 256, out_channels: 256, stride: 1},\n    layer10: {defined: True,  operation: nn.Conv2d(in_channels=256, out_channels=1280, kernel_size=1, bias=False, stride=1)},\n    layer11: {defined: True,  operation: nn.AdaptiveAvgPool2d(output_size=1)},\n    layer12: {defined: True,  operation: nn.Linear(in_features=1280, out_features=10)},\n}\n\nThe currently eight undefined layers are layer2 - layer9, that is eight layers and the in_channels and out_channels have already been defined for each layer. To maximize the model's performance on Chexpert dataset, please provide me with your suggested operation for the undefined layers only. \n\nYour response for each model should be an operation ID list for the eight undefined layers. For example:\n[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0] means we use operation 0 for layer2, operation 0 for layer3, operation 0 for layer4, operation 0 for layer5,operation 0 for layer6, operation 0 for layer7, operation 0 for layer8 and operation 0 for layer9 of the first model.\nHere are some experimental results that you can use as a reference:\n[1, 0, 1, 0, 0, 1, 0, 0] gives an accuracy of 0.82%\n[1, 0, 2, 0, 0, 2, 0, 0] gives an accuracy of 0.82%\n[1, 2, 1, 2, 2, 1, 2, 1] gives an accuracy of 0.86%\n[2, 1, 2, 1, 1, 2, 1, 2] gives an accuracy of 0.86%\n[1, 2, 1, 2, 2, 1, 2, 2] gives an accuracy of 0.87%\n[2, 1, 2, 1, 1, 2, 1, 1] gives an accuracy of 0.85%\n[1, 2, 1, 2, 2, 1, 2, 2] gives an accuracy of 0.85%\n[2, 1, 2, 1, 1, 2, 1, 1] gives an accuracy of 0.87%\n[1, 2, 1, 2, 2, 1, 2, 2] gives an accuracy of 0.86%\n[2, 1, 2, 1, 1, 2, 1, 2] gives an accuracy of 0.87%\n[1, 2, 1, 2, 2, 1, 2, 2] gives an accuracy of 0.86%\n[2, 1, 2, 1, 1, 2, 1, 1] gives an accuracy of 0.85%\n\nPlease suggest a better operation ID list that can improve the model's performance on Chexpert dataset beyond the experimental results provided above.\nPlease do not include anything other than the operations ID list of list in your response for the two models."}]
+/n/n
+/n/n
+[1, 2, 2, 1, 1, 2, 2, 1], [2, 1, 1, 2, 2, 1, 1, 2]
+res[ 6 ][0] =  [1, 2, 2, 1, 1, 2, 2, 1] 
+
+res[ 6 ][1] =  [2, 1, 1, 2, 2, 1, 1, 2] 
+
+Process  2  received data:  21122112
+Process  1  received data:  12211221
+ Save JSON  results/2023-11-18_14-46-260000000
+ Save JSON  results/2023-11-18_14-46-261111111
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+Loaded Network (number of parameters: 2,253,701; weights trained to step 279270)
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+GPU-cuda:0 Step at start 279270; Training epoch 1/5:   0%|          | 0/9309 [00:00<?, ?it/s]procesando ........ /n
+procesando ........ /n
+Loaded Network (number of parameters: 2,254,949; weights trained to step 279270)
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+GPU-cuda:1 Step at start 279270; Training epoch 1/5: 100%|██████████| 9309/9309 [54:22<00:00,  2.85it/s, loss=2.4633]  
+GPU-cuda:0 Step at start 279270; Training epoch 1/5:  89%|████████▉ | 8305/9309 [54:23<06:56,  2.41it/s, loss=2.5555]
+
+AUC: 0 
+ {0: 0.8224025974025974,
+ 1: 0.7227143869596032,
+ 2: 0.8991406603346903,
+ 3: 0.8864197530864198,
+ 4: 0.8679059790866029}
+Average: 0.8397166753739829 
+
+GPU-cuda:0 Step at start 279270; Training epoch 1/5: 100%|██████████| 9309/9309 [1:01:02<00:00,  2.54it/s, loss=1.9237]
+GPU-cuda:1 Step at start 288579; Training epoch 2/5:  12%|█▏        | 1142/9309 [06:40<47:14,  2.88it/s, loss=2.2609]
+
+AUC: 0 
+ {0: 0.8387987012987013,
+ 1: 0.7977498228206946,
+ 2: 0.8723051409618574,
+ 3: 0.880540858318636,
+ 4: 0.8715702922513182}
+Average: 0.8521929631302415 
+
+GPU-cuda:1 Step at start 288579; Training epoch 2/5: 100%|██████████| 9309/9309 [54:30<00:00,  2.85it/s, loss=2.2794]  
+GPU-cuda:0 Step at start 288579; Training epoch 2/5:  77%|███████▋  | 7131/9309 [47:50<13:41,  2.65it/s, loss=2.4069]
+
+AUC: 1 
+ {0: 0.8003246753246753,
+ 1: 0.7504429482636428,
+ 2: 0.8995929443690638,
+ 3: 0.9005291005291005,
+ 4: 0.8892662436321388}
+Average: 0.8480311824237242 
+
+GPU-cuda:0 Step at start 288579; Training epoch 2/5: 100%|██████████| 9309/9309 [1:01:48<00:00,  2.51it/s, loss=2.5343]
+GPU-cuda:1 Step at start 297888; Training epoch 3/5:  26%|██▌       | 2415/9309 [13:59<1:04:25,  1.78it/s, loss=2.8894]
+
+AUC: 1 
+ {0: 0.8320616883116884,
+ 1: 0.794029057406095,
+ 2: 0.8723051409618574,
+ 3: 0.8840681951793062,
+ 4: 0.9074090624720709}
+Average: 0.8579746288662035 
+
+GPU-cuda:1 Step at start 297888; Training epoch 3/5: 100%|██████████| 9309/9309 [53:56<00:00,  2.88it/s, loss=2.4310]  
+GPU-cuda:0 Step at start 297888; Training epoch 3/5:  66%|██████▌   | 6122/9309 [39:58<19:50,  2.68it/s, loss=2.0178]
+
+AUC: 2 
+ {0: 0.8228084415584416,
+ 1: 0.814847625797307,
+ 2: 0.8998944670586462,
+ 3: 0.9055849500293945,
+ 4: 0.9113414961122531}
+Average: 0.8708953961112085 
+
+GPU-cuda:0 Step at start 297888; Training epoch 3/5: 100%|██████████| 9309/9309 [1:00:40<00:00,  2.56it/s, loss=2.5347]
+GPU-cuda:1 Step at start 307197; Training epoch 4/5:  39%|███▊      | 3596/9309 [20:42<32:25,  2.94it/s, loss=2.0979]
+
+AUC: 2 
+ {0: 0.8155844155844155,
+ 1: 0.8006732813607371,
+ 2: 0.8787878787878788,
+ 3: 0.9134626690182246,
+ 4: 0.9172401465725266}
+Average: 0.8651496782647566 
+
+GPU-cuda:1 Step at start 307197; Training epoch 4/5: 100%|██████████| 9309/9309 [53:50<00:00,  2.88it/s, loss=1.6887]  
+GPU-cuda:0 Step at start 307197; Training epoch 4/5:  55%|█████▍    | 5083/9309 [33:08<25:23,  2.77it/s, loss=2.5060]
+
+AUC: 3 
+ {0: 0.8389610389610389,
+ 1: 0.7701984408221121,
+ 2: 0.8810492989597467,
+ 3: 0.9148736037624926,
+ 4: 0.8997229421753508}
+Average: 0.8609610649361482 
+
+GPU-cuda:0 Step at start 307197; Training epoch 4/5: 100%|██████████| 9309/9309 [1:00:09<00:00,  2.58it/s, loss=2.4395]
+GPU-cuda:1 Step at start 316506; Training epoch 5/5:  50%|█████     | 4674/9309 [27:01<26:16,  2.94it/s, loss=2.5739]
+
+AUC: 3 
+ {0: 0.7861201298701299,
+ 1: 0.8086463501063076,
+ 2: 0.879692446856626,
+ 3: 0.9148736037624926,
+ 4: 0.9184020019662168}
+Average: 0.8615469065123544 
+
+GPU-cuda:1 Step at start 316506; Training epoch 5/5: 100%|██████████| 9309/9309 [53:51<00:00,  2.88it/s, loss=2.4206]5]
+GPU-cuda:0 Step at start 316506; Training epoch 5/5:  45%|████▌     | 4199/9309 [26:50<42:40,  2.00it/s, loss=2.1645]  
+
+AUC: 4 
+ {0: 0.8079545454545455,
+ 1: 0.7755138199858256,
+ 2: 0.884366048545153,
+ 3: 0.9191064079952969,
+ 4: 0.9179551345071052}
+Average: 0.8609791912975853 
+
+GPU-cuda:0 Step at start 316506; Training epoch 5/5:  45%|████▌     | 4209/9309 [26:54<32:23,  2.62it/s, loss=2.3814]Liberada memory GPU  cuda:1
+GPU-cuda:0 Step at start 316506; Training epoch 5/5: 100%|██████████| 9309/9309 [56:51<00:00,  2.73it/s, loss=2.0427]  
+
+
+AUC: 4 
+ {0: 0.8077922077922077,
+ 1: 0.7880935506732815,
+ 2: 0.8637117443087592,
+ 3: 0.8980599647266314,
+ 4: 0.914916435785146}
+Average: 0.8545147806572052 
+
+Liberada memory GPU  cuda:0
+Accuracies from worker nodes: [0.8545147806572052, 0.8609791912975853]
+messages :  7
+[{'role': 'system', 'content': 'You are an expert in the field of neural architecture search.'}, {'role': 'user', 'content': "Your task is to assist me in selecting the best operations for a given two models architectures, which includes eight undefined layers and available operations. The two models will be trained and tested on ChexPert dataset, and your objective will be to maximize the model's performance on Chexpert dataset.\n\nWe define the 3 available operations as the following:\n0: Identity(in_channels, out_channels, stride)\n1: InvertedResidual(in_channels, out_channels, stride expansion=3, kernel_size=3)\n2: InvertedResidual(in_channels, out_channels, stride expansion=6, kernel_size=5)\n\nThe implementation of the Identity is as follows:\nclass Identity(nn.Module):\n    def __init__(self, in_channels, out_channels, stride):\n        super(Identity, self).__init__()\n        if stride != 1 or in_channels != out_channels:\n            self.downsample = nn.Sequential(\n                nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=stride, bias=False),\n                nn.BatchNorm2d(out_channels),\n            )\n        else:\n            self.downsample = None\n\n    def forward(self, x):\n        if self.downsample is not None:\n            x = self.downsample(x)\n        return x\n\nThe implementation of the InvertedResidual is as follows:\nclass InvertedResidual(nn.Module):\n    def __init__(self, in_channels, out_channels, stride, expansion, kernel_size):\n        super(InvertedResidual, self).__init__()\n        hidden_dim = in_channels * expansion\n        self.conv = nn.Sequential(\n            nn.Conv2d(in_channels, hidden_dim, kernel_size=1, stride=1, padding=0, bias=False),\n            nn.BatchNorm2d(hidden_dim),\n            nn.ReLU(inplace=True),\n            nn.Conv2d(hidden_dim, hidden_dim, kernel_size=kernel_size, stride=stride, padding=kernel_size//2, groups=hidden_dim, bias=False),\n            nn.BatchNorm2d(hidden_dim),\n            nn.ReLU(inplace=True),\n            nn.Conv2d(hidden_dim, out_channels, 1, 1, 0, bias=False),\n            nn.BatchNorm2d(out_channels),\n        )\n        self.use_shortcut = in_channels == out_channels and stride == 1\n\n    def forward(self, x):\n        if self.use_shortcut:\n            return self.conv(x) + x\n        return self.conv(x)\n        \n\nThe two models architectures will be defined as the following.\n{\n    layer1:  {defined: True,  operation: nn.Conv2d(in_channels=3,  out_channels=32, kernel_size=3, padding=1, bias=False)},\n    layer2:  {defined: False, downsample: True , in_channels: 32,  out_channels: 64 , stride: 2},\n    layer3:  {defined: False, downsample: False, in_channels: 64,  out_channels: 64 , stride: 1},\n    layer4:  {defined: False, downsample: True , in_channels: 64,  out_channels: 128, stride: 2},\n    layer5:  {defined: False, downsample: False, in_channels: 128, out_channels: 128, stride: 1},\n    layer6:  {defined: False, downsample: False, in_channels: 128, out_channels: 128, stride: 1},\n    layer7:  {defined: False, downsample: True , in_channels: 128, out_channels: 256, stride: 2},\n    layer8:  {defined: False, downsample: False, in_channels: 256, out_channels: 256, stride: 1},\n    layer9:  {defined: False, downsample: False, in_channels: 256, out_channels: 256, stride: 1},\n    layer10: {defined: True,  operation: nn.Conv2d(in_channels=256, out_channels=1280, kernel_size=1, bias=False, stride=1)},\n    layer11: {defined: True,  operation: nn.AdaptiveAvgPool2d(output_size=1)},\n    layer12: {defined: True,  operation: nn.Linear(in_features=1280, out_features=10)},\n}\n\nThe currently eight undefined layers are layer2 - layer9, that is eight layers and the in_channels and out_channels have already been defined for each layer. To maximize the model's performance on Chexpert dataset, please provide me with your suggested operation for the undefined layers only. \n\nYour response for each model should be an operation ID list for the eight undefined layers. For example:\n[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0] means we use operation 0 for layer2, operation 0 for layer3, operation 0 for layer4, operation 0 for layer5,operation 0 for layer6, operation 0 for layer7, operation 0 for layer8 and operation 0 for layer9 of the first model.\nHere are some experimental results that you can use as a reference:\n[1, 0, 1, 0, 0, 1, 0, 0] gives an accuracy of 0.82%\n[1, 0, 2, 0, 0, 2, 0, 0] gives an accuracy of 0.82%\n[1, 2, 1, 2, 2, 1, 2, 1] gives an accuracy of 0.86%\n[2, 1, 2, 1, 1, 2, 1, 2] gives an accuracy of 0.86%\n[1, 2, 1, 2, 2, 1, 2, 2] gives an accuracy of 0.87%\n[2, 1, 2, 1, 1, 2, 1, 1] gives an accuracy of 0.85%\n[1, 2, 1, 2, 2, 1, 2, 2] gives an accuracy of 0.85%\n[2, 1, 2, 1, 1, 2, 1, 1] gives an accuracy of 0.87%\n[1, 2, 1, 2, 2, 1, 2, 2] gives an accuracy of 0.86%\n[2, 1, 2, 1, 1, 2, 1, 2] gives an accuracy of 0.87%\n[1, 2, 1, 2, 2, 1, 2, 2] gives an accuracy of 0.86%\n[2, 1, 2, 1, 1, 2, 1, 1] gives an accuracy of 0.85%\n[1, 2, 2, 1, 1, 2, 2, 1] gives an accuracy of 0.85%\n[2, 1, 1, 2, 2, 1, 1, 2] gives an accuracy of 0.86%\n\nPlease suggest a better operation ID list that can improve the model's performance on Chexpert dataset beyond the experimental results provided above.\nPlease do not include anything other than the operations ID list of list in your response for the two models."}]
+/n/n
+/n/n
+[1, 2, 1, 2, 2, 1, 2, 2], [2, 1, 2, 1, 1, 2, 1, 2]
+res[ 7 ][0] =  [1, 2, 1, 2, 2, 1, 2, 2] 
+
+res[ 7 ][1] =  [2, 1, 2, 1, 1, 2, 1, 2] 
+
+Process  1  received data:  12122122
+Process  2  received data:  21211212
+ Save JSON  results/2023-11-18_14-46-2600000000
+ Save JSON  results/2023-11-18_14-46-2611111111
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+Loaded Network (number of parameters: 2,702,405; weights trained to step 325815)
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+GPU-cuda:0 Step at start 325815; Training epoch 1/5:   0%|          | 0/9309 [00:00<?, ?it/s]procesando ........ /n
+procesando ........ /n
+Loaded Network (number of parameters: 2,234,021; weights trained to step 325815)
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+GPU-cuda:1 Step at start 325815; Training epoch 1/5: 100%|██████████| 9309/9309 [51:21<00:00,  3.02it/s, loss=2.3619]  
+GPU-cuda:0 Step at start 325815; Training epoch 1/5:  82%|████████▏ | 7594/9309 [51:22<11:49,  2.42it/s, loss=2.4741]
+
+AUC: 0 
+ {0: 0.7926136363636364,
+ 1: 0.7654145995747696,
+ 2: 0.8851198552691091,
+ 3: 0.8700764256319813,
+ 4: 0.8879256412548039}
+Average: 0.8402300316188601 
+
+GPU-cuda:0 Step at start 325815; Training epoch 1/5: 100%|██████████| 9309/9309 [1:03:54<00:00,  2.43it/s, loss=2.5034]
+GPU-cuda:1 Step at start 335124; Training epoch 2/5:  24%|██▍       | 2266/9309 [12:32<38:16,  3.07it/s, loss=2.6312]
+
+AUC: 0 
+ {0: 0.8111201298701298,
+ 1: 0.71305811481219,
+ 2: 0.8926579225086688,
+ 3: 0.8807760141093474,
+ 4: 0.8796139065153276}
+Average: 0.8354452175631326 
+
+GPU-cuda:1 Step at start 335124; Training epoch 2/5: 100%|██████████| 9309/9309 [51:29<00:00,  3.01it/s, loss=2.2748]  
+GPU-cuda:0 Step at start 335124; Training epoch 2/5:  61%|██████    | 5653/9309 [38:58<25:08,  2.42it/s, loss=2.2041]
+
+AUC: 1 
+ {0: 0.7788149350649352,
+ 1: 0.7913713678242381,
+ 2: 0.8897934569576361,
+ 3: 0.8973544973544973,
+ 4: 0.8912324604522299}
+Average: 0.8497133435307074 
+
+GPU-cuda:0 Step at start 335124; Training epoch 2/5: 100%|██████████| 9309/9309 [1:03:59<00:00,  2.42it/s, loss=1.7955]
+GPU-cuda:1 Step at start 344433; Training epoch 3/5:  49%|████▊     | 4533/9309 [25:02<26:00,  3.06it/s, loss=2.1958]
+
+AUC: 1 
+ {0: 0.8176948051948052,
+ 1: 0.8205173635719347,
+ 2: 0.8934117292326247,
+ 3: 0.8843033509700176,
+ 4: 0.90776655643936}
+Average: 0.8647387610817484 
+
+GPU-cuda:1 Step at start 344433; Training epoch 3/5: 100%|██████████| 9309/9309 [51:20<00:00,  3.02it/s, loss=2.1766]  
+GPU-cuda:0 Step at start 344433; Training epoch 3/5:  42%|████▏     | 3905/9309 [26:19<36:12,  2.49it/s, loss=2.2949]
+
+AUC: 2 
+ {0: 0.8304383116883116,
+ 1: 0.7959780297661233,
+ 2: 0.9149706015377658,
+ 3: 0.9006466784244562,
+ 4: 0.8991867012244169}
+Average: 0.8682440645282148 
+
+GPU-cuda:0 Step at start 344433; Training epoch 3/5: 100%|██████████| 9309/9309 [1:02:24<00:00,  2.49it/s, loss=1.8618]
+GPU-cuda:1 Step at start 353742; Training epoch 4/5:  70%|███████   | 6562/9309 [36:06<21:33,  2.12it/s, loss=2.2834]
+
+AUC: 2 
+ {0: 0.8157467532467533,
+ 1: 0.7595676824946845,
+ 2: 0.8869289914066034,
+ 3: 0.8886537330981775,
+ 4: 0.9130395924568773}
+Average: 0.8527873505406192 
+
+GPU-cuda:1 Step at start 353742; Training epoch 4/5: 100%|██████████| 9309/9309 [51:11<00:00,  3.03it/s, loss=1.9093]  
+GPU-cuda:0 Step at start 353742; Training epoch 4/5:  24%|██▍       | 2277/9309 [15:05<46:16,  2.53it/s, loss=2.6416]
+
+AUC: 3 
+ {0: 0.8097402597402599,
+ 1: 0.8128986534372785,
+ 2: 0.8938640132669983,
+ 3: 0.8997060552616107,
+ 4: 0.9015997855036197}
+Average: 0.8635617534419534 
+
+GPU-cuda:0 Step at start 353742; Training epoch 4/5: 100%|██████████| 9309/9309 [1:01:53<00:00,  2.51it/s, loss=2.5585]
+GPU-cuda:1 Step at start 363051; Training epoch 5/5:  92%|█████████▏| 8525/9309 [46:48<04:17,  3.05it/s, loss=2.2036]
+
+AUC: 3 
+ {0: 0.7922889610389611,
+ 1: 0.7650602409638554,
+ 2: 0.8801447308909995,
+ 3: 0.914756025867137,
+ 4: 0.9037447493073554}
+Average: 0.8511989416136618 
+
+GPU-cuda:1 Step at start 363051; Training epoch 5/5: 100%|██████████| 9309/9309 [51:07<00:00,  3.03it/s, loss=2.0236] 
+GPU-cuda:0 Step at start 363051; Training epoch 5/5:   7%|▋         | 651/9309 [04:19<54:20,  2.66it/s, loss=2.4715]
+
+AUC: 4 
+ {0: 0.8344967532467533,
+ 1: 0.7983699503897944,
+ 2: 0.8965777174732399,
+ 3: 0.8873603762492651,
+ 4: 0.885512556975601}
+Average: 0.8604634708669309 
+
+GPU-cuda:0 Step at start 363051; Training epoch 5/5:   7%|▋         | 661/9309 [04:23<55:19,  2.61it/s, loss=2.3941]Liberada memory GPU  cuda:1
+GPU-cuda:0 Step at start 363051; Training epoch 5/5: 100%|██████████| 9309/9309 [57:48<00:00,  2.68it/s, loss=1.7791]  
+
+
+AUC: 4 
+ {0: 0.824918831168831,
+ 1: 0.8004075124025514,
+ 2: 0.8756218905472637,
+ 3: 0.9013521457965903,
+ 4: 0.8957905085351685}
+Average: 0.859618177690081 
+
+Liberada memory GPU  cuda:0
+Accuracies from worker nodes: [0.859618177690081, 0.8604634708669309]
+messages :  8
+[{'role': 'system', 'content': 'You are an expert in the field of neural architecture search.'}, {'role': 'user', 'content': "Your task is to assist me in selecting the best operations for a given two models architectures, which includes eight undefined layers and available operations. The two models will be trained and tested on ChexPert dataset, and your objective will be to maximize the model's performance on Chexpert dataset.\n\nWe define the 3 available operations as the following:\n0: Identity(in_channels, out_channels, stride)\n1: InvertedResidual(in_channels, out_channels, stride expansion=3, kernel_size=3)\n2: InvertedResidual(in_channels, out_channels, stride expansion=6, kernel_size=5)\n\nThe implementation of the Identity is as follows:\nclass Identity(nn.Module):\n    def __init__(self, in_channels, out_channels, stride):\n        super(Identity, self).__init__()\n        if stride != 1 or in_channels != out_channels:\n            self.downsample = nn.Sequential(\n                nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=stride, bias=False),\n                nn.BatchNorm2d(out_channels),\n            )\n        else:\n            self.downsample = None\n\n    def forward(self, x):\n        if self.downsample is not None:\n            x = self.downsample(x)\n        return x\n\nThe implementation of the InvertedResidual is as follows:\nclass InvertedResidual(nn.Module):\n    def __init__(self, in_channels, out_channels, stride, expansion, kernel_size):\n        super(InvertedResidual, self).__init__()\n        hidden_dim = in_channels * expansion\n        self.conv = nn.Sequential(\n            nn.Conv2d(in_channels, hidden_dim, kernel_size=1, stride=1, padding=0, bias=False),\n            nn.BatchNorm2d(hidden_dim),\n            nn.ReLU(inplace=True),\n            nn.Conv2d(hidden_dim, hidden_dim, kernel_size=kernel_size, stride=stride, padding=kernel_size//2, groups=hidden_dim, bias=False),\n            nn.BatchNorm2d(hidden_dim),\n            nn.ReLU(inplace=True),\n            nn.Conv2d(hidden_dim, out_channels, 1, 1, 0, bias=False),\n            nn.BatchNorm2d(out_channels),\n        )\n        self.use_shortcut = in_channels == out_channels and stride == 1\n\n    def forward(self, x):\n        if self.use_shortcut:\n            return self.conv(x) + x\n        return self.conv(x)\n        \n\nThe two models architectures will be defined as the following.\n{\n    layer1:  {defined: True,  operation: nn.Conv2d(in_channels=3,  out_channels=32, kernel_size=3, padding=1, bias=False)},\n    layer2:  {defined: False, downsample: True , in_channels: 32,  out_channels: 64 , stride: 2},\n    layer3:  {defined: False, downsample: False, in_channels: 64,  out_channels: 64 , stride: 1},\n    layer4:  {defined: False, downsample: True , in_channels: 64,  out_channels: 128, stride: 2},\n    layer5:  {defined: False, downsample: False, in_channels: 128, out_channels: 128, stride: 1},\n    layer6:  {defined: False, downsample: False, in_channels: 128, out_channels: 128, stride: 1},\n    layer7:  {defined: False, downsample: True , in_channels: 128, out_channels: 256, stride: 2},\n    layer8:  {defined: False, downsample: False, in_channels: 256, out_channels: 256, stride: 1},\n    layer9:  {defined: False, downsample: False, in_channels: 256, out_channels: 256, stride: 1},\n    layer10: {defined: True,  operation: nn.Conv2d(in_channels=256, out_channels=1280, kernel_size=1, bias=False, stride=1)},\n    layer11: {defined: True,  operation: nn.AdaptiveAvgPool2d(output_size=1)},\n    layer12: {defined: True,  operation: nn.Linear(in_features=1280, out_features=10)},\n}\n\nThe currently eight undefined layers are layer2 - layer9, that is eight layers and the in_channels and out_channels have already been defined for each layer. To maximize the model's performance on Chexpert dataset, please provide me with your suggested operation for the undefined layers only. \n\nYour response for each model should be an operation ID list for the eight undefined layers. For example:\n[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0] means we use operation 0 for layer2, operation 0 for layer3, operation 0 for layer4, operation 0 for layer5,operation 0 for layer6, operation 0 for layer7, operation 0 for layer8 and operation 0 for layer9 of the first model.\nHere are some experimental results that you can use as a reference:\n[1, 0, 1, 0, 0, 1, 0, 0] gives an accuracy of 0.82%\n[1, 0, 2, 0, 0, 2, 0, 0] gives an accuracy of 0.82%\n[1, 2, 1, 2, 2, 1, 2, 1] gives an accuracy of 0.86%\n[2, 1, 2, 1, 1, 2, 1, 2] gives an accuracy of 0.86%\n[1, 2, 1, 2, 2, 1, 2, 2] gives an accuracy of 0.87%\n[2, 1, 2, 1, 1, 2, 1, 1] gives an accuracy of 0.85%\n[1, 2, 1, 2, 2, 1, 2, 2] gives an accuracy of 0.85%\n[2, 1, 2, 1, 1, 2, 1, 1] gives an accuracy of 0.87%\n[1, 2, 1, 2, 2, 1, 2, 2] gives an accuracy of 0.86%\n[2, 1, 2, 1, 1, 2, 1, 2] gives an accuracy of 0.87%\n[1, 2, 1, 2, 2, 1, 2, 2] gives an accuracy of 0.86%\n[2, 1, 2, 1, 1, 2, 1, 1] gives an accuracy of 0.85%\n[1, 2, 2, 1, 1, 2, 2, 1] gives an accuracy of 0.85%\n[2, 1, 1, 2, 2, 1, 1, 2] gives an accuracy of 0.86%\n[1, 2, 1, 2, 2, 1, 2, 2] gives an accuracy of 0.86%\n[2, 1, 2, 1, 1, 2, 1, 2] gives an accuracy of 0.86%\n\nPlease suggest a better operation ID list that can improve the model's performance on Chexpert dataset beyond the experimental results provided above.\nPlease do not include anything other than the operations ID list of list in your response for the two models."}]
+/n/n
+/n/n
+[1, 2, 2, 1, 1, 2, 2, 1], [2, 1, 1, 2, 2, 1, 1, 2]
+res[ 8 ][0] =  [1, 2, 2, 1, 1, 2, 2, 1] 
+
+res[ 8 ][1] =  [2, 1, 1, 2, 2, 1, 1, 2] 
+
+Process  1  received data:  12211221
+Process  2  received data:  21122112
+ Save JSON  results/2023-11-18_14-46-26000000000
+ Save JSON  results/2023-11-18_14-46-26111111111
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+Loaded Network (number of parameters: 2,253,701; weights trained to step 372360)
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+GPU-cuda:0 Step at start 372360; Training epoch 1/5:   0%|          | 0/9309 [00:00<?, ?it/s]procesando ........ /n
+procesando ........ /n
+Loaded Network (number of parameters: 2,254,949; weights trained to step 372360)
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+GPU-cuda:1 Step at start 372360; Training epoch 1/5: 100%|██████████| 9309/9309 [52:53<00:00,  2.93it/s, loss=2.1771]  
+GPU-cuda:0 Step at start 372360; Training epoch 1/5:  95%|█████████▍| 8812/9309 [52:54<02:56,  2.82it/s, loss=2.2311]
+
+AUC: 0 
+ {0: 0.8104707792207793,
+ 1: 0.7630226789510985,
+ 2: 0.8760741745816373,
+ 3: 0.8766607877718989,
+ 4: 0.8915005809276968}
+Average: 0.8435458002906222 
+
+GPU-cuda:0 Step at start 372360; Training epoch 1/5: 100%|██████████| 9309/9309 [55:54<00:00,  2.77it/s, loss=3.8168] 
+GPU-cuda:1 Step at start 381669; Training epoch 2/5:   6%|▌         | 531/9309 [03:00<49:01,  2.98it/s, loss=2.2677]
+
+AUC: 0 
+ {0: 0.802435064935065,
+ 1: 0.7423812898653437,
+ 2: 0.8985376149555254,
+ 3: 0.8673721340388009,
+ 4: 0.8897131110912503}
+Average: 0.840087842977197 
+
+GPU-cuda:1 Step at start 381669; Training epoch 2/5: 100%|██████████| 9309/9309 [52:51<00:00,  2.94it/s, loss=2.4172]  
+GPU-cuda:0 Step at start 381669; Training epoch 2/5:  89%|████████▉ | 8290/9309 [49:51<05:54,  2.88it/s, loss=2.1442]
+
+AUC: 1 
+ {0: 0.8367694805194805,
+ 1: 0.7906626506024096,
+ 2: 0.8867782300618121,
+ 3: 0.8925338036449149,
+ 4: 0.9045491107337563}
+Average: 0.8622586551124746 
+
+GPU-cuda:0 Step at start 381669; Training epoch 2/5: 100%|██████████| 9309/9309 [56:00<00:00,  2.77it/s, loss=2.0957] 
+GPU-cuda:1 Step at start 390978; Training epoch 3/5:  12%|█▏        | 1087/9309 [06:09<46:34,  2.94it/s, loss=2.2020]
+
+AUC: 1 
+ {0: 0.826461038961039,
+ 1: 0.7837526576895818,
+ 2: 0.9026081712648877,
+ 3: 0.878424456202234,
+ 4: 0.9066940745374921}
+Average: 0.8595880797310468 
+
+GPU-cuda:1 Step at start 390978; Training epoch 3/5: 100%|██████████| 9309/9309 [52:47<00:00,  2.94it/s, loss=1.8301]  
+GPU-cuda:0 Step at start 390978; Training epoch 3/5:  83%|████████▎ | 7768/9309 [46:38<08:46,  2.93it/s, loss=2.6204]
+
+AUC: 2 
+ {0: 0.8306006493506494,
+ 1: 0.8009390503189228,
+ 2: 0.9095431931252826,
+ 3: 0.908289241622575,
+ 4: 0.8961480025024579}
+Average: 0.8691040273839775 
+
+GPU-cuda:0 Step at start 390978; Training epoch 3/5: 100%|██████████| 9309/9309 [55:52<00:00,  2.78it/s, loss=1.8884]  
+GPU-cuda:1 Step at start 400287; Training epoch 4/5:  18%|█▊        | 1635/9309 [09:15<42:42,  2.99it/s, loss=2.3643]
+
+AUC: 2 
+ {0: 0.7891233766233766,
+ 1: 0.8087349397590361,
+ 2: 0.8647670737222976,
+ 3: 0.9017048794826573,
+ 4: 0.8973098578961479}
+Average: 0.8523280254967032 
+
+GPU-cuda:1 Step at start 400287; Training epoch 4/5: 100%|██████████| 9309/9309 [52:39<00:00,  2.95it/s, loss=2.4974]  
+GPU-cuda:0 Step at start 400287; Training epoch 4/5:  78%|███████▊  | 7287/9309 [43:25<11:48,  2.85it/s, loss=2.0352]
+
+AUC: 3 
+ {0: 0.8357954545454546,
+ 1: 0.7753366406803686,
+ 2: 0.8991406603346902,
+ 3: 0.8980599647266315,
+ 4: 0.873715256055054}
+Average: 0.8564095952684397 
+
+GPU-cuda:0 Step at start 400287; Training epoch 4/5: 100%|██████████| 9309/9309 [55:25<00:00,  2.80it/s, loss=2.1467]  
+GPU-cuda:1 Step at start 409596; Training epoch 5/5:  23%|██▎       | 2127/9309 [12:00<39:43,  3.01it/s, loss=2.0044]
+
+AUC: 3 
+ {0: 0.8060876623376624,
+ 1: 0.8144046775336641,
+ 2: 0.8893411729232624,
+ 3: 0.9053497942386831,
+ 4: 0.9074984359638931}
+Average: 0.8645363485994331 
+
+GPU-cuda:1 Step at start 409596; Training epoch 5/5: 100%|██████████| 9309/9309 [52:33<00:00,  2.95it/s, loss=2.1379]  
+GPU-cuda:0 Step at start 409596; Training epoch 5/5:  73%|███████▎  | 6827/9309 [40:34<14:21,  2.88it/s, loss=1.8727]
+
+AUC: 4 
+ {0: 0.8336038961038961,
+ 1: 0.8006732813607371,
+ 2: 0.9062264435398764,
+ 3: 0.9121693121693122,
+ 4: 0.9015997855036196}
+Average: 0.8708545437354882 
+
+GPU-cuda:0 Step at start 409596; Training epoch 5/5:  73%|███████▎  | 6839/9309 [40:38<14:00,  2.94it/s, loss=2.0575]Liberada memory GPU  cuda:1
+GPU-cuda:0 Step at start 409596; Training epoch 5/5: 100%|██████████| 9309/9309 [54:36<00:00,  2.84it/s, loss=2.2681]
+
+
+AUC: 4 
+ {0: 0.7875000000000001,
+ 1: 0.7912827781715094,
+ 2: 0.8596411879993969,
+ 3: 0.9141681363903587,
+ 4: 0.9065153275538476}
+Average: 0.8518214860230225 
+
+Liberada memory GPU  cuda:0
+Accuracies from worker nodes: [0.8518214860230225, 0.8708545437354882]
+messages :  9
+[{'role': 'system', 'content': 'You are an expert in the field of neural architecture search.'}, {'role': 'user', 'content': "Your task is to assist me in selecting the best operations for a given two models architectures, which includes eight undefined layers and available operations. The two models will be trained and tested on ChexPert dataset, and your objective will be to maximize the model's performance on Chexpert dataset.\n\nWe define the 3 available operations as the following:\n0: Identity(in_channels, out_channels, stride)\n1: InvertedResidual(in_channels, out_channels, stride expansion=3, kernel_size=3)\n2: InvertedResidual(in_channels, out_channels, stride expansion=6, kernel_size=5)\n\nThe implementation of the Identity is as follows:\nclass Identity(nn.Module):\n    def __init__(self, in_channels, out_channels, stride):\n        super(Identity, self).__init__()\n        if stride != 1 or in_channels != out_channels:\n            self.downsample = nn.Sequential(\n                nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=stride, bias=False),\n                nn.BatchNorm2d(out_channels),\n            )\n        else:\n            self.downsample = None\n\n    def forward(self, x):\n        if self.downsample is not None:\n            x = self.downsample(x)\n        return x\n\nThe implementation of the InvertedResidual is as follows:\nclass InvertedResidual(nn.Module):\n    def __init__(self, in_channels, out_channels, stride, expansion, kernel_size):\n        super(InvertedResidual, self).__init__()\n        hidden_dim = in_channels * expansion\n        self.conv = nn.Sequential(\n            nn.Conv2d(in_channels, hidden_dim, kernel_size=1, stride=1, padding=0, bias=False),\n            nn.BatchNorm2d(hidden_dim),\n            nn.ReLU(inplace=True),\n            nn.Conv2d(hidden_dim, hidden_dim, kernel_size=kernel_size, stride=stride, padding=kernel_size//2, groups=hidden_dim, bias=False),\n            nn.BatchNorm2d(hidden_dim),\n            nn.ReLU(inplace=True),\n            nn.Conv2d(hidden_dim, out_channels, 1, 1, 0, bias=False),\n            nn.BatchNorm2d(out_channels),\n        )\n        self.use_shortcut = in_channels == out_channels and stride == 1\n\n    def forward(self, x):\n        if self.use_shortcut:\n            return self.conv(x) + x\n        return self.conv(x)\n        \n\nThe two models architectures will be defined as the following.\n{\n    layer1:  {defined: True,  operation: nn.Conv2d(in_channels=3,  out_channels=32, kernel_size=3, padding=1, bias=False)},\n    layer2:  {defined: False, downsample: True , in_channels: 32,  out_channels: 64 , stride: 2},\n    layer3:  {defined: False, downsample: False, in_channels: 64,  out_channels: 64 , stride: 1},\n    layer4:  {defined: False, downsample: True , in_channels: 64,  out_channels: 128, stride: 2},\n    layer5:  {defined: False, downsample: False, in_channels: 128, out_channels: 128, stride: 1},\n    layer6:  {defined: False, downsample: False, in_channels: 128, out_channels: 128, stride: 1},\n    layer7:  {defined: False, downsample: True , in_channels: 128, out_channels: 256, stride: 2},\n    layer8:  {defined: False, downsample: False, in_channels: 256, out_channels: 256, stride: 1},\n    layer9:  {defined: False, downsample: False, in_channels: 256, out_channels: 256, stride: 1},\n    layer10: {defined: True,  operation: nn.Conv2d(in_channels=256, out_channels=1280, kernel_size=1, bias=False, stride=1)},\n    layer11: {defined: True,  operation: nn.AdaptiveAvgPool2d(output_size=1)},\n    layer12: {defined: True,  operation: nn.Linear(in_features=1280, out_features=10)},\n}\n\nThe currently eight undefined layers are layer2 - layer9, that is eight layers and the in_channels and out_channels have already been defined for each layer. To maximize the model's performance on Chexpert dataset, please provide me with your suggested operation for the undefined layers only. \n\nYour response for each model should be an operation ID list for the eight undefined layers. For example:\n[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0] means we use operation 0 for layer2, operation 0 for layer3, operation 0 for layer4, operation 0 for layer5,operation 0 for layer6, operation 0 for layer7, operation 0 for layer8 and operation 0 for layer9 of the first model.\nHere are some experimental results that you can use as a reference:\n[1, 0, 1, 0, 0, 1, 0, 0] gives an accuracy of 0.82%\n[1, 0, 2, 0, 0, 2, 0, 0] gives an accuracy of 0.82%\n[1, 2, 1, 2, 2, 1, 2, 1] gives an accuracy of 0.86%\n[2, 1, 2, 1, 1, 2, 1, 2] gives an accuracy of 0.86%\n[1, 2, 1, 2, 2, 1, 2, 2] gives an accuracy of 0.87%\n[2, 1, 2, 1, 1, 2, 1, 1] gives an accuracy of 0.85%\n[1, 2, 1, 2, 2, 1, 2, 2] gives an accuracy of 0.85%\n[2, 1, 2, 1, 1, 2, 1, 1] gives an accuracy of 0.87%\n[1, 2, 1, 2, 2, 1, 2, 2] gives an accuracy of 0.86%\n[2, 1, 2, 1, 1, 2, 1, 2] gives an accuracy of 0.87%\n[1, 2, 1, 2, 2, 1, 2, 2] gives an accuracy of 0.86%\n[2, 1, 2, 1, 1, 2, 1, 1] gives an accuracy of 0.85%\n[1, 2, 2, 1, 1, 2, 2, 1] gives an accuracy of 0.85%\n[2, 1, 1, 2, 2, 1, 1, 2] gives an accuracy of 0.86%\n[1, 2, 1, 2, 2, 1, 2, 2] gives an accuracy of 0.86%\n[2, 1, 2, 1, 1, 2, 1, 2] gives an accuracy of 0.86%\n[1, 2, 2, 1, 1, 2, 2, 1] gives an accuracy of 0.85%\n[2, 1, 1, 2, 2, 1, 1, 2] gives an accuracy of 0.87%\n\nPlease suggest a better operation ID list that can improve the model's performance on Chexpert dataset beyond the experimental results provided above.\nPlease do not include anything other than the operations ID list of list in your response for the two models."}]
+/n/n
+/n/n
+[1, 2, 2, 1, 1, 2, 2, 2], [2, 1, 1, 2, 2, 1, 1, 1]
+res[ 9 ][0] =  [1, 2, 2, 1, 1, 2, 2, 2] 
+
+res[ 9 ][1] =  [2, 1, 1, 2, 2, 1, 1, 1] 
+
+Process  1  received data:  12211222
+Process  2  received data:  21122111
+ Save JSON  results/2023-11-18_14-46-261111111111
+ Save JSON  results/2023-11-18_14-46-260000000000
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+procesando ........ /n
+Loaded Network (number of parameters: 2,681,477; weights trained to step 418905)
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+GPU-cuda:0 Step at start 418905; Training epoch 1/5:   0%|          | 0/9309 [00:00<?, ?it/s]Loaded Network (number of parameters: 1,827,173; weights trained to step 418905)
+Train data length:  223414
+Valid data length:  234
+Vis data subset:  22
+GPU-cuda:1 Step at start 418905; Training epoch 1/5: 100%|██████████| 9309/9309 [49:35<00:00,  3.13it/s, loss=2.1023]  
+GPU-cuda:0 Step at start 418905; Training epoch 1/5:  87%|████████▋ | 8092/9309 [49:36<07:11,  2.82it/s, loss=2.2704]
+
+AUC: 0 
+ {0: 0.8245941558441559,
+ 1: 0.7449503897944719,
+ 2: 0.8686868686868687,
+ 3: 0.8741916519694297,
+ 4: 0.8522656180176958}
+Average: 0.8329377368625245 
+
+GPU-cuda:0 Step at start 418905; Training epoch 1/5: 100%|██████████| 9309/9309 [57:05<00:00,  2.72it/s, loss=2.6376]  
+GPU-cuda:1 Step at start 428214; Training epoch 2/5:  15%|█▌        | 1403/9309 [07:30<41:53,  3.15it/s, loss=2.0832]
+
+AUC: 0 
+ {0: 0.8129058441558442,
+ 1: 0.7822466335931962,
+ 2: 0.884366048545153,
+ 3: 0.878424456202234,
+ 4: 0.8887300026812047}
+Average: 0.8493345970355264 
+
+GPU-cuda:1 Step at start 428214; Training epoch 2/5: 100%|██████████| 9309/9309 [49:44<00:00,  3.12it/s, loss=2.2667]  
+GPU-cuda:0 Step at start 428214; Training epoch 2/5:  73%|███████▎  | 6806/9309 [42:15<15:02,  2.77it/s, loss=1.9433]
+
+AUC: 1 
+ {0: 0.8242694805194806,
+ 1: 0.8051913536498937,
+ 2: 0.8822553897180763,
+ 3: 0.8865373309817755,
+ 4: 0.8852444365001341}
+Average: 0.8566995982738721 
+
+GPU-cuda:0 Step at start 428214; Training epoch 2/5: 100%|██████████| 9309/9309 [58:01<00:00,  2.67it/s, loss=2.1193]  
+GPU-cuda:1 Step at start 437523; Training epoch 3/5:  32%|███▏      | 2944/9309 [15:47<33:47,  3.14it/s, loss=2.0210]
+
+AUC: 1 
+ {0: 0.8011363636363636,
+ 1: 0.7841070163004962,
+ 2: 0.885873661993065,
+ 3: 0.9020576131687243,
+ 4: 0.8983823397980158}
+Average: 0.854311398979333 
+
+GPU-cuda:1 Step at start 437523; Training epoch 3/5: 100%|██████████| 9309/9309 [49:52<00:00,  3.11it/s, loss=2.2763]  
+GPU-cuda:0 Step at start 437523; Training epoch 3/5:  58%|█████▊    | 5440/9309 [34:06<25:01,  2.58it/s, loss=2.0521]
+
+AUC: 2 
+ {0: 0.8413961038961039,
+ 1: 0.7958894401133948,
+ 2: 0.8971807628524047,
+ 3: 0.9026455026455027,
+ 4: 0.8960586290106355}
+Average: 0.8666340877036083 
+
+GPU-cuda:0 Step at start 437523; Training epoch 3/5: 100%|██████████| 9309/9309 [58:28<00:00,  2.65it/s, loss=1.8934]  
+GPU-cuda:1 Step at start 446832; Training epoch 4/5:  49%|████▉     | 4545/9309 [24:23<25:16,  3.14it/s, loss=2.6033]
+
+AUC: 2 
+ {0: 0.8126623376623376,
+ 1: 0.8108610914245217,
+ 2: 0.8854213779586915,
+ 3: 0.9153439153439153,
+ 4: 0.8928411833050318}
+Average: 0.8634259811388997 
+
+GPU-cuda:1 Step at start 446832; Training epoch 4/5: 100%|██████████| 9309/9309 [49:56<00:00,  3.11it/s, loss=2.2825]  
+GPU-cuda:0 Step at start 446832; Training epoch 4/5:  44%|████▎     | 4059/9309 [25:34<32:08,  2.72it/s, loss=1.9195]
+
+AUC: 3 
+ {0: 0.8031655844155844,
+ 1: 0.8245924875974486,
+ 2: 0.8795416855118348,
+ 3: 0.9077013521457966,
+ 4: 0.8871212798284028}
+Average: 0.8604244778998134 
+
+GPU-cuda:0 Step at start 446832; Training epoch 4/5: 100%|██████████| 9309/9309 [59:09<00:00,  2.62it/s, loss=2.0117]  
+GPU-cuda:1 Step at start 456141; Training epoch 5/5:  67%|██████▋   | 6243/9309 [33:35<16:24,  3.11it/s, loss=2.5709]
+
+AUC: 3 
+ {0: 0.8300324675324675,
+ 1: 0.8073175053153792,
+ 2: 0.9072817729534147,
+ 3: 0.9149911816578483,
+ 4: 0.8847975690410225}
+Average: 0.8688840993000264 
+
+GPU-cuda:1 Step at start 456141; Training epoch 5/5: 100%|██████████| 9309/9309 [50:03<00:00,  3.10it/s, loss=1.9383]  
+GPU-cuda:0 Step at start 456141; Training epoch 5/5:  28%|██▊       | 2576/9309 [16:29<42:06,  2.66it/s, loss=2.1711]
+
+AUC: 4 
+ {0: 0.8116071428571429,
+ 1: 0.8131644223954642,
+ 2: 0.8741142770993517,
+ 3: 0.9091122868900646,
+ 4: 0.8912324604522298}
+Average: 0.8598461179388506 
+
+GPU-cuda:0 Step at start 456141; Training epoch 5/5:  28%|██▊       | 2586/9309 [16:32<41:52,  2.68it/s, loss=2.3023]Liberada memory GPU  cuda:1
+GPU-cuda:0 Step at start 456141; Training epoch 5/5: 100%|██████████| 9309/9309 [56:17<00:00,  2.76it/s, loss=1.6252]  
+
+
+AUC: 4 
+ {0: 0.8159902597402597,
+ 1: 0.8284904323175054,
+ 2: 0.9109000452284035,
+ 3: 0.9156966490299823,
+ 4: 0.9032978818482438}
+Average: 0.8748750536328789 
+
+Liberada memory GPU  cuda:0
+Accuracies from worker nodes: [0.8748750536328789, 0.8598461179388506]
+

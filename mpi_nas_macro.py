@@ -18,7 +18,7 @@ import gc  # Import garbage collection module
 from mpi_chexpert import CModel
 
 
-#### mpiexec -np 3 python mpi_nas_macro.py --openai_key sk-swhbGipT0tsMoius8ilRT3BlbkFxxxxXXXXXXXXXXX --openai_organization org-pYjfh3VvqxxxxXXXXXXXXXXX --train --n_epochs 1 --plot_roc --batch_size 24 --model NetWork 
+#### mpiexec -np 3 python mpi_nas_macro.py --openai_key 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 --openai_organization org-pYjfh3VvqELRH9LJaGfxaxf8 --train --n_epochs 1 --plot_roc --batch_size 24 --model NetWork 
 
 
 ### Error cuda device
@@ -232,12 +232,27 @@ suffix = '''Please do not include anything other than the operations ID list of 
 
 arch_list = []
 acc_list = []
+previuos_calculated=False
 
-messages = [
-    {"role": "system", "content": system_content},
-    {"role": "user", "content": user_input + suffix},
-]
 
+# Check if the file exists
+if os.path.exists("architectures.json"):
+    previuos_calculated = True
+    with open("architectures.json", 'r') as file:
+        arch_list= json.load(file)
+
+    if os.path.exists("accuaricies.json"):
+        with open("accuaricies.json", 'r') as file:
+            acc_list= json.load(file)
+        messages = [
+                {"role": "system", "content": system_content},
+                {"role": "user", "content": user_input + experiments_prompt(arch_list, acc_list) + suffix},
+            ]
+    else:
+        previuos_calculated = False
+
+
+print("MESSAGES = " ,messages)
 
 
 performance_history = []
@@ -252,6 +267,7 @@ comm = MPI.COMM_WORLD
 rank = comm.Get_rank()
 size = comm.Get_size()
 
+    
 for iteration in range(10):
     if rank == 0:
         print("messages : ", iteration);
@@ -292,6 +308,10 @@ for iteration in range(10):
             accuracies.append(accuracy)
         print("Accuracies from worker nodes:", accuracies)
 
+        with open("architectures.json", 'w') as file:
+            json.dump(arch_list, file, indent=4)
+        with open("accuaricies.json", 'w') as file:
+            json.dump(acc_list, file, indent=4)
         messages = [
             {"role": "system", "content": system_content},
             {"role": "user", "content": user_input + experiments_prompt(arch_list, acc_list) + suffix},
